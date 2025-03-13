@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fitness Videos - Fitness4Life</title>
+  <link rel="stylesheet" href="Styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div id="app">
+    <!-- App Header -->
+    <header class="app-header">
+      <a href="workouts.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1 class="app-title">Fitness Videos</h1>
+    </header>
+
+    <!-- Content Area -->
+    <main class="content-area">
+      <section class="app-section active-section">
+        <h2 class="section-title">Training Videos</h2>
+        
+        <div class="video-categories">
+          <button class="category-btn active" data-category="all">All</button>
+          <button class="category-btn" data-category="strength">Strength</button>
+          <button class="category-btn" data-category="cardio">Cardio</button>
+          <button class="category-btn" data-category="recovery">Recovery</button>
+          <button class="category-btn" data-category="hiit">HIIT</button>
+        </div>
+        
+        <div class="video-library">
+          <!-- Strength Videos -->
+          <div class="video-item" data-category="strength">
+            <div class="video-thumbnail">
+              <img src="https://img.youtube.com/vi/IODxDxX7oi4/mqdefault.jpg" alt="Bench Press Tutorial">
+              <div class="play-icon">
+                <i class="fas fa-play-circle"></i>
+              </div>
+            </div>
+            <h3>Bench Press Tutorial</h3>
+            <p>Proper form and technique for bench press</p>
+            <div class="video-meta">
+              <span><i class="fas fa-clock"></i> 8:24</span>
+              <span><i class="fas fa-dumbbell"></i> Chest</span>
+            </div>
+          </div>
+          
+          <!-- Add more videos here -->
+          
+          <!-- HIIT Videos -->
+          <div class="video-item" data-category="hiit">
+            <div class="video-thumbnail">
+              <iframe width="320" height="240" src="https://www.youtube.com/embed/1-c-yvj1XyE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <p>HIGH Fitness - Full Workout | 60 Minutes | ALL SKILL LEVELS</p>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-button">
+        <i class="nav-icon fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="dashboard.html" class="nav-button">
+        <i class="nav-icon fas fa-chart-line"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="workouts.html" class="nav-button">
+        <i class="nav-icon fas fa-dumbbell"></i>
+        <span>Workouts</span>
+      </a>
+      <a href="progress.html" class="nav-button">
+        <i class="nav-icon fas fa-tasks"></i>
+        <span>Progress</span>
+      </a>
+      <a href="videos.html" class="nav-button active">
+        <i class="nav-icon fas fa-video"></i>
+        <span>Videos</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add functionality for category filtering
+      const categoryButtons = document.querySelectorAll('.category-btn');
+      const videoItems = document.querySelectorAll('.video-item');
+      
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Update active button
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          const selectedCategory = this.getAttribute('data-category');
+          
+          // Show/hide videos based on category
+          videoItems.forEach(item => {
+            if (selectedCategory === 'all' || item.getAttribute('data-category') === selectedCategory) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

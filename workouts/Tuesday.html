@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuesday Workout - Fitness4Life</title>
+  <link rel="stylesheet" href="../Styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Same additional styles as in monday.html -->
+  <style>
+    /* Add the same workout table styles from monday.html */
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- App Header -->
+    <header class="app-header">
+      <a href="../index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1 class="app-title">Tuesday Workout</h1>
+    </header>
+
+    <!-- Content Area -->
+    <main class="content-area">
+      <section class="app-section active-section">
+        <h2 class="section-title">Pool Workout (Cardio + Resistance)</h2>
+        
+        <div class="workout-details">
+          <p>Optional: 10-15 min sauna for recovery</p>
+        </div>
+        
+        <div class="workout-excel">
+          <table class="workout-table">
+            <thead>
+              <tr>
+                <th class="week-col">Week/Exercise</th>
+                <th>Lap swimming</th>
+                <th>Water jogging</th>
+                <th>Pool resistance exercises</th>
+                <th>Treading water</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Week 1 -->
+              <tr class="week-separator">
+                <td colspan="5">Week 1</td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 1, Day 1</td>
+                <td><input type="number" class="weight-input" data-day="Tuesday" data-week="1" data-day-num="1" data-exercise="Lap swimming"></td>
+                <td><input type="number" class="weight-input" data-day="Tuesday" data-week="1" data-day-num="1" data-exercise="Water jogging"></td>
+                <td><input type="number" class="weight-input" data-day="Tuesday" data-week="1" data-day-num="1" data-exercise="Pool resistance exercises"></td>
+                <td><input type="number" class="weight-input" data-day="Tuesday" data-week="1" data-day-num="1" data-exercise="Treading water"></td>
+              </tr>
+              <!-- Continue with similar rows for all 6 weeks, 2 days each -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="workout-notes">
+          <h3>Notes</h3>
+          <p><strong>Warm-Up (5 min):</strong> Light swimming or water jogging</p>
+          <p><strong>Workout (40 min):</strong></p>
+          <p>- Lap swimming – 10 laps</p>
+          <p>- Water jogging – 5 min</p>
+          <p>- Pool resistance exercises (leg kicks, arm circles)</p>
+          <p>- Treading water – 5 min</p>
+          <p><strong>Optional:</strong> 10-15 min sauna for recovery</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Same JavaScript as monday.html
+  </script>
+</body>
+</html>

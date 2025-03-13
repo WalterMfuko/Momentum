@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wednesday Workout - Fitness4Life</title>
+  <link rel="stylesheet" href="../Styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div id="app">
+    <!-- App Header -->
+    <header class="app-header">
+      <a href="../index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1 class="app-title">Wednesday Workout</h1>
+    </header>
+
+    <!-- Content Area -->
+    <main class="content-area">
+      <section class="app-section active-section">
+        <h2 class="section-title">Full Body Strength + HIIT</h2>
+        
+        <div class="workout-details">
+          <p>Follow with 15 min HIIT: 30 sec sprint, 1 min walk (repeat 6-8 times)</p>
+        </div>
+        
+        <div class="workout-excel">
+          <table class="workout-table">
+            <thead>
+              <tr>
+                <th class="week-col">Week/Exercise</th>
+                <th>Deadlifts</th>
+                <th>Pull-Ups/Lat Pulldown</th>
+                <th>Lunges</th>
+                <th>Dumbbell Chest Press</th>
+                <th>Core Exercises</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Week 1 -->
+              <tr class="week-separator">
+                <td colspan="6">Week 1</td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 1, Day 1</td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="1" data-day-num="1" data-exercise="Deadlifts"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="1" data-day-num="1" data-exercise="Pull-Ups"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="1" data-day-num="1" data-exercise="Lunges"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="1" data-day-num="1" data-exercise="Dumbbell Chest Press"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="1" data-day-num="1" data-exercise="Core Exercises"></td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 1, Day 2</td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="1" data-day-num="2" data-exercise="Deadlifts"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="1" data-day-num="2" data-exercise="Pull-Ups"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="1" data-day-num="2" data-exercise="Lunges"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="1" data-day-num="2" data-exercise="Dumbbell Chest Press"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="1" data-day-num="2" data-exercise="Core Exercises"></td>
+              </tr>
+              
+              <!-- Weeks 2-6 -->
+              <tr class="week-separator">
+                <td colspan="6">Week 2</td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 2, Day 1</td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="2" data-day-num="1" data-exercise="Deadlifts"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="2" data-day-num="1" data-exercise="Pull-Ups"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="2" data-day-num="1" data-exercise="Lunges"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="2" data-day-num="1" data-exercise="Dumbbell Chest Press"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="2" data-day-num="1" data-exercise="Core Exercises"></td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 2, Day 2</td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="2" data-day-num="2" data-exercise="Deadlifts"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="2" data-day-num="2" data-exercise="Pull-Ups"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="2" data-day-num="2" data-exercise="Lunges"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="2" data-day-num="2" data-exercise="Dumbbell Chest Press"></td>
+                <td><input type="number" class="weight-input" data-day="Wednesday" data-week="2" data-day-num="2" data-exercise="Core Exercises"></td>
+              </tr>
+              
+              <!-- Continue for weeks 3-6 following the same pattern -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="workout-notes">
+          <h3>Notes</h3>
+          <p><strong>Warm-Up (10 min):</strong> Rowing machine or jump rope</p>
+          <p><strong>Strength Training (45 min):</strong></p>
+          <ul>
+            <li>Deadlifts – 4 sets x 6 reps</li>
+            <li>Pull-Ups (or Lat Pulldown) – 3 sets x 8-10 reps</li>
+            <li>Lunges – 3 sets x 10 reps per leg</li>
+            <li>Dumbbell Chest Press – 3 sets x 10 reps</li>
+            <li>Core (Russian Twists, Hanging Leg Raises) – 3 sets</li>
+          </ul>
+          <p><strong>HIIT Cardio (15 min):</strong> Treadmill: 30 sec sprint, 1 min walk (repeat 6-8 times)</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load saved weight data
+      function loadWeightData() {
+        const savedData = localStorage.getItem('fitness4lifeWeights');
+        return savedData ? JSON.parse(savedData) : {};
+      }
+      
+      // Save weight data
+      function saveWeightData(data) {
+        localStorage.setItem('fitness4lifeWeights', JSON.stringify(data));
+      }
+      
+      // Add event listeners to all weight inputs
+      const weightInputs = document.querySelectorAll('.weight-input');
+      const weightData = loadWeightData();
+      
+      weightInputs.forEach(input => {
+        const day = input.dataset.day;
+        const week = input.dataset.week;
+        const dayNum = input.dataset.dayNum;
+        const exercise = input.dataset.exercise;
+        const key = `${day}-${week}-${dayNum}-${exercise}`;
+        
+        // Set initial value if saved
+        if (weightData[key]) {
+          input.value = weightData[key];
+        }
+        
+        // Save on change
+        input.addEventListener('change', function() {
+          const currentData = loadWeightData();
+          currentData[key] = this.value;
+          saveWeightData(currentData);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

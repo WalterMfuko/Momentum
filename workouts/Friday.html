@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Friday Workout - Fitness4Life</title>
+  <link rel="stylesheet" href="../Styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+  <div id="app">
+    <!-- App Header -->
+    <header class="app-header">
+      <a href="../index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1 class="app-title">Friday Workout</h1>
+    </header>
+
+    <!-- Content Area -->
+    <main class="content-area">
+      <section class="app-section active-section">
+        <h2 class="section-title">Strength + Elliptical</h2>
+        
+        <div class="workout-details">
+          <p>Follow with 15-20 min elliptical (resistance level 5-7)</p>
+        </div>
+        
+        <div class="workout-excel">
+          <table class="workout-table">
+            <thead>
+              <tr>
+                <th class="week-col">Week/Exercise</th>
+                <th>Leg Press</th>
+                <th>Incline Dumbbell Press</th>
+                <th>Seated Cable Rows</th>
+                <th>Hammer Curls</th>
+                <th>Abs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Week 1 -->
+              <tr class="week-separator">
+                <td colspan="6">Week 1</td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 1, Day 1</td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="1" data-day-num="1" data-exercise="Leg Press"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="1" data-day-num="1" data-exercise="Incline Dumbbell Press"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="1" data-day-num="1" data-exercise="Seated Cable Rows"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="1" data-day-num="1" data-exercise="Hammer Curls"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="1" data-day-num="1" data-exercise="Abs"></td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 1, Day 2</td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="1" data-day-num="2" data-exercise="Leg Press"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="1" data-day-num="2" data-exercise="Incline Dumbbell Press"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="1" data-day-num="2" data-exercise="Seated Cable Rows"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="1" data-day-num="2" data-exercise="Hammer Curls"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="1" data-day-num="2" data-exercise="Abs"></td>
+              </tr>
+              
+              <!-- Weeks 2-6 -->
+              <tr class="week-separator">
+                <td colspan="6">Week 2</td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 2, Day 1</td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="2" data-day-num="1" data-exercise="Leg Press"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="2" data-day-num="1" data-exercise="Incline Dumbbell Press"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="2" data-day-num="1" data-exercise="Seated Cable Rows"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="2" data-day-num="1" data-exercise="Hammer Curls"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="2" data-day-num="1" data-exercise="Abs"></td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 2, Day 2</td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="2" data-day-num="2" data-exercise="Leg Press"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="2" data-day-num="2" data-exercise="Incline Dumbbell Press"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="2" data-day-num="2" data-exercise="Seated Cable Rows"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="2" data-day-num="2" data-exercise="Hammer Curls"></td>
+                <td><input type="number" class="weight-input" data-day="Friday" data-week="2" data-day-num="2" data-exercise="Abs"></td>
+              </tr>
+              
+              <!-- Continue for weeks 3-6 following the same pattern -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="workout-notes">
+          <h3>Notes</h3>
+          <p><strong>Warm-Up (10 min):</strong> Dynamic stretching & elliptical</p>
+          <p><strong>Strength Training (45 min):</strong></p>
+          <ul>
+            <li>Leg Press – 4 sets x 10 reps</li>
+            <li>Incline Dumbbell Press – 4 sets x 8 reps</li>
+            <li>Seated Cable Rows – 3 sets x 10 reps</li>
+            <li>Hammer Curls – 3 sets x 10 reps</li>
+            <li>Abs (Hanging Knee Raises, Cable Crunches) – 3 sets</li>
+          </ul>
+          <p><strong>Cardio (Elliptical, 15-20 min):</strong> Resistance level 5-7, steady pace</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="../index.html" class="nav-button" id="home-nav">
+        <i class="nav-icon fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="../dashboard.html" class="nav-button" id="dashboard-nav">
+        <i class="nav-icon fas fa-chart-line"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="../workouts.html" class="nav-button" id="workouts-nav">
+        <i class="nav-icon fas fa-dumbbell"></i>
+        <span>Workouts</span>
+      </a>
+      <a href="../progress.html" class="nav-button" id="progress-nav">
+        <i class="nav-icon fas fa-tasks"></i>
+        <span>Progress</span>
+      </a>
+      <a href="../videos.html" class="nav-button" id="videos-nav">
+        <i class="nav-icon fas fa-video"></i>
+        <span>Videos</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load saved weight data
+      function loadWeightData() {
+        const savedData = localStorage.getItem('fitness4lifeWeights');
+        return savedData ? JSON.parse(savedData) : {};
+      }
+      
+      // Save weight data
+      function saveWeightData(data) {
+        localStorage.setItem('fitness4lifeWeights', JSON.stringify(data));
+      }
+      
+      // Add event listeners to all weight inputs
+      const weightInputs = document.querySelectorAll('.weight-input');
+      const weightData = loadWeightData();
+      
+      weightInputs.forEach(input => {
+        const day = input.dataset.day;
+        const week = input.dataset.week;
+        const dayNum = input.dataset.dayNum;
+        const exercise = input.dataset.exercise;
+        const key = `${day}-${week}-${dayNum}-${exercise}`;
+        
+        // Set initial value if saved
+        if (weightData[key]) {
+          input.value = weightData[key];
+        }
+        
+        // Save on change
+        input.addEventListener('change', function() {
+          const currentData = loadWeightData();
+          currentData[key] = this.value;
+          saveWeightData(currentData);
+        });
+      });
+      
+      // Set active navigation based on current page
+      const path = window.location.pathname;
+      let activePage = 'home';
+      
+      if (path.includes('dashboard')) activePage = 'dashboard';
+      else if (path.includes('workouts') || path.includes('/workouts/')) activePage = 'workouts';
+      else if (path.includes('progress')) activePage = 'progress';
+      else if (path.includes('videos')) activePage = 'videos';
+      
+      // Remove active class from all
+      document.querySelectorAll('.nav-button').forEach(btn => btn.classList.remove('active'));
+      
+      // Add active class to current page nav
+      const activeNav = document.getElementById(activePage + '-nav');
+      if (activeNav) activeNav.classList.add('active');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monday Workout - Fitness4Life</title>
+  <link rel="stylesheet" href="../Styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* Additional styles for workout tables */
+    .workout-excel {
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+    
+    .workout-table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: white;
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .workout-table th,
+    .workout-table td {
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+    
+    .workout-table thead {
+      background-color: var(--primary-light);
+    }
+    
+    .workout-table th {
+      position: sticky;
+      top: 0;
+      background-color: var(--primary-light);
+      color: var(--primary-dark);
+      font-weight: bold;
+    }
+    
+    .week-col {
+      background-color: var(--primary-light);
+      font-weight: bold;
+      position: sticky;
+      left: 0;
+      z-index: 10;
+      min-width: 100px;
+    }
+    
+    .week-separator td {
+      background-color: var(--accent-color);
+      color: white;
+      font-weight: bold;
+      padding: 8px 10px;
+    }
+    
+    .workout-table input {
+      width: 60px;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      text-align: center;
+    }
+    
+    .workout-notes {
+      margin-top: 20px;
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- App Header -->
+    <header class="app-header">
+      <a href="../index.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <h1 class="app-title">Monday Workout</h1>
+    </header>
+
+    <!-- Content Area -->
+    <main class="content-area">
+      <section class="app-section active-section">
+        <h2 class="section-title">Full Body Strength + Cardio</h2>
+        
+        <div class="workout-details">
+          <p>Follow with 15-20 min of basketball drills or treadmill incline walk</p>
+        </div>
+        
+        <div class="workout-excel">
+          <table class="workout-table">
+            <thead>
+              <tr>
+                <th class="week-col">Week/Exercise</th>
+                <th>Squats</th>
+                <th>Bench Press</th>
+                <th>Bent-over Rows</th>
+                <th>Planks</th>
+                <th>Seated Shoulder Press</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Week 1 -->
+              <tr class="week-separator">
+                <td colspan="6">Week 1</td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 1, Day 1</td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="1" data-day-num="1" data-exercise="Squats"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="1" data-day-num="1" data-exercise="Bench Press"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="1" data-day-num="1" data-exercise="Bent-over Rows"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="1" data-day-num="1" data-exercise="Planks"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="1" data-day-num="1" data-exercise="Seated Shoulder Press"></td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 1, Day 2</td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="1" data-day-num="2" data-exercise="Squats"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="1" data-day-num="2" data-exercise="Bench Press"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="1" data-day-num="2" data-exercise="Bent-over Rows"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="1" data-day-num="2" data-exercise="Planks"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="1" data-day-num="2" data-exercise="Seated Shoulder Press"></td>
+              </tr>
+              
+              <!-- Week 2 -->
+              <tr class="week-separator">
+                <td colspan="6">Week 2</td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 2, Day 1</td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="2" data-day-num="1" data-exercise="Squats"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="2" data-day-num="1" data-exercise="Bench Press"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="2" data-day-num="1" data-exercise="Bent-over Rows"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="2" data-day-num="1" data-exercise="Planks"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="2" data-day-num="1" data-exercise="Seated Shoulder Press"></td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 2, Day 2</td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="2" data-day-num="2" data-exercise="Squats"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="2" data-day-num="2" data-exercise="Bench Press"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="2" data-day-num="2" data-exercise="Bent-over Rows"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="2" data-day-num="2" data-exercise="Planks"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="2" data-day-num="2" data-exercise="Seated Shoulder Press"></td>
+              </tr>
+              
+              <!-- Continue for weeks 3-6 -->
+              <!-- Week 3 -->
+              <tr class="week-separator">
+                <td colspan="6">Week 3</td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 3, Day 1</td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="3" data-day-num="1" data-exercise="Squats"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="3" data-day-num="1" data-exercise="Bench Press"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="3" data-day-num="1" data-exercise="Bent-over Rows"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="3" data-day-num="1" data-exercise="Planks"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="3" data-day-num="1" data-exercise="Seated Shoulder Press"></td>
+              </tr>
+              <tr>
+                <td class="week-col">Week 3, Day 2</td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="3" data-day-num="2" data-exercise="Squats"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="3" data-day-num="2" data-exercise="Bench Press"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="3" data-day-num="2" data-exercise="Bent-over Rows"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="3" data-day-num="2" data-exercise="Planks"></td>
+                <td><input type="number" class="weight-input" data-day="Monday" data-week="3" data-day-num="2" data-exercise="Seated Shoulder Press"></td>
+              </tr>
+              
+              <!-- Weeks 4-6 would follow the same pattern -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="workout-notes">
+          <h3>Notes</h3>
+          <p>Follow with 15-20 min of basketball drills or treadmill incline walk</p>
+          <p><strong>Warm-Up (10 min):</strong> Treadmill incline walk or elliptical at moderate pace</p>
+          <p><strong>Squats:</strong> 4 sets x 8-10 reps</p>
+          <p><strong>Bench Press:</strong> 4 sets x 8-10 reps</p>
+          <p><strong>Bent-over Rows:</strong> 4 sets x 8-10 reps</p>
+          <p><strong>Planks:</strong> 3 sets x 30 sec</p>
+          <p><strong>Seated Shoulder Press:</strong> 3 sets x 10 reps</p>
+          <p><strong>Cardio (15-20 min):</strong> Basketball drills (dribbling, shooting, sprinting) OR Treadmill incline walk (speed 3-4 mph, incline 10-12%)</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load saved weight data
+      function loadWeightData() {
+        const savedData = localStorage.getItem('fitness4lifeWeights');
+        return savedData ? JSON.parse(savedData) : {};
+      }
+      
+      // Save weight data
+      function saveWeightData(data) {
+        localStorage.setItem('fitness4lifeWeights', JSON.stringify(data));
+      }
+      
+      // Add event listeners to all weight inputs
+      const weightInputs = document.querySelectorAll('.weight-input');
+      const weightData = loadWeightData();
+      
+      weightInputs.forEach(input => {
+        const day = input.dataset.day;
+        const week = input.dataset.week;
+        const dayNum = input.dataset.dayNum;
+        const exercise = input.dataset.exercise;
+        const key = `${day}-${week}-${dayNum}-${exercise}`;
+        
+        // Set initial value if saved
+        if (weightData[key]) {
+          input.value = weightData[key];
+        }
+        
+        // Save on change
+        input.addEventListener('change', function() {
+          const currentData = loadWeightData();
+          currentData[key] = this.value;
+          saveWeightData(currentData);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
