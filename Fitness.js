@@ -1541,10 +1541,10 @@ document.addEventListener('DOMContentLoaded', function() {
   let appData = {
     workouts: sampleWorkouts,
     workoutLogs: [],
-    weights: [],
+    weights: [],,
     measurements: [],
-    exercises: [],
-    videos: [],
+    exercises: [],,
+    videos: [],,
     user: {
       name: "User",
       goalWeight: 0,
@@ -1762,11 +1762,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     workoutTimerInterval = setInterval(() => {
       seconds++;
-      const hrs = Math.floor(seconds / 3600);
-      const mins = Math.floor((seconds % 3600) / 60);
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
       const secs = seconds % 60;
       
-      timerEl.textContent = `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      timerEl.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     }, 1000);
   }
   
@@ -2004,22 +2004,3 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add right before the final closing });
   setupDayButtons();
 });
-
-<!-- 1. Add this to your tab buttons/navigation -->
-<button class="tablinks" onclick="openFitnessCategory(event, 'HIIT')">HIIT</button>
-
-<!-- 2. Add this new tab content section -->
-<div id="HIIT" class="tabcontent">
-  <h2>HIIT Videos</h2>
-  <table class="video-table">
-    <tr>
-      <td>
-        <video width="320" height="240" controls>
-          <source src="Workout_Videos/HIGH Fitness - Full Workout _ 60 Minutes _ ALL SKILL LEVELS.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
-        <p>HIGH Fitness - Full Workout | 60 Minutes | ALL SKILL LEVELS</p>
-      </td>
-    </tr>
-  </table>
-</div>

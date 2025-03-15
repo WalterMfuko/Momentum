@@ -1,0 +1,248 @@
+Momentum\dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Momentum</title>
+  <link rel="stylesheet" href="Styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    .hero-section {
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .welcome-message {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    
+    .motivation-quote {
+      font-style: italic;
+      color: #aaa;
+      margin-bottom: 15px;
+    }
+    
+    .next-workout {
+      background-color: #2a2a2a;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    
+    .start-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    
+    .goal-tracker {
+      background-color: #222;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background-color: #444;
+      border-radius: 5px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background-color: #4CAF50;
+      width: 65%;
+    }
+    
+    .completion-time {
+      font-size: 0.8rem;
+      color: #bbb;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .action-btn {
+      background-color: #555;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+    
+    .stat-card {
+      background-color: #222;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      margin: 5px 0;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- App Header -->
+    <header class="app-header">
+      <h1 class="app-title">Momentum</h1>
+      <button id="logout-btn" onclick="logout()" style="background: none; border: none; color: white;">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+    </header>
+
+    <!-- Content Area -->
+    <main class="content-area">
+      <section class="hero-section">
+        <div class="welcome-message">Welcome to your Dashboard, <span id="user-name">User</span>!</div>
+        <div class="motivation-quote" id="user-quote">"Progress is progress, no matter how small."</div>
+      </section>
+      
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="workouts-completed">24</div>
+          <div class="stat-label">Workouts Completed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="current-streak">5</div>
+          <div class="stat-label">Day Streak</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="total-calories">12,450</div>
+          <div class="stat-label">Calories Burned</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="total-minutes">840</div>
+          <div class="stat-label">Total Minutes</div>
+        </div>
+      </section>
+      
+      <section class="goal-tracker">
+        <h3>Current Goal</h3>
+        <div id="current-goal">Loading...</div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="goal-progress"></div>
+        </div>
+        <div class="completion-time" id="goal-eta">Estimated completion: Loading...</div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-button">
+        <i class="nav-icon fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="dashboard.html" class="nav-button active">
+        <i class="nav-icon fas fa-chart-line"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="workouts.html" class="nav-button">
+        <i class="nav-icon fas fa-dumbbell"></i>
+        <span>Workouts</span>
+      </a>
+      <a href="recipes.html" class="nav-button">
+        <i class="nav-icon fas fa-utensils"></i>
+        <span>Recipes</span>
+      </a>
+      <a href="videos.html" class="nav-button">
+        <i class="nav-icon fas fa-video"></i>
+        <span>Videos</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get the current user from localStorage
+      const currentUser = localStorage.getItem('currentUser') || 'Guest';
+      
+      // User-specific data
+      const userData = {
+        Jordan: {
+          goal: 'Weight Loss - 15 lbs',
+          goalProgress: '40%',
+          goalEta: 'Estimated completion: 8 weeks',
+          quote: '"The body achieves what the mind believes."',
+          stats: {
+            workouts: 18,
+            streak: 3,
+            calories: '9,840',
+            minutes: 720
+          }
+        },
+        Walter: {
+          goal: 'Muscle Gain - 8 lbs',
+          goalProgress: '65%',
+          goalEta: 'Estimated completion: 6 weeks',
+          quote: '"The only bad workout is the one that didn\'t happen."',
+          stats: {
+            workouts: 24,
+            streak: 5,
+            calories: '12,450',
+            minutes: 840
+          }
+        },
+        Guest: {
+          goal: 'Please login to set a goal',
+          goalProgress: '0%',
+          goalEta: 'Estimated completion: N/A',
+          quote: '"Choose a user to get started"',
+          stats: {
+            workouts: 0,
+            streak: 0,
+            calories: '0',
+            minutes: 0
+          }
+        }
+      };
+      
+      // Apply user data to UI
+      const user = userData[currentUser];
+      document.getElementById('user-name').textContent = currentUser;
+      document.getElementById('user-quote').textContent = user.quote;
+      document.getElementById('current-goal').textContent = user.goal;
+      document.getElementById('goal-progress').style.width = user.goalProgress;
+      document.getElementById('goal-eta').textContent = user.goalEta;
+      document.getElementById('workouts-completed').textContent = user.stats.workouts;
+      document.getElementById('current-streak').textContent = user.stats.streak;
+      document.getElementById('total-calories').textContent = user.stats.calories;
+      document.getElementById('total-minutes').textContent = user.stats.minutes;
+    });
+    
+    function logout() {
+      localStorage.removeItem('currentUser');
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>

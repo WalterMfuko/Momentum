@@ -3,82 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fitness4Life</title>
+  <title>Momentum</title>
   <link rel="stylesheet" href="Styles.css">
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body.landing {
+      background-color: #000;
+      color: white;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+    }
+    
+    .logo-container {
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+    
+    .logo {
+      max-width: 300px;
+      height: auto;
+    }
+    
+    .user-selection {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 80%;
+      max-width: 300px;
+    }
+    
+    .user-btn {
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .user-btn:hover {
+      background-color: #555;
+      transform: scale(1.05);
+    }
+  </style>
+  
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- iOS support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Momentum">
+  <link rel="apple-touch-icon" href="icons/icon-152x152.png">
+  
+  <!-- Android theme color -->
+  <meta name="theme-color" content="#000000">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="icons/icon-72x72.png">
 </head>
-<body>
-  <div id="app">
-    <!-- App Header -->
-    <header class="app-header">
-      <h1 class="app-title">Momentum</h1>
-      <button class="settings-button">
-        <i class="fas fa-cog"></i>
-      </button>
-    </header>
-
-    <!-- Content Area -->
-    <main class="content-area">
-      <!-- Home Section -->
-      <section id="home-section" class="app-section active-section">
-        <h2 class="section-title">Workout Schedule</h2>
-        <div class="day-buttons">
-          <a href="workouts/Monday.html" class="day-link">
-            <div class="day-btn">Monday</div>
-          </a>
-          <a href="workouts/Tuesday.html" class="day-link">
-            <div class="day-btn">Tuesday</div>
-          </a>
-          <a href="workouts/Wednesday.html" class="day-link">
-            <div class="day-btn">Wednesday</div>
-          </a>
-          <a href="workouts/Thursday.html" class="day-link">
-            <div class="day-btn">Thursday</div>
-          </a>
-          <a href="workouts/Friday.html" class="day-link">
-            <div class="day-btn">Friday</div>
-          </a>
-          <a href="workouts/Saturday.html" class="day-link">
-            <div class="day-btn">Saturday</div>
-          </a>
-          <a href="workouts/Sunday.html" class="day-link">
-            <div class="day-btn">Sunday</div>
-          </a>
-        </div>
-        
-        <div class="welcome-card">
-          <p>Track your fitness journey with Fitness4Life!</p>
-          <p>Select a day to view or log your workout.</p>
-        </div>
-      </section>
-    </main>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-      <button class="nav-button active" data-section="home">
-        <i class="nav-icon fas fa-home"></i>
-        <span>Home</span>
-      </button>
-      <button class="nav-button" data-section="dashboard">
-        <i class="nav-icon fas fa-chart-line"></i>
-        <span>Dashboard</span>
-      </button>
-      <button class="nav-button" data-section="workouts">
-        <i class="nav-icon fas fa-dumbbell"></i>
-        <span>Workouts</span>
-      </button>
-      <button class="nav-button" data-section="progress">
-        <i class="nav-icon fas fa-tasks"></i>
-        <span>Progress</span>
-      </button>
-      <a href="videos.html" class="nav-button">
-        <i class="nav-icon fas fa-video"></i>
-        <span>Videos</span>
-      </a>
-    </nav>
+<body class="landing">
+  <div class="logo-container">
+    <img src="Momentum.png" alt="Momentum Logo" class="logo">
   </div>
-
-  <script src="Fitness.js"></script>
+  
+  <div class="user-selection">
+    <button class="user-btn" onclick="selectUser('Jordan')">Jordan</button>
+    <button class="user-btn" onclick="selectUser('Walter')">Walter</button>
+  </div>
+  
+  <script>
+    function selectUser(username) {
+      // Store the selected username
+      localStorage.setItem('currentUser', username);
+      
+      // Redirect to the user's profile page
+      if (username === 'Jordan') {
+        window.location.href = 'jordan.html';
+      } else if (username === 'Walter') {
+        window.location.href = 'walter.html';
+      }
+    }
+  </script>
+  <script>
+    // Register the service worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(error => {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+      });
+    }
+  </script>
 </body>
 </html>
