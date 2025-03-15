@@ -12,6 +12,15 @@
   --danger-color: #555555;
   --success-color: #333333;
   --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  --bg-main: #ffffff;              /* Main background */
+  --bg-card: #f2f2f2;              /* Card/container background */
+  --bg-accent: #e0e0e0;            /* Secondary container background */
+  --text-primary: #333333;         /* Main text color */
+  --text-secondary: #555555;       /* Secondary text */
+  --text-muted: #777777;           /* Subtle text */
+  --accent-green: #4CAF50;         /* Keep your green accent */
+  --border-radius: 10px;           /* Consistent border radius */
+  --shadow: 0 2px 8px rgba(0,0,0,0.1); /* Subtle shadow */
 }
 
 * {
@@ -39,9 +48,11 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: var(--card-bg);
+  background-color: var(--bg-main);
+  color: var(--text-primary);
   box-shadow: var(--shadow);
   position: relative;
+  padding-top: 8px; /* Add some top padding now that header is gone */
 }
 
 /* App Header */
@@ -77,15 +88,23 @@ body {
   flex: 1;
   padding: 16px;
   overflow-y: auto;
+  padding-bottom: 70px; /* Adjust based on the height of your navigation bar */
+  padding-top: 8px;
 }
 
 /* Bottom Navigation */
 .bottom-nav {
   display: flex;
   justify-content: space-around;
-  background-color: var(--card-bg);
+  background-color: var(--bg-card);
   padding: 12px 8px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .nav-button {
@@ -531,7 +550,7 @@ th {
   position: relative;
 }
 
-.close-modal {
+close-modal {
   position: absolute;
   top: 16px;
   right: 16px;
@@ -1203,12 +1222,12 @@ select, input {
 }
 
 .category-box {
-  background-color: var(--card-bg);
-  border-radius: 8px;
-  overflow: hidden;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
   box-shadow: var(--shadow);
+  border-radius: var(--border-radius);
+  overflow: hidden;
   text-decoration: none;
-  color: var(--text-color);
   transition: transform 0.2s;
 }
 
@@ -1367,4 +1386,182 @@ select, input {
 .program-content .primary-btn {
   margin-top: auto;
   align-self: flex-start;
+}
+
+/* Adjust layout for headerless design */
+#app {
+  padding-top: 8px; /* Add some top padding now that header is gone */
+}
+
+/* Adjust content area to take full height */
+.content-area {
+  padding-top: 8px;
+}
+
+/* Make logout button accessible elsewhere if needed */
+.corner-logout {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: var(--text-light);
+  background: none;
+  border: none;
+  font-size: 16px;
+  z-index: 100;
+  cursor: pointer;
+}
+
+/* Hero sections, goal trackers, and cards */
+.hero-section, .goal-tracker, .next-workout, 
+.category-box, .workout-card, .recipe-card,
+.video-card, .featured-recipe {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: var(--shadow);
+  border-radius: var(--border-radius);
+}
+
+/* Secondary containers */
+.progress-bar, .filter-section, .category-filters {
+  background-color: var(--bg-accent);
+}
+
+/* Heading styles */
+h1, h2, h3, h4 {
+  color: var(--text-primary);
+}
+
+/* Paragraph and secondary text */
+p, .card-meta, .video-meta, .recipe-desc {
+  color: var(--text-secondary);
+}
+
+/* Bottom navigation */
+.bottom-nav {
+  background-color: var(--bg-card);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+/* Buttons maintain your accent color */
+.start-button, .view-recipe-btn, .action-btn, .primary-btn {
+  background-color: var(--accent-green);
+  color: white;
+}
+
+/* Adjust any dark themed specific styles */
+.motivation-quote {
+  color: var(--text-muted);
+}
+
+/* Update styles for hero-section (used in jordan.html and walter.html) */
+.hero-section {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+
+.welcome-message {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--text-primary);
+}
+
+.motivation-quote {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.next-workout {
+  background-color: var(--bg-accent);
+  padding: 15px;
+  border-radius: 8px;
+  color: var(--text-primary);
+}
+
+/* Update goal-tracker styling */
+.goal-tracker {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: var(--bg-accent);
+  border-radius: 5px;
+  margin: 15px 0;
+  overflow: hidden;
+}
+
+.progress-fill, .progress {
+  height: 100%;
+  background-color: var(--accent-green);
+}
+
+/* Button styling */
+.start-button, .goal-btn, .start-btn {
+  background-color: var(--accent-green);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.start-button:hover, .goal-btn:hover, .start-btn:hover {
+  opacity: 0.9;
+}
+
+.goal-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* Category styling */
+.category-box h3 {
+  background-color: var(--bg-accent);
+  color: var(--text-primary);
+}
+
+/* Fix for personal workouts image display */
+.personal-workouts {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.person-box {
+  display: block;
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow);
+}
+
+.person-image {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+.person-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-width: 100%;
+}
+
+/* Additional fix for bottom nav */
+.bottom-nav a.nav-button.active {
+  color: var(--accent-green);
 }
