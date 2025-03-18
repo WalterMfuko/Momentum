@@ -18,11 +18,14 @@
       justify-content: center;
       align-items: center;
       font-family: Arial, sans-serif;
+      overflow: hidden; /* Prevent scrollbars during animation */
     }
     
     .logo-container {
       margin-bottom: 4rem;
       text-align: center;
+      opacity: 0; /* Start invisible */
+      animation: fadeIn 1.5s ease forwards;
     }
     
     .logo {
@@ -39,7 +42,7 @@
     }
     
     .user-btn {
-      background-color: #333;
+      background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%); /* Green gradient */
       color: white;
       border: none;
       padding: 15px;
@@ -47,11 +50,88 @@
       font-size: 1.2rem;
       cursor: pointer;
       transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transform: translateY(30px);
+      opacity: 0;
+    }
+    
+    .user-btn:nth-child(1) {
+      animation: slideUp 0.6s ease 0.7s forwards;
+    }
+    
+    .user-btn:nth-child(2) {
+      animation: slideUp 0.6s ease 1s forwards;
     }
     
     .user-btn:hover {
-      background-color: #555;
-      transform: scale(1.05);
+      background: linear-gradient(135deg, #5cb85c 0%, #3c9d50 100%);
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    .user-btn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    
+    @keyframes slideUp {
+      0% { 
+        transform: translateY(30px);
+        opacity: 0;
+      }
+      100% { 
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    /* Additional styles for title */
+    .app-title {
+      font-size: 1.6rem;
+      margin: 0 0 1rem 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.3s forwards;
+    }
+    
+    /* Shine effect on logo */
+    .logo-container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(
+        to right, 
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.3) 50%,
+        rgba(255,255,255,0) 100%
+      );
+      transform: skewX(-25deg);
+      animation: shine 3s infinite 2s;
+    }
+    
+    @keyframes shine {
+      0% { left: -100%; }
+      20% { left: 100%; }
+      100% { left: 100%; }
+    }
+    
+    /* Version number */
+    .version {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 0.7rem;
+      opacity: 0.5;
     }
   </style>
   
@@ -73,6 +153,7 @@
 <body class="landing">
   <div class="logo-container">
     <img src="momentum.png" alt="Momentum Logo" class="logo">
+    <h1 class="app-title">Your Fitness. Your Data. Your Transformation.</h1>
   </div>
   
   <div class="user-selection">
@@ -80,24 +161,51 @@
     <button class="user-btn" onclick="selectUser('Walter')">Walter</button>
   </div>
   
+  <div class="version">v1.0.1</div>
+  
   <script>
     function selectUser(username) {
-      // Store the selected username
-      localStorage.setItem('currentUser', username);
+      // Animate button press
+      document.querySelectorAll('.user-btn').forEach(btn => {
+        if (btn.textContent === username) {
+          btn.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            btn.style.transform = 'scale(1)';
+          }, 100);
+        }
+      });
       
-      // Redirect to the user's profile page
-      if (username === 'Jordan') {
-        window.location.href = 'jordan.html';
-      } else if (username === 'Walter') {
-        window.location.href = 'walter.html';
-      }
+      // Add a slight delay before navigation for animation effect
+      setTimeout(() => {
+        // Store the selected username
+        localStorage.setItem('currentUser', username);
+        
+        // Redirect to the user's profile page
+        if (username === 'Jordan') {
+          window.location.href = 'jordan.html';
+        } else if (username === 'Walter') {
+          window.location.href = 'walter.html';
+        }
+      }, 300);
     }
+    
+    // Preload the dashboard page for faster transition
+    window.addEventListener('load', function() {
+      const links = ['jordan.html', 'walter.html'].map(url => {
+        const link = document.createElement('link');
+        link.rel = 'prefetch';
+        link.href = url;
+        return link;
+      });
+      
+      document.head.append(...links);
+    });
   </script>
   <script>
     // Register the service worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
+        navigator.serviceWorker.register('./service-worker.js')
           .then(registration => {
             console.log('ServiceWorker registration successful');
           })

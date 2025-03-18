@@ -8,49 +8,70 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     .hero-section {
-      background-color: #1e1e1e;
-      padding: 20px;
+      background-color: #f2f2f2; /* Light gray container */
       border-radius: 10px;
+      padding: 20px;
       margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     
     .welcome-message {
+      color: #000000; /* Black text */
       font-size: 1.5rem;
       margin-bottom: 10px;
     }
     
     .motivation-quote {
+      color: #555555; /* Dark gray text */
       font-style: italic;
-      color: #aaa;
-      margin-bottom: 15px;
     }
     
     .next-workout {
-      background-color: #2a2a2a;
+      background-color: #e0e0e0; /* Slightly darker gray for inner elements */
       padding: 15px;
       border-radius: 8px;
+      margin-top: 15px;
+    }
+    
+    .next-workout h3 {
+      color: #000000;
+      margin-top: 0;
+    }
+    
+    .next-workout p {
+      color: #333333;
     }
     
     .start-btn {
-      background-color: #4CAF50;
+      background-color: #4CAF50; /* Green button */
       color: white;
       border: none;
-      padding: 10px 15px;
+      padding: 10px 20px;
       border-radius: 5px;
       cursor: pointer;
       margin-top: 10px;
     }
     
     .goal-tracker {
-      background-color: #222;
-      color: white;
-      padding: 20px;
+      background-color: #f2f2f2; /* Light gray container */
       border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .goal-tracker h2 {
+      color: #000000;
+      margin-top: 0;
+    }
+    
+    .goal-tracker p {
+      color: #333333;
     }
     
     .progress-bar {
       height: 10px;
-      background-color: #444;
+      background-color: #e0e0e0;
       border-radius: 5px;
       margin: 15px 0;
       overflow: hidden;
@@ -81,6 +102,38 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 0.9rem;
+    }
+
+    /* Light theme with gray containers */
+    body {
+      background-color: white;
+    }
+
+    .exercise-list {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .exercise-item {
+      background-color: #e0e0e0;
+      padding: 10px 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      color: #000000;
+    }
+
+    .exercise-item h4 {
+      margin: 0 0 5px 0;
+      color: #000000;
+    }
+
+    .exercise-item p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #555555;
     }
   </style>
 </head>

@@ -54,16 +54,17 @@
     }
     
     .featured-recipe {
-      background-color: #1e1e1e;
+      background-color: #f2f2f2;
       border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 20px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
     
     .featured-badge {
       display: inline-block;
-      background-color: #ff9800;
-      color: black;
+      background-color: #FF9800;
+      color: white;
       padding: 3px 8px;
       border-radius: 4px;
       font-size: 0.8rem;
@@ -84,7 +85,7 @@
     .recipe-title {
       font-size: 1.3rem;
       margin: 10px 0;
-      color: #fff;
+      color: #000000;
     }
     
     .recipe-macros {
@@ -160,9 +161,11 @@
     }
     
     .recipe-card {
-      background-color: #222;
+      background-color: #f2f2f2; /* Lighter gray container */
       border-radius: 10px;
-      overflow: hidden;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      color: #000000; /* Black text */
     }
     
     .recipe-card-content {
@@ -256,6 +259,134 @@
         grid-template-columns: repeat(3, 1fr);
       }
     }
+
+    /* Recipe page styles - matching dashboard light theme */
+    .recipes-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .recipe-description {
+      color: #333333;
+      margin-bottom: 15px;
+    }
+    
+    .recipe-meta {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      color: #555555;
+      font-size: 0.9rem;
+    }
+    
+    .recipe-meta span {
+      display: flex;
+      align-items: center;
+    }
+    
+    .recipe-meta i {
+      margin-right: 5px;
+    }
+    
+    .recipe-image-container {
+      width: 100%;
+      height: 200px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+    
+    .recipe-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .recipe-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .recipe-tag {
+      background-color: #e0e0e0;
+      color: #333;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+    }
+    
+    .recipe-actions {
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .recipe-action-btn {
+      background: none;
+      border: none;
+      color: #555;
+      cursor: pointer;
+    }
+    
+    .section-header {
+      color: #000000;
+      margin-bottom: 15px;
+    }
+    
+    /* Featured recipe section */
+    .featured-recipe {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .featured-badge {
+      background-color: #FF9800;
+      color: white;
+      font-size: 0.8rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    
+    /* Category filters */
+    .category-filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      padding: 10px 0;
+      margin-bottom: 20px;
+      /* Ensure container doesn't get cut off */
+      width: 100%;
+      scrollbar-width: none; /* Hide scrollbar in Firefox */
+    }
+    
+    .category-filters::-webkit-scrollbar {
+      display: none; /* Hide scrollbar in Chrome/Safari */
+    }
+    
+    .filter-chip {
+      flex-shrink: 0; /* Prevent chips from shrinking */
+      background-color: #e0e0e0;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      color: #333;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    
+    .filter-chip.active {
+      background-color: #4CAF50;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -264,148 +395,82 @@
 
     <!-- Content Area -->
     <main class="content-area">
-      <section class="app-section active-section recipe-section">
-        <h2>Healthy Recipes</h2>
-        
-        <div class="intro-text">
-          Fuel your workouts with delicious and nutritious meals! Whether you're bulking, cutting, or maintaining, these recipes are designed to complement your fitness goals. Browse by category, track macros, and save your favorites.
+      <div class="recipes-container">
+        <!-- Category filters -->
+        <div class="category-filters">
+          <button class="filter-chip active">All Recipes</button>
+          <button class="filter-chip">Breakfast</button>
+          <button class="filter-chip">Lunch</button>
+          <button class="filter-chip">Dinner</button>
+          <button class="filter-chip">Snacks</button>
         </div>
         
-        <div class="search-bar">
-          <input type="text" placeholder="Search recipes, ingredients, or goals..." id="recipe-search">
-          <i class="fas fa-search search-icon"></i>
-        </div>
-        
-        <div class="filter-section">
-          <span class="filter-label">Meal Type</span>
-          <div class="filter-options meal-type-filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="breakfast">Breakfast</button>
-            <button class="filter-btn" data-filter="lunch">Lunch</button>
-            <button class="filter-btn" data-filter="dinner">Dinner</button>
-            <button class="filter-btn" data-filter="snack">Snacks</button>
-            <button class="filter-btn" data-filter="post-workout">Post-Workout</button>
-          </div>
-          
-          <span class="filter-label">Dietary Preferences</span>
-          <div class="filter-options diet-filters">
-            <button class="filter-btn" data-filter="vegetarian">Vegetarian</button>
-            <button class="filter-btn" data-filter="vegan">Vegan</button>
-            <button class="filter-btn" data-filter="high-protein">High-Protein</button>
-            <button class="filter-btn" data-filter="low-carb">Low-Carb</button>
-            <button class="filter-btn" data-filter="keto">Keto</button>
-            <button class="filter-btn" data-filter="gluten-free">Gluten-Free</button>
-          </div>
-          
-          <span class="filter-label">Fitness Goals</span>
-          <div class="filter-options goal-filters">
-            <button class="filter-btn" data-filter="muscle-gain">Muscle Gain 💪</button>
-            <button class="filter-btn" data-filter="fat-loss">Fat Loss 🔥</button>
-            <button class="filter-btn" data-filter="energy">Energy Boost ⚡</button>
-            <button class="filter-btn" data-filter="endurance">Endurance 🏃</button>
-          </div>
-        </div>
-        
+        <!-- Featured Recipe -->
         <div class="featured-recipe">
-          <span class="featured-badge">Recipe of the Day</span>
-          <div class="recipe-image" style="background-image: url('https://images.unsplash.com/photo-1595438280062-5d33100b8b20?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=400&w=600')"></div>
-          <h3 class="recipe-title">High-Protein Oatmeal Bowl</h3>
-          <div class="recipe-macros">
-            <span class="macro-pill">350 kcal</span>
-            <span class="macro-pill">Carbs: 45g</span>
-            <span class="macro-pill">Protein: 30g</span>
-            <span class="macro-pill">Fats: 10g</span>
+          <span class="featured-badge">Featured Recipe</span>
+          <h2 class="recipe-title">Grilled Chicken Salad with Avocado</h2>
+          <div class="recipe-meta">
+            <span><i class="fas fa-clock"></i> 25 min</span>
+            <span><i class="fas fa-fire"></i> 320 cal</span>
+            <span><i class="fas fa-utensils"></i> 2 servings</span>
           </div>
-          <p class="recipe-desc">A perfect balance of protein and fiber to start your day strong. Made with rolled oats, protein powder, Greek yogurt, and topped with fresh berries and almonds.</p>
-          <div class="recipe-action">
-            <button class="view-recipe-btn" data-id="featured">View Full Recipe</button>
-            <button class="save-recipe-btn"><i class="far fa-bookmark"></i></button>
+          <div class="recipe-image-container">
+            <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Grilled Chicken Salad" class="recipe-image">
+          </div>
+          <p class="recipe-description">A healthy, protein-packed salad with grilled chicken, fresh vegetables, and creamy avocado.</p>
+          <div class="recipe-tags">
+            <span class="recipe-tag">Healthy</span>
+            <span class="recipe-tag">High Protein</span>
+            <span class="recipe-tag">Low Carb</span>
+          </div>
+          <div class="recipe-actions">
+            <button class="view-recipe-btn">View Recipe</button>
+            <button class="recipe-action-btn"><i class="far fa-bookmark"></i></button>
           </div>
         </div>
         
-        <h3>All Recipes</h3>
+        <!-- Recipe Cards -->
+        <h2 class="section-header">All Recipes</h2>
+        
+        <div class="recipe-card">
+          <!-- Recipe content similar to above -->
+        </div>
+        
+        <!-- More recipe cards -->
         <div class="recipe-grid">
-          <!-- Recipe 1 -->
           <div class="recipe-card">
-            <div class="recipe-image" style="background-image: url('https://images.unsplash.com/photo-1601224335112-e5e11befa2a6?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&w=400')"></div>
-            <div class="recipe-card-content">
-              <h3 class="recipe-title">Grilled Chicken & Quinoa Bowl</h3>
-              <div class="recipe-macros">
-                <span class="macro-pill">420 kcal</span>
-                <span class="macro-pill">P: 40g</span>
-                <span class="macro-pill">C: 50g</span>
-                <span class="macro-pill">F: 12g</span>
-              </div>
-              <p class="recipe-desc">A simple, high-protein meal for post-workout recovery.</p>
-              <div class="recipe-action">
-                <button class="view-recipe-btn" data-id="chicken-quinoa">View Full Recipe</button>
-                <button class="save-recipe-btn"><i class="far fa-bookmark"></i></button>
-              </div>
+            <div class="recipe-image-container">
+              <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061" alt="Healthy Bowl" class="recipe-image">
+            </div>
+            <h3 class="recipe-title">Mediterranean Salad Bowl</h3>
+            <div class="recipe-meta">
+              <span><i class="fas fa-clock"></i> 15 min</span>
+              <span><i class="fas fa-fire"></i> 280 cal</span>
+            </div>
+            <p class="recipe-description">Fresh vegetables with feta cheese and olive oil dressing.</p>
+            <div class="recipe-actions">
+              <button class="view-recipe-btn" data-id="1">View Recipe</button>
+              <button class="recipe-action-btn"><i class="far fa-bookmark"></i></button>
             </div>
           </div>
           
-          <!-- Recipe 2 -->
           <div class="recipe-card">
-            <div class="recipe-image" style="background-image: url('https://images.unsplash.com/photo-1540420773420-3366772f4999?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&w=400')"></div>
-            <div class="recipe-card-content">
-              <h3 class="recipe-title">Avocado & Egg Toast</h3>
-              <div class="recipe-macros">
-                <span class="macro-pill">350 kcal</span>
-                <span class="macro-pill">P: 18g</span>
-                <span class="macro-pill">C: 25g</span>
-                <span class="macro-pill">F: 22g</span>
-              </div>
-              <p class="recipe-desc">Healthy fats and protein to fuel your day and support recovery.</p>
-              <div class="recipe-action">
-                <button class="view-recipe-btn" data-id="avocado-toast">View Full Recipe</button>
-                <button class="save-recipe-btn"><i class="far fa-bookmark"></i></button>
-              </div>
+            <div class="recipe-image-container">
+              <img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55" alt="Grilled Salmon" class="recipe-image">
             </div>
-          </div>
-          
-          <!-- Recipe 3 -->
-          <div class="recipe-card">
-            <div class="recipe-image" style="background-image: url('https://images.unsplash.com/photo-1563805042-7684c019e1cb?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&w=400')"></div>
-            <div class="recipe-card-content">
-              <h3 class="recipe-title">Protein Berry Smoothie</h3>
-              <div class="recipe-macros">
-                <span class="macro-pill">280 kcal</span>
-                <span class="macro-pill">P: 25g</span>
-                <span class="macro-pill">C: 35g</span>
-                <span class="macro-pill">F: 5g</span>
-              </div>
-              <p class="recipe-desc">Quick and refreshing post-workout shake to replenish glycogen.</p>
-              <div class="recipe-action">
-                <button class="view-recipe-btn" data-id="berry-smoothie">View Full Recipe</button>
-                <button class="save-recipe-btn"><i class="far fa-bookmark"></i></button>
-              </div>
+            <h3 class="recipe-title">Lemon Herb Grilled Salmon</h3>
+            <div class="recipe-meta">
+              <span><i class="fas fa-clock"></i> 20 min</span>
+              <span><i class="fas fa-fire"></i> 350 cal</span>
             </div>
-          </div>
-          
-          <!-- Recipe 4 -->
-          <div class="recipe-card">
-            <div class="recipe-image" style="background-image: url('https://images.unsplash.com/photo-1546548970-71785318a17b?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&h=300&w=400')"></div>
-            <div class="recipe-card-content">
-              <h3 class="recipe-title">Salmon & Roasted Veggies</h3>
-              <div class="recipe-macros">
-                <span class="macro-pill">460 kcal</span>
-                <span class="macro-pill">P: 35g</span>
-                <span class="macro-pill">C: 25g</span>
-                <span class="macro-pill">F: 25g</span>
-              </div>
-              <p class="recipe-desc">Omega-3 rich dinner that supports recovery and reduces inflammation.</p>
-              <div class="recipe-action">
-                <button class="view-recipe-btn" data-id="salmon-veggies">View Full Recipe</button>
-                <button class="save-recipe-btn"><i class="far fa-bookmark"></i></button>
-              </div>
+            <p class="recipe-description">Perfectly grilled salmon with fresh herbs and lemon.</p>
+            <div class="recipe-actions">
+              <button class="view-recipe-btn" data-id="2">View Recipe</button>
+              <button class="recipe-action-btn"><i class="far fa-bookmark"></i></button>
             </div>
           </div>
         </div>
-        
-        <button class="add-recipe-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-      </section>
+      </div>
     </main>
 
     <!-- Recipe Detail Modal -->
@@ -480,7 +545,7 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-      <a href="index.html" class="nav-button">
+      <a href="dashboard.html" class="nav-button">
         <i class="nav-icon fas fa-home"></i>
         <span>Home</span>
       </a>
@@ -492,13 +557,13 @@
         <i class="nav-icon fas fa-dumbbell"></i>
         <span>Workouts</span>
       </a>
-      <a href="videos.html" class="nav-button">
-        <i class="nav-icon fas fa-video"></i>
-        <span>Videos</span>
-      </a>
       <a href="recipes.html" class="nav-button active">
         <i class="nav-icon fas fa-utensils"></i>
         <span>Recipes</span>
+      </a>
+      <a href="videos.html" class="nav-button">
+        <i class="nav-icon fas fa-video"></i>
+        <span>Videos</span>
       </a>
     </nav>
   </div>
@@ -508,19 +573,19 @@
       // Get the current user from localStorage
       const currentUser = localStorage.getItem('currentUser') || 'User';
       
-      // Filter button functionality
-      const filterButtons = document.querySelectorAll('.filter-btn');
+      // Filter button functionality - change from filter-btn to filter-chip
+      const filterButtons = document.querySelectorAll('.filter-chip');
       filterButtons.forEach(button => {
         button.addEventListener('click', function() {
-          // If within same filter group, make this the only active one
-          const filterGroup = this.parentElement;
-          filterGroup.querySelectorAll('.filter-btn').forEach(btn => {
+          // Remove active class from all buttons
+          document.querySelectorAll('.filter-chip').forEach(btn => {
             btn.classList.remove('active');
           });
           
+          // Add active class to clicked button
           this.classList.add('active');
           
-          // Filter recipes (this would filter actual data in a real app)
+          // Filter recipes
           filterRecipes();
         });
       });
@@ -577,29 +642,14 @@
       
       // Simple function to filter recipes (would be more complex in real app)
       function filterRecipes() {
-        const searchTerm = searchInput.value.toLowerCase();
-        const mealType = document.querySelector('.meal-type-filters .active').getAttribute('data-filter');
+        // Get active filter value
+        const activeFilter = document.querySelector('.filter-chip.active');
+        if (!activeFilter) return;
         
-        // In a real app, this would filter based on actual data
-        console.log(`Filtering for: ${searchTerm} and meal type: ${mealType}`);
+        const filterValue = activeFilter.textContent.toLowerCase();
+        console.log(`Filtering for: ${filterValue}`);
         
-        // For the demo, we'll just log what would happen
-        if (searchTerm || mealType !== 'all') {
-          // Demo filter effect - hide some recipes randomly
-          const recipeCards = document.querySelectorAll('.recipe-card');
-          recipeCards.forEach((card, index) => {
-            if (searchTerm && index % 2 === 0) {
-              card.style.display = 'none';
-            } else {
-              card.style.display = 'block';
-            }
-          });
-        } else {
-          // Show all recipes
-          document.querySelectorAll('.recipe-card').forEach(card => {
-            card.style.display = 'block';
-          });
-        }
+        // In a real app, you would filter the recipe cards here
       }
     });
     

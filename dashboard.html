@@ -7,154 +7,384 @@
   <link rel="stylesheet" href="Styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    .hero-section {
-      background-color: #1e1e1e;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-    
-    .welcome-message {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-    }
-    
-    .motivation-quote {
-      font-style: italic;
-      color: #aaa;
-      margin-bottom: 15px;
-    }
-    
-    .next-workout {
-      background-color: #2a2a2a;
-      padding: 15px;
-      border-radius: 8px;
-    }
-    
-    .start-btn {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    
-    .goal-tracker {
-      background-color: #222;
-      color: white;
-      padding: 20px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-    
-    .progress-bar {
-      height: 10px;
-      background-color: #444;
-      border-radius: 5px;
-      margin: 15px 0;
-      overflow: hidden;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background-color: #4CAF50;
-      width: 65%;
-    }
-    
-    .completion-time {
-      font-size: 0.8rem;
-      color: #bbb;
-    }
-    
-    .action-buttons {
+    /* Dashboard specific styles */
+    .dashboard-container {
       display: flex;
-      gap: 10px;
-      margin-top: 15px;
+      flex-direction: column;
+      gap: 20px;
     }
     
-    .action-btn {
-      background-color: #555;
+    .dashboard-card {
+      background-color: #f2f2f2; /* Lighter gray container */
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .welcome-header {
+      margin-top: 0;
+      margin-bottom: 15px;
+      color: #000000; /* Black text */
+      font-size: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .profile-pic-container {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      background-color: #e0e0e0;
+      position: relative;
+    }
+    
+    .profile-pic {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .upload-icon {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background-color: rgba(0,0,0,0.5);
       color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 10px;
     }
     
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 15px;
+      margin-top: 15px;
     }
     
-    .stat-card {
-      background-color: #222;
+    .stats-grid-full {
+      grid-template-columns: 1fr;
+    }
+    
+    .stat-box {
+      background-color: #e0e0e0; /* Even lighter gray for inner elements */
+      border-radius: 8px;
       padding: 15px;
-      border-radius: 10px;
       text-align: center;
     }
     
     .stat-value {
       font-size: 1.8rem;
       font-weight: bold;
+      color: #000000; /* Black text for numbers */
       margin: 5px 0;
     }
     
     .stat-label {
       font-size: 0.9rem;
-      color: #aaa;
+      color: #333333; /* Dark gray for labels */
+    }
+    
+    .goal-tracker {
+      background-color: #f2f2f2; /* Lighter gray container */
+      color: #000000; /* Black text */
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .goal-tracker h2 {
+      margin-top: 0;
+      color: #000000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .goal-details {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      font-weight: 500;
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background-color: #e0e0e0; /* Lighter background for progress bar */
+      border-radius: 5px;
+      margin: 15px 0;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .progress {
+      height: 100%;
+      background-color: #4CAF50; /* Keep the green progress color */
+      transition: width 0.5s ease;
+    }
+    
+    .water-tracker {
+      margin-top: 20px;
+    }
+    
+    .water-container {
+      background-color: #e0e0e0;
+      border-radius: 8px;
+      height: 30px;
+      overflow: hidden;
+      position: relative;
+      margin: 15px 0;
+    }
+    
+    .water-fill {
+      height: 100%;
+      background-color: #2196F3; /* Blue for water */
+      width: 0%; /* Will be set by JS */
+      transition: width 0.3s;
+    }
+    
+    .water-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .water-actions button {
+      flex: 1;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .entry-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+      background-color: #e0e0e0;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    
+    .form-group {
+      display: flex;
+      align-items: center;
+    }
+    
+    .form-group label {
+      flex: 1;
+      color: #000;
+      font-weight: 500;
+    }
+    
+    .form-group input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+    }
+    
+    .form-actions {
+      text-align: right;
+      margin-top: 10px;
+    }
+    
+    .save-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    .weight-chart {
+      height: 200px;
+      margin-top: 20px;
+      position: relative;
+      background-color: #e0e0e0;
+      border-radius: 8px;
+      padding: 10px;
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .calorie-boxes {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .calorie-box {
+      flex: 1;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      color: white;
+    }
+    
+    .calorie-in {
+      background-color: #FF9800; /* Orange for intake */
+    }
+    
+    .calorie-out {
+      background-color: #4CAF50; /* Green for burned */
+    }
+    
+    .calorie-net {
+      background-color: #2196F3; /* Blue for net */
+    }
+    
+    #file-input {
+      display: none;
     }
   </style>
 </head>
 <body>
   <div id="app">
-
     <!-- Content Area -->
     <main class="content-area">
-      <section class="hero-section">
-        <div class="welcome-message">Welcome to your Dashboard, <span id="user-name">User</span>!</div>
-        <div class="motivation-quote" id="user-quote">"Progress is progress, no matter how small."</div>
-      </section>
-      
-      <section class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-value" id="workouts-completed">24</div>
-          <div class="stat-label">Workouts Completed</div>
+      <div class="dashboard-container">
+        <!-- Welcome Card -->
+        <div class="dashboard-card">
+          <div class="welcome-header">
+            <div>
+              <h2 style="margin: 0; color: #000;">Welcome, <span id="user-name">Walter</span>!</h2>
+              <p style="color: #333; margin-top: 5px;">Today is <span id="current-date">March 17, 2024</span></p>
+            </div>
+            <div class="profile-pic-container">
+              <img id="profile-image" class="profile-pic" src="https://via.placeholder.com/150" alt="Profile Picture">
+              <label for="file-input" class="upload-icon">
+                <i class="fas fa-camera"></i>
+              </label>
+              <input type="file" id="file-input" accept="image/*">
+            </div>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-value" id="current-streak">5</div>
-          <div class="stat-label">Day Streak</div>
+
+        <!-- Weight Loss Goal -->
+        <div class="goal-tracker">
+          <h2>
+            Weight Loss Goal
+            <button id="weight-entry-btn" class="save-btn" style="font-size: 0.8rem;">Log Weight</button>
+          </h2>
+          
+          <div class="goal-details">
+            <span>Starting: 290 lbs</span>
+            <span>Current: <span id="current-weight">290</span> lbs</span>
+            <span>Goal: 260 lbs</span>
+          </div>
+          
+          <div class="progress-bar">
+            <div id="weight-progress" class="progress" style="width: 0%;"></div>
+          </div>
+          
+          <p style="color: #333; text-align: center;">
+            <span id="pounds-lost">0</span> lbs lost, <span id="pounds-to-go">30</span> lbs to go!
+          </p>
+          
+          <div id="weight-entry-form" class="entry-form hidden">
+            <div class="form-group">
+              <label for="weight-input">Today's Weight (lbs)</label>
+              <input type="number" id="weight-input" min="0" max="500" step="0.1">
+            </div>
+            <div class="form-actions">
+              <button id="save-weight-btn" class="save-btn">Save</button>
+            </div>
+          </div>
+          
+          <div class="weight-chart" id="weight-chart">
+            <!-- Weight chart will be drawn here -->
+          </div>
+          <input type="file" id="weightDataFile" accept=".txt" style="display: none;" onchange="loadWeightData()">
+          <label for="weightDataFile" class="save-btn" style="font-size: 0.8rem; margin-top: 10px;">Import Weight Data</label>
         </div>
-        <div class="stat-card">
-          <div class="stat-value" id="total-calories">12,450</div>
-          <div class="stat-label">Calories Burned</div>
+        
+        <!-- Daily Stats -->
+        <div class="dashboard-card">
+          <h2 style="color: #000; margin-top: 0;">Daily Tracking</h2>
+          
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-label">Workouts This Week</div>
+              <div class="stat-value" id="weekly-workouts">3</div>
+              <div style="font-size: 0.8rem; color: #666;">(Monday-Friday)</div>
+            </div>
+            
+            <div class="stat-box">
+              <div class="stat-label">Today's Steps</div>
+              <div class="stat-value" id="daily-steps">5,482</div>
+              <div style="font-size: 0.8rem; color: #666;">Goal: 10,000</div>
+            </div>
+          </div>
+          
+          <!-- Water Tracker -->
+          <div class="water-tracker">
+            <h3 style="color: #000; margin-bottom: 5px;">Water Intake</h3>
+            <p style="color: #333; font-size: 0.9rem; margin: 0;">
+              <span id="water-consumed">0</span> / <span id="water-goal">145</span> oz
+              <span style="font-size: 0.8rem;">(Based on body weight)</span>
+            </p>
+            
+            <div class="water-container">
+              <div class="water-fill" id="water-progress"></div>
+            </div>
+            
+            <div class="water-actions">
+              <button onclick="addWater(8)">+8 oz (Cup)</button>
+              <button onclick="addWater(16)">+16 oz (Bottle)</button>
+              <button onclick="addWater(32)">+32 oz (Large Bottle)</button>
+            </div>
+            <input type="file" id="waterDataFile" accept=".txt" style="display: none;" onchange="loadWaterData()">
+            <label for="waterDataFile" style="display: block; margin-top: 10px; text-align: center; font-size: 0.8rem;">Import Water Data</label>
+          </div>
+          
+          <!-- Calories -->
+          <h3 style="color: #000; margin: 20px 0 10px;">Today's Calories</h3>
+          <div class="calorie-boxes">
+            <div class="calorie-box calorie-in">
+              <div style="font-size: 0.9rem;">Consumed</div>
+              <div style="font-size: 1.5rem; font-weight: bold;" id="calories-in">0</div>
+              <button onclick="logCalories('in')" style="background: none; border: none; color: white; margin-top: 5px;">
+                <i class="fas fa-plus-circle"></i> Add
+              </button>
+            </div>
+            
+            <div class="calorie-box calorie-out">
+              <div style="font-size: 0.9rem;">Burned</div>
+              <div style="font-size: 1.5rem; font-weight: bold;" id="calories-out">0</div>
+              <button onclick="logCalories('out')" style="background: none; border: none; color: white; margin-top: 5px;">
+                <i class="fas fa-plus-circle"></i> Add
+              </button>
+            </div>
+            
+            <div class="calorie-box calorie-net">
+              <div style="font-size: 0.9rem;">Net</div>
+              <div style="font-size: 1.5rem; font-weight: bold;" id="calories-net">0</div>
+            </div>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-value" id="total-minutes">840</div>
-          <div class="stat-label">Total Minutes</div>
-        </div>
-      </section>
-      
-      <section class="goal-tracker">
-        <h3>Current Goal</h3>
-        <div id="current-goal">Loading...</div>
-        <div class="progress-bar">
-          <div class="progress-fill" id="goal-progress"></div>
-        </div>
-        <div class="completion-time" id="goal-eta">Estimated completion: Loading...</div>
-      </section>
+      </div>
     </main>
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-      <a href="index.html" class="nav-button">
+      <a href="dashboard.html" class="nav-button active">
         <i class="nav-icon fas fa-home"></i>
         <span>Home</span>
       </a>
-      <a href="dashboard.html" class="nav-button active">
+      <a href="dashboard.html" class="nav-button">
         <i class="nav-icon fas fa-chart-line"></i>
         <span>Dashboard</span>
       </a>
@@ -172,64 +402,384 @@
       </a>
     </nav>
   </div>
+  
+  <!-- Calorie Modal -->
+  <div id="calorie-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background-color: #f2f2f2; padding: 20px; border-radius: 10px; width: 80%; max-width: 400px;">
+      <h3 id="calorie-modal-title" style="color: #000; margin-top: 0;">Log Calories</h3>
+      
+      <div style="margin: 20px 0;">
+        <label for="calorie-input" style="display: block; margin-bottom: 5px; color: #000;">Amount</label>
+        <input type="number" id="calorie-input" style="width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px;">
+      </div>
+      
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button onclick="closeCalorieModal()" style="padding: 8px 15px; background-color: #777; color: white; border: none; border-radius: 5px;">Cancel</button>
+        <button id="save-calories-btn" style="padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add FileSaver.js for file operations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Get current date
+      const today = new Date();
+      const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      document.getElementById('current-date').textContent = today.toLocaleDateString('en-US', dateOptions);
+      
       // Get the current user from localStorage
-      const currentUser = localStorage.getItem('currentUser') || 'Guest';
-      
-      // User-specific data
-      const userData = {
-        Jordan: {
-          goal: 'Weight Loss - 15 lbs',
-          goalProgress: '40%',
-          goalEta: 'Estimated completion: 8 weeks',
-          quote: '"The body achieves what the mind believes."',
-          stats: {
-            workouts: 18,
-            streak: 3,
-            calories: '9,840',
-            minutes: 720
-          }
-        },
-        Walter: {
-          goal: 'Muscle Gain - 8 lbs',
-          goalProgress: '65%',
-          goalEta: 'Estimated completion: 6 weeks',
-          quote: '"The only bad workout is the one that didn\'t happen."',
-          stats: {
-            workouts: 24,
-            streak: 5,
-            calories: '12,450',
-            minutes: 840
-          }
-        },
-        Guest: {
-          goal: 'Please login to set a goal',
-          goalProgress: '0%',
-          goalEta: 'Estimated completion: N/A',
-          quote: '"Choose a user to get started"',
-          stats: {
-            workouts: 0,
-            streak: 0,
-            calories: '0',
-            minutes: 0
-          }
-        }
-      };
-      
-      // Apply user data to UI
-      const user = userData[currentUser];
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
       document.getElementById('user-name').textContent = currentUser;
-      document.getElementById('user-quote').textContent = user.quote;
-      document.getElementById('current-goal').textContent = user.goal;
-      document.getElementById('goal-progress').style.width = user.goalProgress;
-      document.getElementById('goal-eta').textContent = user.goalEta;
-      document.getElementById('workouts-completed').textContent = user.stats.workouts;
-      document.getElementById('current-streak').textContent = user.stats.streak;
-      document.getElementById('total-calories').textContent = user.stats.calories;
-      document.getElementById('total-minutes').textContent = user.stats.minutes;
+      
+      // Load profile picture
+      loadProfilePicture();
+      
+      // Load weight data
+      loadWeightData();
+      
+      // Load water data
+      loadWaterData();
+      
+      // Load calorie data
+      loadCalorieData();
+      
+      // Set up file input for profile picture
+      document.getElementById('file-input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const imgData = e.target.result;
+            document.getElementById('profile-image').src = imgData;
+            localStorage.setItem('profilePicture_' + currentUser, imgData);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      
+      // Weight entry form toggle
+      document.getElementById('weight-entry-btn').addEventListener('click', function() {
+        const form = document.getElementById('weight-entry-form');
+        form.classList.toggle('hidden');
+      });
+      
+      // Weight save button
+      document.getElementById('save-weight-btn').addEventListener('click', function() {
+        const weightInput = document.getElementById('weight-input').value;
+        if (weightInput) {
+          saveWeight(parseFloat(weightInput));
+          document.getElementById('weight-entry-form').classList.add('hidden');
+        }
+      });
+      
+      // Save calories button
+      document.getElementById('save-calories-btn').addEventListener('click', saveCalorieData);
     });
+    
+    // Load profile picture
+    function loadProfilePicture() {
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      const profilePic = localStorage.getItem('profilePicture_' + currentUser);
+      if (profilePic) {
+        document.getElementById('profile-image').src = profilePic;
+      }
+    }
+    
+    // Weight tracking functions
+    function loadWeightData() {
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      
+      // Try to load from file input if available
+      const weightDataInput = document.getElementById('weightDataFile');
+      if (weightDataInput && weightDataInput.files.length > 0) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          try {
+            const weightData = JSON.parse(e.target.result);
+            processWeightData(weightData);
+          } catch (error) {
+            console.error('Error parsing weight data file:', error);
+            createDefaultWeightData();
+          }
+        };
+        reader.readAsText(weightDataInput.files[0]);
+      } else {
+        // If no file input, try localStorage as fallback
+        try {
+          const weightData = JSON.parse(localStorage.getItem('weightData_' + currentUser) || '[]');
+          processWeightData(weightData);
+        } catch (error) {
+          createDefaultWeightData();
+        }
+      }
+    }
+    
+    function processWeightData(weightData) {
+      if (weightData.length === 0) {
+        createDefaultWeightData();
+        return;
+      }
+      
+      // Get most recent weight
+      const latestWeight = weightData[weightData.length - 1].weight;
+      document.getElementById('current-weight').textContent = latestWeight;
+      
+      // Calculate progress
+      const startWeight = 290;
+      const goalWeight = 260;
+      const totalToLose = startWeight - goalWeight;
+      const currentLost = startWeight - latestWeight;
+      const toGo = latestWeight - goalWeight;
+      
+      // Update progress bar and text
+      const progressPercent = (currentLost / totalToLose) * 100;
+      document.getElementById('weight-progress').style.width = Math.max(0, Math.min(progressPercent, 100)) + '%';
+      document.getElementById('pounds-lost').textContent = currentLost.toFixed(1);
+      document.getElementById('pounds-to-go').textContent = Math.max(0, toGo).toFixed(1);
+      
+      // Draw weight chart
+      drawWeightChart(weightData);
+    }
+    
+    function createDefaultWeightData() {
+      const today = new Date();
+      const weightData = [{
+        weight: 290,
+        date: today.toISOString().split('T')[0]
+      }];
+      
+      processWeightData(weightData);
+      saveWeightData(weightData);
+    }
+    
+    function saveWeight(weight) {
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      const today = new Date();
+      const dateStr = today.toISOString().split('T')[0];
+      
+      let weightData = [];
+      try {
+        weightData = JSON.parse(localStorage.getItem('weightData_' + currentUser) || '[]');
+      } catch (error) {
+        console.error('Error loading weight data:', error);
+      }
+      
+      // Check if there's already an entry for today
+      const todayEntryIndex = weightData.findIndex(entry => entry.date === dateStr);
+      
+      if (todayEntryIndex !== -1) {
+        // Update today's entry
+        weightData[todayEntryIndex].weight = weight;
+      } else {
+        // Add new entry
+        weightData.push({
+          weight: weight,
+          date: dateStr
+        });
+      }
+      
+      // Save to file and localStorage as backup
+      saveWeightData(weightData);
+      
+      // Reload weight data to update UI
+      processWeightData(weightData);
+    }
+    
+    function saveWeightData(weightData) {
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      
+      // Save to localStorage as backup
+      localStorage.setItem('weightData_' + currentUser, JSON.stringify(weightData));
+      
+      // Format the data for text file (Weight, Date format)
+      let textContent = "Weight, Date\n";
+      weightData.forEach(entry => {
+        textContent += `${entry.weight}, ${entry.date}\n`; // Fixed quote
+      });
+      
+      // Create and download the file
+      const blob = new Blob([textContent], {type: "text/plain;charset=utf-8"});
+      saveAs(blob, "weight_charter.txt");
+      
+      // Show success message
+      const saveMsg = document.createElement('div');
+      saveMsg.textContent = "Weight data saved to weight_charter.txt";
+      saveMsg.style.backgroundColor = "#4CAF50";
+      saveMsg.style.color = "white";
+      saveMsg.style.padding = "10px";
+      saveMsg.style.borderRadius = "5px";
+      saveMsg.style.marginTop = "10px";
+      saveMsg.style.textAlign = "center";
+      
+      const weightForm = document.getElementById('weight-entry-form');
+      weightForm.appendChild(saveMsg);
+      
+      setTimeout(() => {
+        weightForm.removeChild(saveMsg);
+      }, 3000);
+    }
+    
+    function drawWeightChart(weightData) {
+      // This is a simplified chart representation
+      // In a real app, you'd use a library like Chart.js
+      const chartContainer = document.getElementById('weight-chart');
+      chartContainer.innerHTML = '<div style="text-align: center; padding: 80px 0; color: #555;">Weight history chart will appear here</div>';
+    }
+    
+    // Water tracking functions
+    function loadWaterData() {
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      const today = new Date();
+      const dateStr = today.toISOString().split('T')[0];
+      
+      // Try localStorage as backup or default
+      let waterData = {};
+      try {
+        waterData = JSON.parse(localStorage.getItem('waterData_' + currentUser) || '{}');
+      } catch (error) {
+        console.error('Error loading water data:', error);
+      }
+      
+      // Check if there's data for today
+      if (!waterData[dateStr]) {
+        waterData[dateStr] = 0;
+        localStorage.setItem('waterData_' + currentUser, JSON.stringify(waterData));
+      }
+      
+      // Update water display
+      const waterConsumed = waterData[dateStr];
+      const waterGoal = Math.round(290 / 2); // Half body weight in ounces
+      const waterPercent = (waterConsumed / waterGoal) * 100;
+      
+      document.getElementById('water-consumed').textContent = waterConsumed;
+      document.getElementById('water-goal').textContent = waterGoal;
+      document.getElementById('water-progress').style.width = Math.min(100, waterPercent) + '%';
+    }
+    
+    function addWater(amount) {
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      const today = new Date();
+      const dateStr = today.toISOString().split('T')[0];
+      
+      // Get water data
+      let waterData = {};
+      try {
+        waterData = JSON.parse(localStorage.getItem('waterData_' + currentUser) || '{}');
+      } catch (error) {
+        console.error('Error loading water data:', error);
+      }
+      
+      // Add water for today
+      if (!waterData[dateStr]) {
+        waterData[dateStr] = 0;
+      }
+      waterData[dateStr] += amount;
+      
+      // Save to localStorage as backup
+      localStorage.setItem('waterData_' + currentUser, JSON.stringify(waterData));
+      
+      // Format the data for text file (Water, Date format)
+      let textContent = "Water (oz), Date\n";
+      Object.entries(waterData).forEach(([date, oz]) => {
+        textContent += `${oz}, ${date}\n`; // Fixed quote
+      });
+      
+      // Create and download the file
+      const blob = new Blob([textContent], {type: "text/plain;charset=utf-8"});
+      saveAs(blob, "water_charter.txt");
+      
+      // Reload water data to update UI
+      loadWaterData();
+      
+      // Show success message
+      const saveMsg = document.createElement('div');
+      saveMsg.textContent = "Water data saved to water_charter.txt";
+      saveMsg.style.backgroundColor = "#2196F3";
+      saveMsg.style.color = "white";
+      saveMsg.style.padding = "10px";
+      saveMsg.style.borderRadius = "5px";
+      saveMsg.style.marginTop = "10px";
+      saveMsg.style.textAlign = "center";
+      
+      const waterTracker = document.querySelector('.water-tracker');
+      waterTracker.appendChild(saveMsg);
+      
+      setTimeout(() => {
+        waterTracker.removeChild(saveMsg);
+      }, 3000);
+    }
+    
+    // Calorie tracking functions
+    let calorieType = 'in'; // Global variable to track which type of calories to update
+    
+    function loadCalorieData() {
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      const today = new Date();
+      const dateStr = today.toISOString().split('T')[0];
+      
+      // Get calorie data
+      let calorieData = JSON.parse(localStorage.getItem('calorieData_' + currentUser) || '{}');
+      
+      // Check if there's data for today
+      if (!calorieData[dateStr]) {
+        calorieData[dateStr] = {in: 0, out: 0};
+        localStorage.setItem('calorieData_' + currentUser, JSON.stringify(calorieData));
+      }
+      
+      // Update calorie display
+      const caloriesIn = calorieData[dateStr].in;
+      const caloriesOut = calorieData[dateStr].out;
+      const caloriesNet = caloriesIn - caloriesOut;
+      
+      document.getElementById('calories-in').textContent = caloriesIn;
+      document.getElementById('calories-out').textContent = caloriesOut;
+      document.getElementById('calories-net').textContent = caloriesNet;
+    }
+    
+    function logCalories(type) {
+      calorieType = type;
+      const modal = document.getElementById('calorie-modal');
+      const title = document.getElementById('calorie-modal-title');
+      
+      title.textContent = type === 'in' ? 'Log Calories Consumed' : 'Log Calories Burned';
+      document.getElementById('calorie-input').value = '';
+      
+      modal.style.display = 'flex';
+    }
+    
+    function closeCalorieModal() {
+      document.getElementById('calorie-modal').style.display = 'none';
+    }
+    
+    function saveCalorieData() {
+      const calorieAmount = parseInt(document.getElementById('calorie-input').value || '0');
+      if (calorieAmount <= 0) return;
+      
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      const today = new Date();
+      const dateStr = today.toISOString().split('T')[0];
+      
+      // Get calorie data
+      let calorieData = JSON.parse(localStorage.getItem('calorieData_' + currentUser) || '{}');
+      
+      // Add calories for today
+      if (!calorieData[dateStr]) {
+        calorieData[dateStr] = {in: 0, out: 0};
+      }
+      calorieData[dateStr][calorieType] += calorieAmount;
+      
+      // Save to localStorage
+      localStorage.setItem('calorieData_' + currentUser, JSON.stringify(calorieData));
+      
+      // Close modal
+      closeCalorieModal();
+      
+      // Reload calorie data to update UI
+      loadCalorieData();
+    }
     
     function logout() {
       localStorage.removeItem('currentUser');
