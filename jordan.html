@@ -129,6 +129,135 @@
       font-size: 0.9rem;
       color: #555555;
     }
+
+    /* Membership Card Styles */
+    .card-container {
+      perspective: 1000px;
+      height: 200px;
+      margin: 20px 0;
+    }
+
+    .membership-card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      cursor: pointer;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .membership-card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-side {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-front {
+      background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+      color: white;
+      padding: 20px;
+    }
+
+    .card-back {
+      background-color: white;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card-logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .card-logo i {
+      margin-right: 10px;
+      font-size: 1.5rem;
+    }
+
+    .card-details {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .member-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .member-id, .member-since {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .card-instructions {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .barcode-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 15px;
+    }
+
+    #barcode-placeholder {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    #barcode-image {
+      max-width: 100%;
+      max-height: 80px;
+    }
+
+    .barcode-instructions {
+      font-size: 0.8rem;
+      color: #555;
+      text-align: center;
+    }
+
+    .upload-barcode-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .card-flip-back {
+      font-size: 0.7rem;
+      color: #777;
+      text-align: center;
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
@@ -164,6 +293,47 @@
             <button class="goal-btn">Set New Goal</button>
           </div>
         </div>
+
+        <!-- Gym Membership Card -->
+        <div class="dashboard-card" style="margin-top: 20px;">
+          <h3 style="color: #000; margin-top: 0;">Gym Membership</h3>
+          
+          <div class="card-container">
+            <div class="membership-card" id="membership-card">
+              <!-- Front of card -->
+              <div class="card-side card-front">
+                <div class="card-logo">
+                  <i class="fas fa-dumbbell"></i>
+                  <span>FITNESS CLUB</span>
+                </div>
+                <div class="card-details">
+                  <div class="member-name"><span id="user-name-card">Walter</span></div>
+                  <div class="member-id">ID: <span id="member-id">FC-1234567</span></div>
+                  <div class="member-since">Member since: <span id="member-since">Jan 2023</span></div>
+                  <div class="card-instructions">Tap card to show barcode</div>
+                </div>
+              </div>
+              
+              <!-- Back of card -->
+              <div class="card-side card-back">
+                <div class="barcode-container">
+                  <div id="barcode-placeholder">
+                    <!-- Barcode will be displayed here -->
+                    <img id="barcode-image" src="https://bwipjs-api.metafloor.com/?bcid=code128&text=FC1234567&scale=3&includetext=true" alt="Membership Barcode">
+                  </div>
+                  <div class="barcode-instructions">
+                    <p>Show this barcode at the gym entrance</p>
+                    <button class="upload-barcode-btn" id="upload-barcode-btn">
+                      <i class="fas fa-upload"></i> Upload Your Barcode
+                    </button>
+                    <input type="file" id="barcode-input" accept="image/*" style="display: none;">
+                  </div>
+                </div>
+                <div class="card-flip-back">Tap to flip back</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -191,5 +361,66 @@
       </a>
     </nav>
   </div>
+  <script>
+    // Setup the membership card
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set up the membership card
+      setupMembershipCard();
+    });
+
+    function setupMembershipCard() {
+      // Get the current user
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      document.getElementById('user-name-card').textContent = currentUser;
+      
+      // Set membership ID (you could store this in localStorage too)
+      const memberID = localStorage.getItem('memberID_' + currentUser) || 'FC-1234567';
+      document.getElementById('member-id').textContent = memberID;
+      
+      // Set member since date
+      const memberSince = localStorage.getItem('memberSince_' + currentUser) || 'Jan 2023';
+      document.getElementById('member-since').textContent = memberSince;
+      
+      // Load custom barcode if exists
+      const customBarcode = localStorage.getItem('barcodeImage_' + currentUser);
+      if (customBarcode) {
+        document.getElementById('barcode-image').src = customBarcode;
+      } else {
+        // Generate a barcode using bwipjs API (or you could use any barcode API)
+        // This creates a Code 128 barcode with the member ID
+        const barcodeText = memberID.replace(/\D/g, ''); // Remove non-digits
+        document.getElementById('barcode-image').src = 
+          `https://bwipjs-api.metafloor.com/?bcid=code128&text=${barcodeText}&scale=3&includetext=true`;
+      }
+      
+      // Set up card flip
+      const membershipCard = document.getElementById('membership-card');
+      membershipCard.addEventListener('click', function() {
+        this.classList.toggle('flipped');
+      });
+      
+      // Set up barcode upload
+      const uploadBtn = document.getElementById('upload-barcode-btn');
+      const barcodeInput = document.getElementById('barcode-input');
+      
+      uploadBtn.addEventListener('click', function(e) {
+        e.stopPropagation(); // Prevent card flip when clicking the button
+        barcodeInput.click();
+      });
+      
+      barcodeInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const imgData = e.target.result;
+            document.getElementById('barcode-image').src = imgData;
+            localStorage.setItem('barcodeImage_' + currentUser, imgData);
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+  </script>
 </body>
 </html>

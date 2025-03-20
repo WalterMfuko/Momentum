@@ -356,9 +356,14 @@
             <div class="calorie-box calorie-in">
               <div style="font-size: 0.9rem;">Consumed</div>
               <div style="font-size: 1.5rem; font-weight: bold;" id="calories-in">0</div>
-              <button onclick="logCalories('in')" style="background: none; border: none; color: white; margin-top: 5px;">
-                <i class="fas fa-plus-circle"></i> Add
-              </button>
+              <div style="display: flex; flex-direction: column; gap: 5px; margin-top: 5px;">
+                <button onclick="openFoodModal()" style="background: none; border: none; color: white;">
+                  <i class="fas fa-utensils"></i> Add Food
+                </button>
+                <button onclick="logCalories('in')" style="background: none; border: none; color: white;">
+                  <i class="fas fa-plus-circle"></i> Manual Entry
+                </button>
+              </div>
             </div>
             
             <div class="calorie-box calorie-out">
@@ -372,6 +377,14 @@
             <div class="calorie-box calorie-net">
               <div style="font-size: 0.9rem;">Net</div>
               <div style="font-size: 1.5rem; font-weight: bold;" id="calories-net">0</div>
+            </div>
+          </div>
+
+          <!-- Food History -->
+          <div class="food-history" style="margin-top: 20px;" id="food-history-section">
+            <h3 style="color: #000; margin-bottom: 10px;">Today's Food Log</h3>
+            <div id="food-history-list" style="background-color: #f2f2f2; border-radius: 8px; padding: 10px; max-height: 200px; overflow-y: auto;">
+              <!-- Food history will be populated here -->
             </div>
           </div>
         </div>
@@ -416,6 +429,29 @@
       <div style="display: flex; gap: 10px; justify-content: flex-end;">
         <button onclick="closeCalorieModal()" style="padding: 8px 15px; background-color: #777; color: white; border: none; border-radius: 5px;">Cancel</button>
         <button id="save-calories-btn" style="padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Food Selection Modal -->
+  <div id="food-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center;">
+    <div style="background-color: #f2f2f2; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto;">
+      <h3 style="color: #000; margin-top: 0;">Add Food</h3>
+      
+      <div style="margin: 15px 0;">
+        <input type="text" id="food-search" placeholder="Search foods..." style="width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 5px;">
+        <button onclick="searchNutritionix()" style="margin-top: 10px; padding: 8px 15px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; width: 100%;">Search</button>
+      </div>
+      
+      <div style="margin: 20px 0;">
+        <h4 style="color: #000; margin: 10px 0;">Results</h4>
+        <div id="food-list" style="max-height: 300px; overflow-y: auto;">
+          <!-- Food items will be populated here -->
+        </div>
+      </div>
+      
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 15px;">
+        <button onclick="closeFoodModal()" style="padding: 8px 15px; background-color: #777; color: white; border: none; border-radius: 5px;">Cancel</button>
       </div>
     </div>
   </div>
@@ -725,7 +761,7 @@
       
       // Check if there's data for today
       if (!calorieData[dateStr]) {
-        calorieData[dateStr] = {in: 0, out: 0};
+        calorieData[dateStr] = {in: 0, out: 0, foods: []};
         localStorage.setItem('calorieData_' + currentUser, JSON.stringify(calorieData));
       }
       
@@ -737,6 +773,48 @@
       document.getElementById('calories-in').textContent = caloriesIn;
       document.getElementById('calories-out').textContent = caloriesOut;
       document.getElementById('calories-net').textContent = caloriesNet;
+      
+      // Update food history
+      const foodHistory = document.getElementById('food-history-list');
+      if (foodHistory) {
+        foodHistory.innerHTML = '';
+        
+        if (calorieData[dateStr].foods && calorieData[dateStr].foods.length > 0) {
+          calorieData[dateStr].foods.forEach((food, index) => {
+            const foodItem = document.createElement('div');
+            foodItem.style.padding = '8px';
+            foodItem.style.borderBottom = '1px solid #e0e0e0';
+            foodItem.style.display = 'flex';
+            foodItem.style.justifyContent = 'space-between';
+            foodItem.style.color = '#333';
+            
+            foodItem.innerHTML = `
+              <div>
+                <span style="font-weight: 500;">${food.name}</span>
+                <span style="font-size: 0.8rem; color: #666;"> at ${food.time}</span>
+              </div>
+              <div style="display: flex; align-items: center;">
+                <div style="font-weight: 500; margin-right: 10px;">${food.calories} cal</div>
+                <button class="delete-food-btn" data-index="${index}" style="background: none; border: none; color: #FF5252; cursor: pointer;">
+                  <i class="fas fa-times-circle"></i>
+                </button>
+              </div>
+            `;
+            
+            foodHistory.appendChild(foodItem);
+          });
+          
+          // Add event listeners to delete buttons
+          document.querySelectorAll('.delete-food-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+              const index = parseInt(this.getAttribute('data-index'));
+              deleteFoodItem(index);
+            });
+          });
+        } else {
+          foodHistory.innerHTML = '<div style="padding: 20px; text-align: center; color: #777;">No foods logged today</div>';
+        }
+      }
     }
     
     function logCalories(type) {
@@ -784,6 +862,161 @@
     function logout() {
       localStorage.removeItem('currentUser');
       window.location.href = 'index.html';
+    }
+
+    function searchNutritionix() {
+      const query = document.getElementById('food-search').value;
+      const apiKey = '74e3af0fdb0fbf8c366f25dd93191617'; // You'll need to sign up (free tier available)
+      const appId = '33369bce';
+      
+      fetch(`https://trackapi.nutritionix.com/v2/natural/nutrients`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-app-id': appId,
+          'x-app-key': apiKey
+        },
+        body: JSON.stringify({
+          query: query
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Process and display food results
+        const foodList = document.getElementById('food-list');
+        foodList.innerHTML = '';
+        
+        data.foods.forEach(food => {
+          const foodItem = document.createElement('div');
+          foodItem.className = 'food-item';
+          foodItem.style.padding = '10px';
+          foodItem.style.borderBottom = '1px solid #e0e0e0';
+          foodItem.style.cursor = 'pointer';
+          
+          foodItem.innerHTML = `
+            <div style="display: flex; justify-content: space-between; color: #000;">
+              <span>${food.food_name} (${food.serving_qty} ${food.serving_unit})</span>
+              <span>${Math.round(food.nf_calories)} cal</span>
+            </div>
+          `;
+          
+          foodItem.addEventListener('click', function() {
+            addFoodCalories(food.food_name, Math.round(food.nf_calories));
+            closeFoodModal();
+          });
+          
+          foodList.appendChild(foodItem);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching food data:', error);
+      });
+    }
+
+    // Function to open the food modal
+    function openFoodModal() {
+      const modal = document.getElementById('food-modal');
+      modal.style.display = 'flex';
+      document.getElementById('food-search').value = '';
+      document.getElementById('food-list').innerHTML = '';
+    }
+
+    // Function to close the food modal
+    function closeFoodModal() {
+      document.getElementById('food-modal').style.display = 'none';
+    }
+
+    // Function to add food calories
+    function addFoodCalories(foodName, calories) {
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      const today = new Date();
+      const dateStr = today.toISOString().split('T')[0];
+      
+      // Get calorie data
+      let calorieData = JSON.parse(localStorage.getItem('calorieData_' + currentUser) || '{}');
+      
+      // Add calories for today
+      if (!calorieData[dateStr]) {
+        calorieData[dateStr] = {in: 0, out: 0, foods: []};
+      }
+      
+      // Add the food and calories
+      calorieData[dateStr].in += calories;
+      
+      // Record the food item with timestamp
+      const now = new Date();
+      calorieData[dateStr].foods = calorieData[dateStr].foods || [];
+      calorieData[dateStr].foods.push({
+        name: foodName,
+        calories: calories,
+        time: now.toLocaleTimeString()
+      });
+      
+      // Save to localStorage
+      localStorage.setItem('calorieData_' + currentUser, JSON.stringify(calorieData));
+      
+      // Update display
+      loadCalorieData();
+      
+      // Show confirmation
+      showToast(`Added ${foodName} (${calories} calories)`);
+    }
+
+    // Toast notification function
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.textContent = message;
+      toast.style.position = 'fixed';
+      toast.style.bottom = '80px';
+      toast.style.left = '50%';
+      toast.style.transform = 'translateX(-50%)';
+      toast.style.backgroundColor = '#4CAF50';
+      toast.style.color = 'white';
+      toast.style.padding = '10px 20px';
+      toast.style.borderRadius = '5px';
+      toast.style.zIndex = '1000';
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        document.body.removeChild(toast);
+      }, 3000);
+    }
+
+    // Add this new function for deleting food items
+    function deleteFoodItem(index) {
+      const currentUser = localStorage.getItem('currentUser') || 'Walter';
+      const today = new Date();
+      const dateStr = today.toISOString().split('T')[0];
+      
+      // Get calorie data
+      let calorieData = JSON.parse(localStorage.getItem('calorieData_' + currentUser) || '{}');
+      
+      if (calorieData[dateStr] && calorieData[dateStr].foods && calorieData[dateStr].foods.length > index) {
+        // Get the calories to subtract
+        const foodToDelete = calorieData[dateStr].foods[index];
+        const caloriesToRemove = foodToDelete.calories;
+        
+        // Subtract calories from total
+        calorieData[dateStr].in -= caloriesToRemove;
+        
+        // Make sure we don't go below zero
+        if (calorieData[dateStr].in < 0) {
+          calorieData[dateStr].in = 0;
+        }
+        
+        // Remove the food item
+        calorieData[dateStr].foods.splice(index, 1);
+        
+        // Save updated data
+        localStorage.setItem('calorieData_' + currentUser, JSON.stringify(calorieData));
+        
+        // Update the UI
+        loadCalorieData();
+        
+        // Show confirmation
+        showToast(`Removed ${foodToDelete.name}`);
+      }
     }
   </script>
 </body>
