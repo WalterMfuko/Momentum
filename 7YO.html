@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kid's Dashboard - Momentum</title>
+  <link rel="stylesheet" href="Styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .kid-header {
+      text-align: center;
+      margin: 15px 0;
+    }
+
+    .kid-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #FFD166;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .kid-name {
+      font-size: 1.8rem;
+      margin-top: 10px;
+      color: #333;
+    }
+
+    .kid-card {
+      background-color: white;
+      border-radius: 15px;
+      padding: 15px;
+      margin: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      color: #333;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+    }
+
+    .card-title i {
+      margin-right: 10px;
+      color: #06D6A0;
+    }
+
+    .task-list {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      background-color: #f0f0f0;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .task-item:hover {
+      transform: scale(1.02);
+    }
+
+    .task-item.completed {
+      background-color: #E0F7E0;
+    }
+
+    .task-checkbox {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      border: 2px solid #06D6A0;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .task-checkbox.checked {
+      background-color: #06D6A0;
+      color: white;
+    }
+
+    .task-label {
+      flex-grow: 1;
+      font-size: 1.1rem;
+      color: #333;
+    }
+
+    .task-icon {
+      margin-left: 10px;
+      color: #888;
+      font-size: 1.2rem;
+    }
+
+    .milestone-card {
+      background: linear-gradient(135deg, #FF9F1C 0%, #FFBF69 100%);
+      color: white;
+      border-radius: 15px;
+      padding: 15px;
+      margin: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .milestone-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .milestone-progress {
+      height: 20px;
+      background-color: rgba(255,255,255,0.3);
+      border-radius: 10px;
+      margin: 10px 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .milestone-bar {
+      height: 100%;
+      background-color: white;
+      transition: width 0.3s ease;
+    }
+
+    .milestone-details {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+
+    .star-container {
+      display: flex;
+      margin-top: 10px;
+      justify-content: center;
+    }
+
+    .star {
+      font-size: 2rem;
+      color: rgba(255,255,255,0.3);
+      margin: 0 5px;
+    }
+
+    .star.earned {
+      color: #FFD700;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.1); }
+    }
+
+    .reward-card {
+      background: linear-gradient(135deg, #118AB2 0%, #73C5FF 100%);
+      color: white;
+      border-radius: 15px;
+      padding: 15px;
+      margin: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .reward-icon {
+      font-size: 2.5rem;
+      margin: 10px 0;
+    }
+
+    .reward-title {
+      font-size: 1.3rem;
+      margin-bottom: 5px;
+    }
+
+    .reward-description {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .emoji-button {
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin: 0 5px;
+      transition: transform 0.2s ease;
+    }
+
+    .emoji-button:hover {
+      transform: scale(1.2);
+    }
+
+    .goal-input {
+      display: block;
+      width: calc(100% - 24px);
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #e0e0e0;
+      margin-bottom: 15px;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-size: 1rem;
+      color: #333;
+      transition: border-color 0.3s ease;
+    }
+
+    .goal-input:focus {
+      outline: none;
+      border-color: #06D6A0;
+    }
+
+    .goals-card {
+      background: linear-gradient(135deg, #06D6A0 0%, #73E8C6 100%);
+      color: white;
+      border-radius: 15px;
+      padding: 15px;
+      margin: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .save-btn {
+      background-color: white;
+      color: #06D6A0;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="kid-header">
+      <div class="kid-avatar">
+        <i class="fas fa-child"></i>
+      </div>
+      <div class="kid-name">7 Year Old</div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <!-- Academic Progress Section -->
+      <div class="kid-card">
+        <h2 class="card-title"><i class="fas fa-book-open"></i> Academic Progress</h2>
+        <ul class="task-list">
+          <li class="task-item" id="spanish-task">
+            <div class="task-checkbox" onclick="toggleTask('spanish-task')"></div>
+            <span class="task-label">Spanish Lesson</span>
+            <span class="task-icon"><i class="fas fa-language"></i></span>
+          </li>
+          <li class="task-item" id="math-task">
+            <div class="task-checkbox" onclick="toggleTask('math-task')"></div>
+            <span class="task-label">Beast Math</span>
+            <span class="task-icon"><i class="fas fa-calculator"></i></span>
+          </li>
+          <li class="task-item" id="reading-task">
+            <div class="task-checkbox" onclick="toggleTask('reading-task')"></div>
+            <span class="task-label">Reading (20 min)</span>
+            <span class="task-icon"><i class="fas fa-book"></i></span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Daily Responsibilities -->
+      <div class="kid-card">
+        <h2 class="card-title"><i class="fas fa-home"></i> Daily Responsibilities</h2>
+        <ul class="task-list">
+          <li class="task-item" id="bed-task">
+            <div class="task-checkbox" onclick="toggleTask('bed-task')"></div>
+            <span class="task-label">Make Bed</span>
+            <span class="task-icon"><i class="fas fa-bed"></i></span>
+          </li>
+          <li class="task-item" id="lunch-task">
+            <div class="task-checkbox" onclick="toggleTask('lunch-task')"></div>
+            <span class="task-label">Pack Lunch</span>
+            <span class="task-icon"><i class="fas fa-lunch-box"></i></span>
+          </li>
+          <li class="task-item" id="brush-task">
+            <div class="task-checkbox" onclick="toggleTask('brush-task')"></div>
+            <span class="task-label">Brush Teeth (Morning & Night)</span>
+            <span class="task-icon"><i class="fas fa-tooth"></i></span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- My Summer Goals Section -->
+      <div class="goals-card">
+        <h2 class="milestone-title">My Summer Goals</h2>
+        <p style="margin-bottom: 15px; opacity: 0.9;">What do you want to achieve this summer?</p>
+        
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 5px;">Goal #1:</label>
+          <input type="text" id="goal1" class="goal-input" placeholder="My first goal this summer is to..." value="">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 5px;">Goal #2:</label>
+          <input type="text" id="goal2" class="goal-input" placeholder="My second goal this summer is to..." value="">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 5px;">Goal #3:</label>
+          <input type="text" id="goal3" class="goal-input" placeholder="My third goal this summer is to..." value="">
+        </div>
+        
+        <button class="save-btn" onclick="saveGoals()">Save My Goals</button>
+      </div>
+
+      <!-- Other Chores -->
+      <div class="kid-card">
+        <h2 class="card-title"><i class="fas fa-broom"></i> Weekly Chores</h2>
+        <ul class="task-list">
+          <li class="task-item" id="room-task">
+            <div class="task-checkbox" onclick="toggleTask('room-task')"></div>
+            <span class="task-label">Clean Room</span>
+            <span class="task-icon"><i class="fas fa-box"></i></span>
+          </li>
+          <li class="task-item" id="laundry-task">
+            <div class="task-checkbox" onclick="toggleTask('laundry-task')"></div>
+            <span class="task-label">Put Away Laundry</span>
+            <span class="task-icon"><i class="fas fa-tshirt"></i></span>
+          </li>
+          <li class="task-item" id="table-task">
+            <div class="task-checkbox" onclick="toggleTask('table-task')"></div>
+            <span class="task-label">Set Table for Dinner</span>
+            <span class="task-icon"><i class="fas fa-utensils"></i></span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Milestone Progress -->
+      <div class="milestone-card">
+        <h2 class="milestone-title">Spanish Star Challenge</h2>
+        <div class="milestone-progress">
+          <div class="milestone-bar" id="spanish-progress" style="width: 60%;"></div>
+        </div>
+        <div class="milestone-details">
+          <span>3 of 5 stars earned</span>
+          <span>2 more to go!</span>
+        </div>
+        <div class="star-container">
+          <div class="star earned"><i class="fas fa-star"></i></div>
+          <div class="star earned"><i class="fas fa-star"></i></div>
+          <div class="star earned"><i class="fas fa-star"></i></div>
+          <div class="star"><i class="fas fa-star"></i></div>
+          <div class="star"><i class="fas fa-star"></i></div>
+        </div>
+      </div>
+
+      <!-- Beast Math Challenge -->
+      <div class="milestone-card" style="background: linear-gradient(135deg, #EF476F 0%, #FF8FB1 100%);">
+        <h2 class="milestone-title">Beast Math Challenge</h2>
+        <div class="milestone-progress">
+          <div class="milestone-bar" id="math-progress" style="width: 40%;"></div>
+        </div>
+        <div class="milestone-details">
+          <span>2 of 5 stars earned</span>
+          <span>Earn a toy after 5!</span>
+        </div>
+        <div class="star-container">
+          <div class="star earned"><i class="fas fa-star"></i></div>
+          <div class="star earned"><i class="fas fa-star"></i></div>
+          <div class="star"><i class="fas fa-star"></i></div>
+          <div class="star"><i class="fas fa-star"></i></div>
+          <div class="star"><i class="fas fa-star"></i></div>
+        </div>
+      </div>
+
+      <!-- Current Reward -->
+      <div class="reward-card">
+        <div class="reward-icon">
+          <i class="fas fa-gift"></i>
+        </div>
+        <h2 class="reward-title">Current Goal: Movie Night!</h2>
+        <p class="reward-description">Complete all your tasks for 5 days to earn a special movie night with popcorn!</p>
+      </div>
+
+      <!-- Mood Tracker -->
+      <div class="kid-card">
+        <h2 class="card-title"><i class="fas fa-smile"></i> How do you feel today?</h2>
+        <div style="display: flex; justify-content: space-around; margin: 10px 0;">
+          <button class="emoji-button" onclick="setMood('happy')">😃</button>
+          <button class="emoji-button" onclick="setMood('ok')">😐</button>
+          <button class="emoji-button" onclick="setMood('sad')">😞</button>
+          <button class="emoji-button" onclick="setMood('excited')">🤩</button>
+          <button class="emoji-button" onclick="setMood('tired')">😴</button>
+        </div>
+        <div id="mood-message" style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: #666;"></div>
+      </div>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-button">
+        <i class="nav-icon fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="7yo.html" class="nav-button active">
+        <i class="nav-icon fas fa-child"></i>
+        <span>My Page</span>
+      </a>
+      <a href="rewards.html" class="nav-button">
+        <i class="nav-icon fas fa-trophy"></i>
+        <span>Rewards</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    // Load saved tasks, goals, and progress from localStorage
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get the current user (child)
+      const currentUser = '7yo';
+      
+      // Load saved task states
+      const savedTasks = JSON.parse(localStorage.getItem('tasks_' + currentUser) || '{}');
+      
+      // Update UI based on saved states
+      Object.keys(savedTasks).forEach(taskId => {
+        if (savedTasks[taskId]) {
+          const taskElement = document.getElementById(taskId);
+          if (taskElement) {
+            taskElement.classList.add('completed');
+            taskElement.querySelector('.task-checkbox').classList.add('checked');
+            taskElement.querySelector('.task-checkbox').innerHTML = '<i class="fas fa-check"></i>';
+          }
+        }
+      });
+      
+      // Load saved goals
+      const savedGoals = JSON.parse(localStorage.getItem('goals_' + currentUser) || '{}');
+      document.getElementById('goal1').value = savedGoals.goal1 || '';
+      document.getElementById('goal2').value = savedGoals.goal2 || '';
+      document.getElementById('goal3').value = savedGoals.goal3 || '';
+      
+      // Load mood if set today
+      const today = new Date().toISOString().split('T')[0];
+      const savedMood = localStorage.getItem('mood_' + currentUser + '_' + today);
+      if (savedMood) {
+        updateMoodMessage(savedMood);
+      }
+      
+      // Update progress bars based on completed tasks
+      updateProgress();
+    });
+    
+    function toggleTask(taskId) {
+      const currentUser = '7yo';
+      const taskElement = document.getElementById(taskId);
+      const checkbox = taskElement.querySelector('.task-checkbox');
+      
+      // Toggle completed state
+      taskElement.classList.toggle('completed');
+      checkbox.classList.toggle('checked');
+      
+      // Update checkbox display
+      if (checkbox.classList.contains('checked')) {
+        checkbox.innerHTML = '<i class="fas fa-check"></i>';
+        
+        // Show congratulation if applicable
+        if (['spanish-task', 'math-task'].includes(taskId)) {
+          showCongratulation();
+        }
+      } else {
+        checkbox.innerHTML = '';
+      }
+      
+      // Save state to localStorage
+      const savedTasks = JSON.parse(localStorage.getItem('tasks_' + currentUser) || '{}');
+      savedTasks[taskId] = checkbox.classList.contains('checked');
+      localStorage.setItem('tasks_' + currentUser, JSON.stringify(savedTasks));
+      
+      // Update milestone progress
+      updateProgress();
+    }
+    
+    function saveGoals() {
+      const currentUser = '7yo';
+      const goals = {
+        goal1: document.getElementById('goal1').value.trim(),
+        goal2: document.getElementById('goal2').value.trim(),
+        goal3: document.getElementById('goal3').value.trim()
+      };
+      
+      // Save to localStorage
+      localStorage.setItem('goals_' + currentUser, JSON.stringify(goals));
+      
+      // Show save confirmation
+      showSaveConfirmation();
+    }
+    
+    function showSaveConfirmation() {
+      // Create a save confirmation popup
+      const popup = document.createElement('div');
+      popup.style.position = 'fixed';
+      popup.style.top = '50%';
+      popup.style.left = '50%';
+      popup.style.transform = 'translate(-50%, -50%)';
+      popup.style.background = 'white';
+      popup.style.padding = '20px';
+      popup.style.borderRadius = '15px';
+      popup.style.boxShadow = '0 0 20px rgba(0,0,0,0.2)';
+      popup.style.zIndex = '1000';
+      popup.style.textAlign = 'center';
+      
+      popup.innerHTML = `
+        <div style="font-size: 2rem; margin-bottom: 10px;">✅</div>
+        <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 15px;">Goals Saved!</div>
+        <div style="margin-bottom: 15px;">Your summer goals have been saved!</div>
+        <button id="close-popup" style="background-color: #06D6A0; color: white; border: none; padding: 8px 15px; border-radius: 5px;">Awesome!</button>
+      `;
+      
+      document.body.appendChild(popup);
+      
+      document.getElementById('close-popup').addEventListener('click', function() {
+        document.body.removeChild(popup);
+      });
+    }
+    
+    function updateProgress() {
+      const currentUser = '7yo';
+      const savedTasks = JSON.parse(localStorage.getItem('tasks_' + currentUser) || '{}');
+      
+      // Update Spanish progress
+      let spanishCount = 0;
+      if (savedTasks['spanish-task']) spanishCount++;
+      // In a real app, you'd track history of completed tasks
+      document.getElementById('spanish-progress').style.width = (60) + '%';
+      
+      // Update Math progress
+      let mathCount = 0;
+      if (savedTasks['math-task']) mathCount++;
+      // In a real app, you'd track history of completed tasks
+      document.getElementById('math-progress').style.width = (40) + '%';
+    }
+    
+    function setMood(mood) {
+      const currentUser = '7yo';
+      const today = new Date().toISOString().split('T')[0];
+      
+      // Save mood to localStorage
+      localStorage.setItem('mood_' + currentUser + '_' + today, mood);
+      
+      // Update UI
+      updateMoodMessage(mood);
+    }
+    
+    function updateMoodMessage(mood) {
+      const messageElement = document.getElementById('mood-message');
+      switch(mood) {
+        case 'happy':
+          messageElement.textContent = "Awesome! Hope your day continues to be great!";
+          break;
+        case 'ok':
+          messageElement.textContent = "Doing okay today? Remember, you're doing a good job!";
+          break;
+        case 'sad':
+          messageElement.textContent = "Feeling sad? That's okay. Talk to someone you trust about it.";
+          break;
+        case 'excited':
+          messageElement.textContent = "Wow! You're super excited today! Keep that energy going!";
+          break;
+        case 'tired':
+          messageElement.textContent = "Feeling tired is normal. Make sure to get good rest tonight!";
+          break;
+      }
+    }
+    
+    function showCongratulation() {
+      // Create a congratulation popup
+      const popup = document.createElement('div');
+      popup.style.position = 'fixed';
+      popup.style.top = '50%';
+      popup.style.left = '50%';
+      popup.style.transform = 'translate(-50%, -50%)';
+      popup.style.background = 'white';
+      popup.style.padding = '20px';
+      popup.style.borderRadius = '15px';
+      popup.style.boxShadow = '0 0 20px rgba(0,0,0,0.2)';
+      popup.style.zIndex = '1000';
+      popup.style.textAlign = 'center';
+      
+      popup.innerHTML = `
+        <div style="font-size: 2rem; margin-bottom: 10px;">🎉</div>
+        <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 15px;">Great job!</div>
+        <div style="margin-bottom: 15px;">You completed an important task!</div>
+        <button id="close-popup" style="background-color: #06D6A0; color: white; border: none; padding: 8px 15px; border-radius: 5px;">Thanks!</button>
+      `;
+      
+      document.body.appendChild(popup);
+      
+      document.getElementById('close-popup').addEventListener('click', function() {
+        document.body.removeChild(popup);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kids Videos - Momentum</title>
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/video-styles.css">
+  <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <h1>Kid-Friendly Videos</h1>
+      <div class="filter-sort">
+        <select id="video-filter" onchange="filterVideos()">
+          <option value="all">All Shows</option>
+          <option value="danny-go">Danny Go</option>
+          <option value="other-shows">Other Kids' Shows</option>
+        </select>
+        <input type="text" id="search-bar" placeholder="Search videos..." oninput="searchVideos()">
+      </div>
+    </header>
+
+    <main class="video-container">
+      <div class="video-list" id="video-list">
+        <!-- Video items will be dynamically loaded here -->
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2023 Momentum Kids Dashboard</p>
+    </footer>
+  </div>
+
+  <script src="scripts/videos.js"></script>
+</body>
+</html>

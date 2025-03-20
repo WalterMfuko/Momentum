@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kids Videos - Momentum</title>
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/video-styles.css">
+  <script src="scripts/videos.js" defer></script>
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <h1>Kid-Friendly Videos</h1>
+      <nav>
+        <a href="7YO.html">7 Year Old Dashboard</a>
+        <a href="rewards.html">Rewards</a>
+        <a href="kidsvideos.html" class="active">Videos</a>
+      </nav>
+    </header>
+
+    <main class="video-container">
+      <div class="filter-controls">
+        <label for="sort">Sort by:</label>
+        <select id="sort" onchange="sortVideos()">
+          <option value="title">Title</option>
+          <option value="date">Date Added</option>
+        </select>
+
+        <label for="filter">Filter by show:</label>
+        <select id="filter" onchange="filterVideos()">
+          <option value="all">All</option>
+          <option value="danny-go">Danny Go</option>
+          <option value="other-shows">Other Shows</option>
+        </select>
+      </div>
+
+      <div class="video-list" id="videoList">
+        <!-- Video items will be dynamically loaded here -->
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>&copy; 2023 Momentum Kids Dashboard</p>
+    </footer>
+  </div>
+
+  <script>
+    // Pre-load YouTube videos
+    const videos = [
+      {
+        title: "Danny Go - Fun Learning",
+        url: "https://www.youtube.com/watch?v=danny-go-fun-learning",
+        thumbnail: "assets/thumbnails/danny-go.jpg",
+        show: "danny-go",
+        date: "2023-01-01"
+      },
+      {
+        title: "Other Show - Adventure Time",
+        url: "https://www.youtube.com/watch?v=other-show-adventure-time",
+        thumbnail: "assets/thumbnails/other-shows.jpg",
+        show: "other-shows",
+        date: "2023-02-01"
+      }
+      // Add more video objects as needed
+    ];
+
+    function loadVideos() {
+      const videoList = document.getElementById('videoList');
+      videoList.innerHTML = '';
+
+      videos.forEach(video => {
+        const videoItem = document.createElement('div');
+        videoItem.className = 'video-item';
+        videoItem.innerHTML = `
+          <a href="${video.url}" target="_blank">
+            <img src="${video.thumbnail}" alt="${video.title}">
+            <h3>${video.title}</h3>
+          </a>
+        `;
+        videoList.appendChild(videoItem);
+      });
+    }
+
+    function sortVideos() {
+      const sortValue = document.getElementById('sort').value;
+      // Implement sorting logic based on sortValue
+      loadVideos(); // Reload videos after sorting
+    }
+
+    function filterVideos() {
+      const filterValue = document.getElementById('filter').value;
+      // Implement filtering logic based on filterValue
+      loadVideos(); // Reload videos after filtering
+    }
+
+    document.addEventListener('DOMContentLoaded', loadVideos);
+  </script>
+</body>
+</html>

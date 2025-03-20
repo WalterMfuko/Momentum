@@ -1,0 +1,74 @@
+body {
+  background-color: #f9f9f9;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  text-align: center;
+  padding: 20px;
+  background-color: #06D6A0;
+  color: white;
+}
+
+.video-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 10px;
+}
+
+.video-card {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.video-card:hover {
+  transform: scale(1.05);
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: auto;
+}
+
+.video-title {
+  font-size: 1.2rem;
+  color: #333;
+  padding: 10px;
+  text-align: center;
+}
+
+.sort-filter-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.sort-filter-container select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #e0e0e0;
+}
+
+.swipe-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.swipe-container::-webkit-scrollbar {
+  display: none;
+}
+
+.swipe-item {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 300px;
+  margin: 10px;
+}
