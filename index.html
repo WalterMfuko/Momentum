@@ -1,143 +1,86 @@
+index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Momentum</title>
+  <title>Momentum - Choose Profile</title>
   <link rel="stylesheet" href="Styles.css">
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
-    body.landing {
+    body {
       background-color: #000;
       color: white;
-      height: 100vh;
+      font-family: 'Arial', sans-serif;
       margin: 0;
+      padding: 0;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      font-family: Arial, sans-serif;
-      overflow: hidden; /* Prevent scrollbars during animation */
+      justify-content: center;
     }
     
     .logo-container {
-      margin-bottom: 4rem;
       text-align: center;
-      opacity: 0; /* Start invisible */
-      animation: fadeIn 1.5s ease forwards;
+      margin-bottom: 40px;
     }
     
     .logo {
-      max-width: 300px;
+      width: 120px;
       height: auto;
+      margin-bottom: 15px;
     }
     
-    .user-selection {
+    .app-title {
+      font-size: 1.2rem;
+      font-weight: 300;
+      margin: 0;
+    }
+    
+    .profile-selection {
       display: flex;
       flex-direction: column;
       gap: 20px;
-      width: 80%;
-      max-width: 300px;
+      width: 100%;
+      max-width: 320px;
     }
     
-    .user-btn {
-      background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%); /* Green gradient */
-      color: white;
+    .profile-btn {
+      padding: 15px 25px;
+      border-radius: 12px;
       border: none;
-      padding: 15px;
-      border-radius: 10px;
       font-size: 1.2rem;
+      font-weight: 500;
+      color: white;
       cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       transform: translateY(30px);
       opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
     }
     
-    .user-btn:nth-child(1) {
+    .profile-btn:nth-child(1) {
+      background: linear-gradient(135deg, #333 0%, #666 100%);
       animation: slideUp 0.6s ease 0.7s forwards;
     }
     
-    .user-btn:nth-child(2) {
+    .profile-btn:nth-child(2) {
+      background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
       animation: slideUp 0.6s ease 1s forwards;
     }
     
-    .user-btn:nth-child(3) {
-      animation: slideUp 0.6s ease 1.3s forwards;
-    }
-
-    .user-btn:nth-child(4) {
-      animation: slideUp 0.6s ease 1.6s forwards;
-    }
-
-    .user-btn:nth-child(5) {
-      animation: slideUp 0.6s ease 1.9s forwards;
-    }
-    
-    .user-btn:hover {
-      background: linear-gradient(135deg, #5cb85c 0%, #3c9d50 100%);
-      transform: translateY(-5px) scale(1.02);
-      box-shadow: 0 7px 20px rgba(0, 0, 0, 0.4);
-    }
-    
-    .user-btn:active {
-      transform: translateY(2px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-    }
-    
-    /* Animations */
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    
     @keyframes slideUp {
-      0% { 
-        transform: translateY(30px);
-        opacity: 0;
-      }
-      100% { 
-        transform: translateY(0);
+      to {
         opacity: 1;
+        transform: translateY(0);
       }
     }
     
-    /* Additional styles for title */
-    .app-title {
-      font-size: 1.6rem;
-      margin: 0 0 1rem 0;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      opacity: 0;
-      animation: fadeIn 1s ease 0.3s forwards;
-    }
-    
-    /* Shine effect on logo */
-    .logo-container::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(
-        to right, 
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0.3) 50%,
-        rgba(255,255,255,0) 100%
-      );
-      transform: skewX(-25deg);
-      animation: shine 3s infinite 2s;
-    }
-    
-    @keyframes shine {
-      0% { left: -100%; }
-      20% { left: 100%; }
-      100% { left: 100%; }
-    }
-    
-    /* Version number */
     .version {
       position: absolute;
       bottom: 10px;
@@ -161,6 +104,16 @@
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="icons/icon-72x72.png">
+
+  <!-- Home Screen Icon for iOS -->
+  <link rel="apple-touch-icon" href="momentum.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="momentum.png">
+  <!-- Regular Favicon -->
+  <link rel="icon" type="image/png" href="momentum.png">
+  <!-- Web App Capable -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Momentum">
 </head>
 <body class="landing">
   <div class="logo-container">
@@ -168,67 +121,28 @@
     <h1 class="app-title">Your Fitness. Your Data. Your Transformation.</h1>
   </div>
   
-  <div class="user-selection">
-    <button class="user-btn" onclick="selectUser('Jordan')">Jordan</button>
-    <button class="user-btn" onclick="selectUser('Walter')">Walter</button>
-    <button class="user-btn" style="background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);" onclick="window.location.href='7yo.html'">7 Year Old</button>
-    <button class="user-btn" style="background: linear-gradient(135deg, #FF9800 0%, #FFEB3B 100%);" onclick="window.location.href='5yo.html'">5 Year Old</button>
-    <button class="user-btn" style="background: linear-gradient(135deg, #2196F3 0%, #03A9F4 100%);" onclick="window.location.href='2yo.html'">2 Year Old</button>
+  <div class="profile-selection">
+    <button class="profile-btn" onclick="window.location.href='adult-index.html'">
+      <i class="fas fa-user"></i> Adult Profiles
+    </button>
+    <button class="profile-btn" onclick="window.location.href='kids-index.html'">
+      <i class="fas fa-child"></i> Kids Zone
+    </button>
   </div>
   
-  <div class="version">v1.0.1</div>
+  <div class="version">v1.0.2</div>
   
   <script>
-    function selectUser(username) {
-      // Animate button press
-      document.querySelectorAll('.user-btn').forEach(btn => {
-        if (btn.textContent === username) {
-          btn.style.transform = 'scale(0.95)';
-          setTimeout(() => {
-            btn.style.transform = 'scale(1)';
-          }, 100);
-        }
-      });
-      
-      // Add a slight delay before navigation for animation effect
-      setTimeout(() => {
-        // Store the selected username
-        localStorage.setItem('currentUser', username);
-        
-        // Redirect to the user's profile page
-        if (username === 'Jordan') {
-          window.location.href = 'jordan.html';
-        } else if (username === 'Walter') {
-          window.location.href = 'walter.html';
-        }
-      }, 300);
-    }
-    
-    // Preload the dashboard page for faster transition
+    // Preload the next level pages
     window.addEventListener('load', function() {
-      const links = ['jordan.html', 'walter.html', '7yo.html', '5yo.html', '2yo.html'].map(url => {
+      const links = ['adult-index.html', 'kids-index.html'].map(url => {
         const link = document.createElement('link');
         link.rel = 'prefetch';
         link.href = url;
         return link;
       });
-      
       document.head.append(...links);
     });
-  </script>
-  <script>
-    // Register the service worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(registration => {
-            console.log('ServiceWorker registration successful');
-          })
-          .catch(error => {
-            console.log('ServiceWorker registration failed: ', error);
-          });
-      });
-    }
   </script>
 </body>
 </html>

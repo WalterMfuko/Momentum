@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kids Zone - Momentum</title>
+  <link rel="stylesheet" href="Styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Home Screen Icon for iOS -->
+  <link rel="apple-touch-icon" href="momentum.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="momentum.png">
+  <!-- Regular Favicon -->
+  <link rel="icon" type="image/png" href="momentum.png">
+  <!-- Web App Capable -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Momentum">
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #FFCDD2 0%, #B2EBF2 100%);
+      overflow: hidden;
+    }
+    
+    .logo-container {
+      text-align: center;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .app-title {
+      font-size: 2.5rem;
+      color: #333;
+      margin: 0;
+      animation: bounce 2s infinite alternate;
+      text-shadow: 2px 2px 0 white;
+    }
+    
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+    
+    .kid-selection {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 320px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .kid-btn {
+      padding: 20px;
+      border-radius: 15px;
+      border: none;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transform: scale(0);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .kid-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255,255,255,0.1);
+      transform: rotate(45deg);
+      z-index: 0;
+      animation: shimmer 2s infinite linear;
+    }
+    
+    .kid-btn span, .kid-btn i {
+      position: relative;
+      z-index: 1;
+    }
+    
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) rotate(45deg); }
+    }
+    
+    .kid-btn:nth-child(1) {
+      background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
+      animation: popIn 0.5s ease 0.3s forwards;
+    }
+    
+    .kid-btn:nth-child(2) {
+      background: linear-gradient(135deg, #FF9800 0%, #FFEB3B 100%);
+      animation: popIn 0.5s ease 0.6s forwards;
+    }
+    
+    .kid-btn:nth-child(3) {
+      background: linear-gradient(135deg, #2196F3 0%, #03A9F4 100%);
+      animation: popIn 0.5s ease 0.9s forwards;
+    }
+    
+    @keyframes popIn {
+      0% { transform: scale(0); }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .kid-btn:hover {
+      transform: scale(1.05);
+    }
+    
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #333;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 10;
+      transition: transform 0.3s ease;
+    }
+    
+    .back-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    .floating-bubbles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+    
+    .bubble {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      animation: float linear infinite;
+    }
+    
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1);
+        opacity: 0;
+      }
+    }
+    
+    .kid-icon {
+      font-size: 1.8rem;
+      margin-left: 10px;
+    }
+    
+    .title-subtitle {
+      font-size: 1rem;
+      color: #555;
+      margin-top: 5px;
+      animation: fadeIn 2s ease forwards;
+      opacity: 0;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back-btn">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  
+  <div class="floating-bubbles" id="bubbles-container">
+    <!-- Bubbles will be added by JavaScript -->
+  </div>
+  
+  <div class="logo-container">
+    <h1 class="app-title">Kids Zone</h1>
+    <div class="title-subtitle">Pick your profile!</div>
+  </div>
+  
+  <div class="kid-selection">
+    <button class="kid-btn" onclick="window.location.href='7YO.html'">
+      <span>7 Year Old</span>
+      <i class="kid-icon fas fa-child"></i>
+    </button>
+    
+    <button class="kid-btn" onclick="window.location.href='5YO.html'">
+      <span>5 Year Old</span>
+      <i class="kid-icon fas fa-child"></i>
+    </button>
+    
+    <button class="kid-btn" onclick="window.location.href='2YO.html'">
+      <span>2 Year Old</span>
+      <i class="kid-icon fas fa-baby"></i>
+    </button>
+  </div>
+  
+  <script>
+    // Create floating bubbles
+    document.addEventListener('DOMContentLoaded', function() {
+      const bubblesContainer = document.getElementById('bubbles-container');
+      const bubbleCount = 20;
+      
+      for (let i = 0; i < bubbleCount; i++) {
+        createBubble();
+      }
+      
+      function createBubble() {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        
+        // Random properties
+        const size = Math.random() * 60 + 20; // 20-80px
+        const left = Math.random() * 100; // 0-100%
+        const duration = Math.random() * 15 + 10; // 10-25s
+        const delay = Math.random() * 5; // 0-5s
+        
+        // Apply styles
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${left}%`;
+        bubble.style.animationDuration = `${duration}s`;
+        bubble.style.animationDelay = `${delay}s`;
+        
+        bubblesContainer.appendChild(bubble);
+        
+        // Remove and recreate bubble after animation completes
+        bubble.addEventListener('animationend', function() {
+          this.remove();
+          createBubble();
+        });
+      }
+    });
+  </script>
+</body>
+</html>

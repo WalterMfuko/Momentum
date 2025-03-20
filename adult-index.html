@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adult Profiles - Momentum</title>
+  <link rel="stylesheet" href="Styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo-container {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .logo {
+      width: 120px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+    
+    .app-title {
+      font-size: 1.2rem;
+      font-weight: 300;
+      margin: 0;
+    }
+    
+    .user-selection {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      max-width: 320px;
+    }
+    
+    .user-btn {
+      padding: 15px 25px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: white;
+      background: linear-gradient(135deg, #333 0%, #666 100%);
+      cursor: pointer;
+      transform: translateY(30px);
+      opacity: 0;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+    }
+    
+    .user-btn:nth-child(1) {
+      animation: slideUp 0.6s ease 0.7s forwards;
+    }
+    
+    .user-btn:nth-child(2) {
+      animation: slideUp 0.6s ease 1s forwards;
+    }
+    
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .version {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 0.7rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body class="landing">
+  <a href="index.html" class="back-btn">
+    <i class="fas fa-arrow-left"></i>
+  </a>
+  
+  <div class="logo-container">
+    <img src="momentum.png" alt="Momentum Logo" class="logo">
+    <h1 class="app-title">Your Fitness. Your Data. Your Transformation.</h1>
+  </div>
+  
+  <div class="user-selection">
+    <button class="user-btn" onclick="selectUser('Jordan')">Jordan</button>
+    <button class="user-btn" onclick="selectUser('Walter')">Walter</button>
+  </div>
+  
+  <div class="version">v1.0.2</div>
+  
+  <script>
+    function selectUser(username) {
+      // Animate button press
+      document.querySelectorAll('.user-btn').forEach(btn => {
+        if (btn.textContent === username) {
+          btn.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            btn.style.transform = 'scale(1)';
+          }, 100);
+        }
+      });
+      
+      // Add a slight delay before navigation for animation effect
+      setTimeout(() => {
+        // Store the selected username
+        localStorage.setItem('currentUser', username);
+        
+        // Redirect to the user's profile page
+        if (username === 'Jordan') {
+          window.location.href = 'jordan.html';
+        } else if (username === 'Walter') {
+          window.location.href = 'walter.html';
+        }
+      }, 300);
+    }
+  </script>
+</body>
+</html>
