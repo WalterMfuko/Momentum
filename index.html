@@ -1,4 +1,4 @@
-index.html -->
+.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +7,15 @@ index.html -->
   <title>Momentum - Choose Profile</title>
   <link rel="stylesheet" href="Styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Home Screen Icon for iOS -->
+  <link rel="apple-touch-icon" href="momentum.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="momentum.png">
+  <!-- Regular Favicon -->
+  <link rel="icon" type="image/png" href="momentum.png">
+  <!-- Web App Capable -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Momentum">
   <style>
     body {
       background-color: #000;
@@ -41,106 +50,80 @@ index.html -->
     .profile-selection {
       display: flex;
       flex-direction: column;
-      gap: 20px;
       width: 100%;
-      max-width: 320px;
+      max-width: 300px;
+      gap: 20px;
     }
     
     .profile-btn {
-      padding: 15px 25px;
-      border-radius: 12px;
+      padding: 15px;
+      border-radius: 8px;
       border: none;
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: white;
-      cursor: pointer;
-      transform: translateY(30px);
-      opacity: 0;
+      font-size: 1.1rem;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      transition: transform 0.2s ease;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.3s ease;
     }
     
-    .profile-btn:nth-child(1) {
-      background: linear-gradient(135deg, #333 0%, #666 100%);
-      animation: slideUp 0.6s ease 0.7s forwards;
+    .profile-btn:hover {
+      transform: translateY(-2px);
     }
     
-    .profile-btn:nth-child(2) {
-      background: linear-gradient(135deg, #4CAF50 0%, #8BC34A 100%);
-      animation: slideUp 0.6s ease 1s forwards;
+    .adult-btn {
+      background-color: #333;
+      color: white;
     }
     
-    @keyframes slideUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .kids-btn {
+      background: linear-gradient(135deg, #FF9E80 0%, #FF6E40 100%);
+      color: white;
+    }
+    
+    .profile-btn i {
+      font-size: 1.2rem;
     }
     
     .version {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      font-size: 0.7rem;
-      opacity: 0.5;
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      font-size: 0.8rem;
+      color: #555;
     }
   </style>
-  
-  <!-- Web App Manifest -->
-  <link rel="manifest" href="manifest.json">
-  
-  <!-- iOS support -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Momentum">
-  <link rel="apple-touch-icon" href="icons/icon-152x152.png">
-  
-  <!-- Android theme color -->
-  <meta name="theme-color" content="#000000">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="icons/icon-72x72.png">
-
-  <!-- Home Screen Icon for iOS -->
-  <link rel="apple-touch-icon" href="momentum.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="momentum.png">
-  <!-- Regular Favicon -->
-  <link rel="icon" type="image/png" href="momentum.png">
-  <!-- Web App Capable -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Momentum">
 </head>
-<body class="landing">
+<body>
   <div class="logo-container">
     <img src="momentum.png" alt="Momentum Logo" class="logo">
-    <h1 class="app-title">Your Fitness. Your Data. Your Transformation.</h1>
+    <h1 class="app-title">MOMENTUM</h1>
   </div>
   
   <div class="profile-selection">
-    <button class="profile-btn" onclick="window.location.href='adult-index.html'">
-      <i class="fas fa-user"></i> Adult Profiles
+    <button class="profile-btn adult-btn" onclick="window.location.href='adult-index.html'">
+      <span>Adult Profiles</span>
+      <i class="fas fa-user"></i>
     </button>
-    <button class="profile-btn" onclick="window.location.href='kids-index.html'">
-      <i class="fas fa-child"></i> Kids Zone
+    
+    <button class="profile-btn kids-btn" onclick="window.location.href='kids-index.html'">
+      <span>Kids Zone</span>
+      <i class="fas fa-child"></i>
     </button>
   </div>
   
-  <div class="version">v1.0.2</div>
+  <div class="version">v1.1.0</div>
   
   <script>
-    // Preload the next level pages
     window.addEventListener('load', function() {
-      const links = ['adult-index.html', 'kids-index.html'].map(url => {
+      const links = ['jordan.html', 'walter.html', '7YO.html', '5YO.html', '2YO.html', 
+                    'kids-index.html', 'adult-index.html', 'rewards.html', 'kidsvideos.html'].map(url => {
         const link = document.createElement('link');
         link.rel = 'prefetch';
         link.href = url;
         return link;
       });
+      
       document.head.append(...links);
     });
   </script>

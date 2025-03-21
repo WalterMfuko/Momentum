@@ -1,3 +1,4 @@
+index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +7,15 @@
   <title>Adult Profiles - Momentum</title>
   <link rel="stylesheet" href="Styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Home Screen Icon for iOS -->
+  <link rel="apple-touch-icon" href="momentum.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="momentum.png">
+  <!-- Regular Favicon -->
+  <link rel="icon" type="image/png" href="momentum.png">
+  <!-- Web App Capable -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Momentum">
   <style>
     body {
       background-color: #000;
@@ -13,66 +23,11 @@
       font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-    }
-    
-    .logo-container {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    
-    .logo {
-      width: 120px;
-      height: auto;
-      margin-bottom: 15px;
-    }
-    
-    .app-title {
-      font-size: 1.2rem;
-      font-weight: 300;
-      margin: 0;
-    }
-    
-    .user-selection {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 100%;
-      max-width: 320px;
-    }
-    
-    .user-btn {
-      padding: 15px 25px;
-      border-radius: 12px;
-      border: none;
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: white;
-      background: linear-gradient(135deg, #333 0%, #666 100%);
-      cursor: pointer;
-      transform: translateY(30px);
-      opacity: 0;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      transition: transform 0.2s ease;
-    }
-    
-    .user-btn:nth-child(1) {
-      animation: slideUp 0.6s ease 0.7s forwards;
-    }
-    
-    .user-btn:nth-child(2) {
-      animation: slideUp 0.6s ease 1s forwards;
-    }
-    
-    @keyframes slideUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
     
     .back-btn {
@@ -81,59 +36,126 @@
       left: 20px;
       color: white;
       font-size: 1.5rem;
+      background: rgba(255,255,255,0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .back-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .logo-container {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .app-title {
+      font-size: 2rem;
+      margin: 0;
+      letter-spacing: 2px;
+    }
+    
+    .subtitle {
+      margin-top: 5px;
+      font-size: 1rem;
+      opacity: 0.7;
+    }
+    
+    .profile-selection {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 300px;
+      gap: 20px;
+    }
+    
+    .user-btn {
+      padding: 15px;
+      border-radius: 8px;
+      border: none;
+      background: linear-gradient(135deg, #333 0%, #111 100%);
+      font-size: 1.1rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      animation: fadeIn 0.5s ease forwards;
+    }
+    
+    .user-btn:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+    
+    .user-btn:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .user-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .user-btn i {
+      font-size: 1.2rem;
     }
     
     .version {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      font-size: 0.7rem;
-      opacity: 0.5;
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      font-size: 0.8rem;
+      color: #555;
     }
   </style>
 </head>
-<body class="landing">
+<body>
   <a href="index.html" class="back-btn">
     <i class="fas fa-arrow-left"></i>
   </a>
-  
+
   <div class="logo-container">
-    <img src="momentum.png" alt="Momentum Logo" class="logo">
-    <h1 class="app-title">Your Fitness. Your Data. Your Transformation.</h1>
+    <h1 class="app-title">MOMENTUM</h1>
+    <p class="subtitle">Select Your Profile</p>
   </div>
   
-  <div class="user-selection">
-    <button class="user-btn" onclick="selectUser('Jordan')">Jordan</button>
-    <button class="user-btn" onclick="selectUser('Walter')">Walter</button>
+  <div class="profile-selection">
+    <button class="user-btn" onclick="selectUser('Jordan')">
+      <span>Jordan</span>
+      <i class="fas fa-user"></i>
+    </button>
+    
+    <button class="user-btn" onclick="selectUser('Walter')">
+      <span>Walter</span>
+      <i class="fas fa-user"></i>
+    </button>
   </div>
   
-  <div class="version">v1.0.2</div>
+  <div class="version">v1.1.0</div>
   
   <script>
-    function selectUser(username) {
-      // Animate button press
-      document.querySelectorAll('.user-btn').forEach(btn => {
-        if (btn.textContent === username) {
-          btn.style.transform = 'scale(0.95)';
-          setTimeout(() => {
-            btn.style.transform = 'scale(1)';
-          }, 100);
-        }
-      });
-      
-      // Add a slight delay before navigation for animation effect
-      setTimeout(() => {
-        // Store the selected username
-        localStorage.setItem('currentUser', username);
-        
-        // Redirect to the user's profile page
-        if (username === 'Jordan') {
-          window.location.href = 'jordan.html';
-        } else if (username === 'Walter') {
-          window.location.href = 'walter.html';
-        }
-      }, 300);
+    function selectUser(user) {
+      localStorage.setItem('currentUser', user);
+      window.location.href = user.toLowerCase() + '.html';
     }
   </script>
 </body>
