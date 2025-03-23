@@ -3,105 +3,74 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Adult Profiles - Momentum</title>
-  <link rel="stylesheet" href="Styles.css">
+  <title>Momentum Fitness</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <!-- Home Screen Icon for iOS -->
-  <link rel="apple-touch-icon" href="momentum.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="momentum.png">
-  <!-- Regular Favicon -->
-  <link rel="icon" type="image/png" href="momentum.png">
-  <!-- Web App Capable -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Momentum">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="../../assets/js/navigation.js" defer></script>
   <style>
-    body {
-      background-color: #000;
-      color: white;
-      font-family: 'Arial', sans-serif;
+    :root {
+      --primary: #2979FF;
+      --primary-light: #5AA3FF;
+      --primary-dark: #1565C0;
+      --secondary: #7C4DFF;
+      --grey-light: #ECEFF1;
+      --grey-medium: #B0BEC5;
+      --grey-dark: #546E7A;
+      --success: #00C853;
+      --warning: #FF9100;
+      --text-dark: #263238;
+      --text-light: #FFFFFF;
+      --shadow-light: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-medium: 0 8px 20px rgba(0,0,0,0.12);
+      --shadow-focus: 0 8px 25px rgba(41,121,255,0.25);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body, html {
+      height: 100%;
+      width: 100%;
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--grey-light);
+      color: var(--text-dark);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
     }
     
-    .back-btn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      color: white;
-      font-size: 1.5rem;
-      background: rgba(255,255,255,0.1);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .back-btn:hover {
-      background: rgba(255,255,255,0.2);
-    }
-    
-    .logo-container {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    
-    .app-title {
-      font-size: 2rem;
-      margin: 0;
-      letter-spacing: 2px;
-    }
-    
-    .subtitle {
-      margin-top: 5px;
-      font-size: 1rem;
-      opacity: 0.7;
-    }
-    
-    .profile-selection {
+    /* Header Section */
+    .header {
       display: flex;
       flex-direction: column;
-      width: 100%;
-      max-width: 300px;
-      gap: 20px;
-    }
-    
-    .user-btn {
-      padding: 15px;
-      border-radius: 8px;
-      border: none;
-      background: linear-gradient(135deg, #333 0%, #111 100%);
-      font-size: 1.1rem;
-      color: white;
-      display: flex;
       align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      animation: fadeIn 0.5s ease forwards;
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
     }
     
-    .user-btn:nth-child(1) {
-      animation-delay: 0.2s;
+    .fitness-logo {
+      max-width: 240px;
+      margin-bottom: 15px;
+      animation: fadeInDown 1s ease;
     }
     
-    .user-btn:nth-child(2) {
-      animation-delay: 0.4s;
-    }
-    
-    @keyframes fadeIn {
+    @keyframes fadeInDown {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(-20px);
       }
       to {
         opacity: 1;
@@ -109,53 +78,513 @@
       }
     }
     
-    .user-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    .header-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--primary-dark);
+      animation: fadeIn 1s ease 0.2s both;
     }
     
-    .user-btn i {
+    .header-subtitle {
+      font-size: 1.1rem;
+      color: var(--grey-dark);
+      max-width: 600px;
+      margin-bottom: 30px;
+      animation: fadeIn 1s ease 0.4s both;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: white;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
       font-size: 1.2rem;
+      box-shadow: var(--shadow-light);
+      transition: var(--transition);
+      text-decoration: none;
+      z-index: 10;
     }
     
-    .version {
-      position: fixed;
-      bottom: 15px;
-      right: 15px;
-      font-size: 0.8rem;
-      color: #555;
+    .back-button:hover {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: var(--shadow-focus);
+    }
+    
+    /* Profile Grid */
+    .profiles-container {
+      flex: 1;
+      position: relative;
+      animation: fadeIn 1s ease 0.6s both;
+    }
+    
+    .profiles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      width: 100%;
+    }
+    
+    /* Profile Cards */
+    .profile-card {
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: var(--shadow-light);
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--text-dark);
+      position: relative;
+    }
+    
+    .profile-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-medium);
+    }
+    
+    .profile-card.premium::after {
+      content: 'PREMIUM';
+      position: absolute;
+      top: 20px;
+      right: -35px;
+      background: var(--warning);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 5px 40px;
+      transform: rotate(45deg);
+      z-index: 1;
+    }
+    
+    .profile-header {
+      height: 140px;
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid white;
+      background-color: white;
+      overflow: hidden;
+      position: absolute;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: var(--shadow-light);
+      z-index: 2;
+    }
+    
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .profile-icon {
+      font-size: 2.5rem;
+      color: var(--primary-dark);
+    }
+    
+    .profile-stats {
+      position: absolute;
+      bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 15px;
+    }
+    
+    .profile-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 5px 10px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 8px;
+      backdrop-filter: blur(4px);
+    }
+    
+    .stat-value {
+      font-weight: 700;
+      color: white;
+      font-size: 1.1rem;
+    }
+    
+    .stat-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.9);
+      text-transform: uppercase;
+    }
+    
+    .profile-content {
+      padding: 65px 25px 25px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    
+    .profile-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+      text-align: center;
+      color: var(--text-dark);
+    }
+    
+    .profile-title {
+      font-size: 0.85rem;
+      color: var(--grey-dark);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .profile-details {
+      margin-bottom: 25px;
+    }
+    
+    .profile-detail {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+    }
+    
+    .detail-icon {
+      margin-right: 12px;
+      color: var(--primary);
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .profile-actions {
+      margin-top: auto;
+      align-self: center;
+    }
+    
+    .profile-button {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 30px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .profile-button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-focus);
+    }
+    
+    /* New User Card */
+    .new-profile-card {
+      background: linear-gradient(135deg, rgba(41,121,255,0.05) 0%, rgba(41,121,255,0.1) 100%);
+      border: 2px dashed var(--primary-light);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .new-profile-card:hover {
+      background: linear-gradient(135deg, rgba(41,121,255,0.1) 0%, rgba(41,121,255,0.2) 100%);
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-light);
+    }
+    
+    .add-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+      width: 80px;
+      height: 80px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-light);
+    }
+    
+    .new-profile-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+    }
+    
+    .new-profile-text {
+      color: var(--grey-dark);
+      margin-bottom: 25px;
+      font-size: 0.9rem;
+    }
+    
+    /* Badges */
+    .profile-badges {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+    
+    .badge {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--grey-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--grey-dark);
+    }
+    
+    .badge.active {
+      background-color: var(--success);
+      color: white;
+    }
+    
+    /* Background Elements */
+    .bg-element {
+      position: absolute;
+      z-index: -1;
+      opacity: 0.05;
+    }
+    
+    .bg-element-1 {
+      top: 10%;
+      left: 5%;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+    
+    .bg-element-2 {
+      bottom: 10%;
+      right: 5%;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: var(--secondary);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-title {
+        font-size: 1.8rem;
+      }
+      
+      .profile-card.premium::after {
+        font-size: 0.65rem;
+        padding: 4px 35px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .fitness-logo {
+        max-width: 180px;
+      }
+      
+      .header-title {
+        font-size: 1.5rem;
+      }
+      
+      .profiles-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .profile-header {
+        height: 120px;
+      }
+      
+      .profile-avatar {
+        width: 80px;
+        height: 80px;
+        top: 80px;
+      }
+      
+      .profile-content {
+        padding: 50px 20px 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <a href="index.html" class="back-btn">
-    <i class="fas fa-arrow-left"></i>
-  </a>
-
-  <div class="logo-container">
-    <h1 class="app-title">MOMENTUM</h1>
-    <p class="subtitle">Select Your Profile</p>
-  </div>
-  
-  <div class="profile-selection">
-    <button class="user-btn" onclick="selectUser('Jordan')">
-      <span>Jordan</span>
-      <i class="fas fa-user"></i>
-    </button>
+  <div class="container">
+    <!-- Background Elements -->
+    <div class="bg-element bg-element-1"></div>
+    <div class="bg-element bg-element-2"></div>
     
-    <button class="user-btn" onclick="selectUser('Walter')">
-      <span>Walter</span>
-      <i class="fas fa-user"></i>
-    </button>
+    <!-- Header -->
+    <div class="header">
+      <a href="../../Landing/selection.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <img src="../../assets/images/momentum.png" alt="Momentum Fitness" class="fitness-logo">
+      <h1 class="header-title">Welcome to Momentum Fitness</h1>
+      <p class="header-subtitle">Select your profile to track your fitness journey, or create a new profile to get started</p>
+    </div>
+    
+    <!-- Profiles Container -->
+    <div class="profiles-container">
+      <div class="profiles-grid">
+        <!-- Walter Profile -->
+        <a href="walter.html" class="profile-card premium">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <img src="../../assets/images/profiles/walter.jpg" alt="Walter" onerror="this.src='https://randomuser.me/api/portraits/men/32.jpg'">
+            </div>
+            <div class="profile-stats">
+              <div class="profile-stat">
+                <span class="stat-value">24</span>
+                <span class="stat-label">Workouts</span>
+              </div>
+              <div class="profile-stat">
+                <span class="stat-value">3</span>
+                <span class="stat-label">Streaks</span>
+              </div>
+              <div class="profile-stat">
+                <span class="stat-value">85%</span>
+                <span class="stat-label">Goals</span>
+              </div>
+            </div>
+          </div>
+          <div class="profile-content">
+            <h2 class="profile-name">Walter Mfuko</h2>
+            <p class="profile-title">Premium Member • Since March 2025</p>
+            
+            <div class="profile-badges">
+              <div class="badge active" title="Weight Training"><i class="fas fa-dumbbell"></i></div>
+              <div class="badge active" title="Cardio"><i class="fas fa-running"></i></div>
+              <div class="badge active" title="Nutrition"><i class="fas fa-apple-alt"></i></div>
+              <div class="badge" title="Yoga"><i class="fas fa-om"></i></div>
+            </div>
+            
+            <div class="profile-details">
+              <div class="profile-detail">
+                <i class="fas fa-trophy detail-icon"></i>
+                <span>Focus: Strength & Conditioning</span>
+              </div>
+              <div class="profile-detail">
+                <i class="fas fa-calendar-alt detail-icon"></i>
+                <span>Next workout: Today @ 6:30 PM</span>
+              </div>
+              <div class="profile-detail">
+                <i class="fas fa-chart-line detail-icon"></i>
+                <span>Progress: 85% to goal weight</span>
+              </div>
+            </div>
+            
+            <div class="profile-actions">
+              <button class="profile-button">Continue</button>
+            </div>
+          </div>
+        </a>
+        
+        <!-- Jordan Profile -->
+        <a href="jordan.html" class="profile-card">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <img src="../../assets/images/profiles/jordan.jpg" alt="Jordan" onerror="this.src='https://randomuser.me/api/portraits/women/65.jpg'">
+            </div>
+            <div class="profile-stats">
+              <div class="profile-stat">
+                <span class="stat-value">16</span>
+                <span class="stat-label">Workouts</span>
+              </div>
+              <div class="profile-stat">
+                <span class="stat-value">2</span>
+                <span class="stat-label">Streaks</span>
+              </div>
+              <div class="profile-stat">
+                <span class="stat-value">62%</span>
+                <span class="stat-label">Goals</span>
+              </div>
+            </div>
+          </div>
+          <div class="profile-content">
+            <h2 class="profile-name">Jordan Mfuko</h2>
+            <p class="profile-title">Member • Since Feb 2024</p>
+            
+            <div class="profile-badges">
+              <div class="badge active" title="Yoga"><i class="fas fa-om"></i></div>
+              <div class="badge active" title="Meditation"><i class="fas fa-brain"></i></div>
+              <div class="badge" title="Weight Training"><i class="fas fa-dumbbell"></i></div>
+              <div class="badge" title="Nutrition"><i class="fas fa-apple-alt"></i></div>
+            </div>
+            
+            <div class="profile-details">
+              <div class="profile-detail">
+                <i class="fas fa-trophy detail-icon"></i>
+                <span>Focus: Flexibility & Wellness</span>
+              </div>
+              <div class="profile-detail">
+                <i class="fas fa-calendar-alt detail-icon"></i>
+                <span>Next session: Tomorrow @ 8:00 AM</span>
+              </div>
+              <div class="profile-detail">
+                <i class="fas fa-chart-line detail-icon"></i>
+                <span>Progress: 4 new yoga positions</span>
+              </div>
+            </div>
+            
+            <div class="profile-actions">
+              <button class="profile-button">Continue</button>
+            </div>
+          </div>
+        </a>
+        
+        <!-- New Profile -->
+        <div class="new-profile-card" onclick="window.location.href='new-profile.html'">
+          <div class="add-icon">
+            <i class="fas fa-plus"></i>
+          </div>
+          <h2 class="new-profile-title">Add New Profile</h2>
+          <p class="new-profile-text">Create a personalized fitness journey tailored to your goals and preferences.</p>
+          <button class="profile-button">Get Started</button>
+        </div>
+      </div>
+    </div>
   </div>
-  
-  <div class="version">v1.1.0</div>
-  
-  <script>
-    function selectUser(user) {
-      localStorage.setItem('currentUser', user);
-      window.location.href = user.toLowerCase() + '.html';
-    }
-  </script>
 </body>
 </html>

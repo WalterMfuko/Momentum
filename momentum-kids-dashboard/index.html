@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Momentum Kids - Choose Your Profile</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,10 +30,11 @@
       background-color: white;
     }
     
+    /* Mobile-first container */
     .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
+      max-width: 100%;
+      padding: 15px;
+      overflow-x: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -49,9 +49,13 @@
     }
     
     .kids-logo {
-      max-width: 250px;
-      margin-bottom: 20px;
+      max-width: 240px;
+      margin-bottom: 5px;
       animation: bounce 2s infinite alternate ease-in-out;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
     }
     
     @keyframes bounce {
@@ -60,7 +64,7 @@
     }
     
     .header-title {
-      font-size: 2.5rem;
+      font-size: 1.8rem;
       font-weight: 800;
       margin-bottom: 15px;
       background: linear-gradient(90deg, var(--blue), var(--pink), var(--yellow), var(--purple));
@@ -76,27 +80,28 @@
     }
     
     .header-subtitle {
-      font-size: 1.2rem;
+      font-size: 1rem;
       color: #666;
       margin-bottom: 20px;
     }
     
     /* Back Button */
     .back-button {
-      position: absolute;
-      top: 10px;
-      left: 10px;
+      position: fixed; /* Change from absolute to fixed */
+      top: 15px; /* Keep this the same */
+      left: 15px; /* Keep this the same */
+      z-index: 1000; /* Add high z-index to ensure it's above everything */
       background-color: white;
       border: 2px solid var(--pink);
       color: var(--pink);
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 1.2rem;
+      font-size: 1rem;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       transition: all 0.3s ease;
       text-decoration: none;
@@ -110,10 +115,12 @@
     
     /* Profile Grid */
     .profiles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 30px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
       width: 100%;
+      max-width: 450px;
+      margin: 0 auto;
       margin-bottom: 50px;
     }
     
@@ -121,17 +128,19 @@
     .profile-card {
       text-decoration: none;
       background-color: white;
-      border-radius: 20px;
+      border-radius: 15px;
       overflow: hidden;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       transition: all 0.3s ease;
       position: relative;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      padding: 30px 20px;
+      padding: 20px 15px;
       cursor: pointer;
       z-index: 1;
+      max-height: 130px;
+      margin-bottom: 10px;
     }
     
     .profile-card::before {
@@ -163,18 +172,20 @@
     }
     
     .profile-avatar {
-      width: 120px;
-      height: 120px;
+      width: 70px;
+      height: 70px;
       border-radius: 50%;
       background-color: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 0;
+      margin-right: 15px;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       border: 5px solid white;
       position: relative;
       overflow: hidden;
+      flex-shrink: 0;
     }
     
     .profile-avatar img {
@@ -196,7 +207,7 @@
     }
     
     .profile-icon {
-      font-size: 3.5rem;
+      font-size: 2rem;
     }
     
     .profile-card.malachi .profile-icon {
@@ -211,10 +222,16 @@
       color: var(--yellow);
     }
     
+    .profile-card-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
     .profile-name {
-      font-size: 2rem;
+      font-size: 1.4rem;
       font-weight: 800;
-      margin-bottom: 10px;
+      margin-bottom: 3px;
       color: #333;
     }
     
@@ -232,22 +249,23 @@
     
     .profile-info {
       color: rgba(0,0,0,0.7);
-      font-size: 1.1rem;
-      margin-bottom: 20px;
-      text-align: center;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+      text-align: left;
     }
     
     .profile-button {
       background-color: white;
       color: #333;
       border: none;
-      padding: 12px 25px;
+      padding: 7px 15px;
       border-radius: 30px;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 700;
       cursor: pointer;
       box-shadow: 0 5px 15px rgba(0,0,0,0.1);
       transition: all 0.3s ease;
+      align-self: flex-start;
     }
     
     .profile-card.malachi .profile-button {
@@ -337,8 +355,8 @@
       position: absolute;
       top: 0;
       right: 0;
-      width: 150px;
-      height: 150px;
+      width: 100px;
+      height: 100px;
       overflow: hidden;
       z-index: 2;
     }
@@ -369,17 +387,17 @@
     .ribbon-text {
       position: absolute;
       display: block;
-      padding: 5px 0;
-      width: 200px;
+      padding: 3px 0;
+      width: 120px;
       background-color: #C2185B;
       color: white;
       text-align: center;
-      font-size: 1rem;
+      font-size: 0.75rem;
       font-weight: bold;
       z-index: 3;
       transform: rotate(45deg);
-      right: -25%;
-      top: 30px;
+      right: -10%;
+      top: 20px;
       text-transform: uppercase;
       letter-spacing: 1px;
       box-shadow: 0 5px 10px rgba(0,0,0,0.1);
@@ -444,6 +462,19 @@
         font-size: 1.8rem;
       }
     }
+    
+    /* Layout structure adjustment */
+    @media (min-width: 768px) {
+      .container {
+        max-width: 500px;
+        margin: 0 auto;
+      }
+      
+      /* Even on desktop/tablet, keep vertical layout for app feel */
+      .profiles-grid {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
@@ -458,53 +489,58 @@
     
     <!-- Header -->
     <div class="header">
-      <a href="../../Landing/selection.html" class="back-button">
+      <a href="../Landing/selection.html" class="back-button">
         <i class="fas fa-arrow-left"></i>
       </a>
-      <img src="../../assets/images/momentum-kids.png" alt="Momentum Kids" class="kids-logo">
+      <img src=../assets/images/kids-logo.png alt="Momentum Kids" class="kids-logo">
       <h1 class="header-title">Choose Your Profile!</h1>
-      <p class="header-subtitle">Who's ready to play and learn today?</p>
     </div>
     
     <!-- Profiles -->
     <div class="profiles-grid">
       <!-- Malachi Profile -->
-      <a href="malachi.html" class="profile-card malachi">
+      <a href="/momentum-kids-dashboard/7YO.html" class="profile-card malachi">
         <div class="ribbon">
           <span class="ribbon-text">7 years</span>
         </div>
         <div class="profile-avatar">
           <i class="fas fa-child profile-icon"></i>
         </div>
-        <h2 class="profile-name">Malachi</h2>
-        <p class="profile-info">Basketball fan & science explorer</p>
-        <button class="profile-button">Play Now</button>
+        <div class="profile-card-content">
+          <h2 class="profile-name">Malachi</h2>
+          <p class="profile-info">Basketball fan & science explorer</p>
+          <button class="profile-button">Play Now</button>
+        </div>
       </a>
       
       <!-- Nalani Profile -->
-      <a href="nalani.html" class="profile-card nalani">
+      <a href="/momentum-kids-dashboard/5YO.html" class="profile-card nalani">
         <div class="ribbon">
           <span class="ribbon-text">5 years</span>
         </div>
         <div class="profile-avatar">
           <i class="fas fa-child profile-icon"></i>
         </div>
-        <h2 class="profile-name">Nalani</h2>
-        <p class="profile-info">Dance lover & creative artist</p>
-        <button class="profile-button">Play Now</button>
+        <div class="profile-card-content">
+          <h2 class="profile-name">Nalani</h2>
+          <p class="profile-info">Dance lover & creative artist</p>
+          <button class="profile-button">Play Now</button>
+        </div>
       </a>
       
       <!-- Omari Profile -->
-      <a href="omari.html" class="profile-card omari">
+      <a href="/momentum-kids-dashboard/omari.html" class="profile-card omari">
         <div class="ribbon">
           <span class="ribbon-text">9 months</span>
         </div>
         <div class="profile-avatar">
           <i class="fas fa-baby profile-icon"></i>
         </div>
-        <h2 class="profile-name">Omari</h2>
-        <p class="profile-info">Curious explorer & future athlete</p>
-        <button class="profile-button">Play Now</button>
+        <div class="profile-card-content">
+          <h2 class="profile-name">Omari</h2>
+          <p class="profile-info">Curious explorer & future athlete</p>
+          <button class="profile-button">Play Now</button>
+        </div>
       </a>
     </div>
   </div>
@@ -516,11 +552,8 @@
       const profileCards = document.querySelectorAll('.profile-card');
       
       profileCards.forEach(card => {
-        // Add hover sound effect (optional)
+        // Add hover effect
         card.addEventListener('mouseenter', function() {
-          // You could add a sound effect here if desired
-          
-          // Add a slight bounce effect
           this.style.transform = 'translateY(-20px) scale(1.03)';
           
           // Make floating elements move faster on hover
