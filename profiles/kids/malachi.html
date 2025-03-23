@@ -3,26 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kid's Dashboard - Momentum</title>
-  <link rel="stylesheet" href="Styles.css">
+  <title>Malachi's Dashboard - Momentum</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <!-- Home Screen Icon for iOS -->
-  <link rel="apple-touch-icon" href="momentum.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="momentum.png">
-  <!-- Regular Favicon -->
-  <link rel="icon" type="image/png" href="momentum.png">
-  <!-- Web App Capable -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Momentum">
-  <!-- Add this line for a better font -->
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       background-color: #f9f9f9;
-      font-family: 'Nunito', sans-serif;
-      margin: 0;
-      padding: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
     }
 
     .kid-header {
@@ -226,7 +213,7 @@
       border-radius: 10px;
       border: 2px solid #e0e0e0;
       margin-bottom: 15px;
-      font-family: 'Nunito', sans-serif;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       font-size: 1rem;
       color: #333;
       transition: border-color 0.3s ease;
@@ -252,7 +239,7 @@
       border: none;
       padding: 8px 15px;
       border-radius: 5px;
-      font-family: 'Nunito', sans-serif;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       font-weight: bold;
       cursor: pointer;
     }
@@ -268,11 +255,23 @@
       <div class="kid-avatar">
         <i class="fas fa-child"></i>
       </div>
-      <div class="kid-name">7 Year Old</div>
+      <div class="kid-name">Malachi</div>
     </div>
 
     <!-- Main Content Area -->
     <main class="content-area">
+       <!-- Mood Tracker -->
+       <div class="kid-card">
+        <h2 class="card-title"><i class="fas fa-smile"></i> How do you feel today?</h2>
+        <div style="display: flex; justify-content: space-around; margin: 10px 0;">
+          <button class="emoji-button" onclick="setMood('happy')">😃</button>
+          <button class="emoji-button" onclick="setMood('ok')">😐</button>
+          <button class="emoji-button" onclick="setMood('sad')">😞</button>
+          <button class="emoji-button" onclick="setMood('excited')">🤩</button>
+          <button class="emoji-button" onclick="setMood('tired')">😴</button>
+        </div>
+        <div id="mood-message" style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: #666;"></div>
+      </div>
       <!-- Academic Progress Section -->
       <div class="kid-card">
         <h2 class="card-title"><i class="fas fa-book-open"></i> Academic Progress</h2>
@@ -409,46 +408,14 @@
         <p class="reward-description">Complete all your tasks for 5 days to earn a special movie night with popcorn!</p>
       </div>
 
-      <!-- Mood Tracker -->
-      <div class="kid-card">
-        <h2 class="card-title"><i class="fas fa-smile"></i> How do you feel today?</h2>
-        <div style="display: flex; justify-content: space-around; margin: 10px 0;">
-          <button class="emoji-button" onclick="setMood('happy')">😃</button>
-          <button class="emoji-button" onclick="setMood('ok')">😐</button>
-          <button class="emoji-button" onclick="setMood('sad')">😞</button>
-          <button class="emoji-button" onclick="setMood('excited')">🤩</button>
-          <button class="emoji-button" onclick="setMood('tired')">😴</button>
-        </div>
-        <div id="mood-message" style="text-align: center; margin-top: 10px; font-size: 0.9rem; color: #666;"></div>
-      </div>
+     
     </main>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-      <a href="7YO.html" class="nav-button active">
-        <i class="nav-icon fas fa-home"></i>
-        <span>Home</span>
-      </a>
-      <a href="kidsvideos.html" class="nav-button">
-        <i class="nav-icon fas fa-video"></i>
-        <span>Videos</span>
-      </a>
-      <a href="rewards.html" class="nav-button">
-        <i class="nav-icon fas fa-trophy"></i>
-        <span>Rewards</span>
-      </a>
-      <a href="kids-index.html" class="nav-button">
-        <i class="nav-icon fas fa-users"></i>
-        <span>Profiles</span>
-      </a>
-    </nav>
-  </div>
 
   <script>
     // Load saved tasks, goals, and progress from localStorage
     document.addEventListener('DOMContentLoaded', function() {
       // Get the current user (child)
-      const currentUser = '7yo';
+      const currentUser = 'malachi';
       
       // Load saved task states
       const savedTasks = JSON.parse(localStorage.getItem('tasks_' + currentUser) || '{}');
@@ -483,7 +450,7 @@
     });
     
     function toggleTask(taskId) {
-      const currentUser = '7yo';
+      const currentUser = 'malachi';
       const taskElement = document.getElementById(taskId);
       const checkbox = taskElement.querySelector('.task-checkbox');
       
@@ -513,7 +480,7 @@
     }
     
     function saveGoals() {
-      const currentUser = '7yo';
+      const currentUser = 'malachi';
       const goals = {
         goal1: document.getElementById('goal1').value.trim(),
         goal2: document.getElementById('goal2').value.trim(),
@@ -556,7 +523,7 @@
     }
     
     function updateProgress() {
-      const currentUser = '7yo';
+      const currentUser = 'malachi';
       const savedTasks = JSON.parse(localStorage.getItem('tasks_' + currentUser) || '{}');
       
       // Update Spanish progress
@@ -573,7 +540,7 @@
     }
     
     function setMood(mood) {
-      const currentUser = '7yo';
+      const currentUser = 'malachi';
       const today = new Date().toISOString().split('T')[0];
       
       // Save mood to localStorage
@@ -632,5 +599,12 @@
       });
     }
   </script>
+ <!-- Bottom Navigation -->
+ <script src="../../assets/js/navigation.js"></script>
+ <script>
+   // Insert navigation for kids user, with "home" active, for user "malachi"
+   insertNavigation('kids', 'home', 'malachi');
+ </script>
+</div>
 </body>
 </html>

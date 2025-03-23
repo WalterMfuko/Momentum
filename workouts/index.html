@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Details - Momentum</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Home Screen Icon for iOS -->
+  <link rel="apple-touch-icon" href="../assets/images/momentum.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/momentum.png">
+  <!-- Regular Favicon -->
+  <link rel="icon" type="image/png" href="../assets/images/momentum.png">
+  <!-- Web App Capable -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Momentum">
+  <!-- Add this line for a better font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    
+    #app {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    .content-area {
+      flex: 1;
+      padding: 20px;
+      padding-bottom: 80px; /* Space for bottom nav */
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .workout-section {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .workout-header {
+      margin-bottom: 20px;
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      color: #555;
+      text-decoration: none;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+    }
+    
+    .back-link i {
+      margin-right: 5px;
+    }
+    
+    .workout-title {
+      font-size: 1.5rem;
+      color: #000000;
+      margin: 0 0 5px 0;
+    }
+    
+    .workout-meta {
+      color: #555555;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    
+    .workout-notes {
+      background-color: #e0e0e0;
+      padding: 15px;
+      border-radius: 8px;
+      color: #333333;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    
+    .workout-table-container {
+      background-color: #e0e0e0;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+    }
+    
+    .workout-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .workout-table th {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid #ccc;
+      color: #000000;
+      font-weight: 600;
+    }
+    
+    .workout-table td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    .section-header td {
+      background-color: #d0d0d0;
+      font-weight: 600;
+      color: #000000;
+      padding: 10px;
+    }
+    
+    .exercise-row:nth-child(even) {
+      background-color: rgba(255,255,255,0.3);
+    }
+    
+    input {
+      width: 90%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: white;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #4CAF50;
+    }
+    
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    
+    .nav-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #777;
+      font-size: 0.7rem;
+      padding: 5px;
+    }
+    
+    .nav-button.active {
+      color: #4CAF50;
+    }
+    
+    .nav-icon {
+      font-size: 1.2rem;
+      margin-bottom: 3px;
+    }
+    
+    .save-message {
+      position: fixed;
+      bottom: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #4CAF50;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .save-message.show {
+      opacity: 1;
+    }
+    
+    .start-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <main class="content-area">
+      <div class="workout-section">
+        <div class="workout-header">
+          <a href="javascript:history.back()" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back
+          </a>
+          <h1 class="workout-title" id="workout-title">Workout Title</h1>
+          <div class="workout-meta" id="workout-meta">Loading workout details...</div>
+        </div>
+        
+        <div class="workout-notes" id="workout-notes">
+          Workout notes will appear here.
+        </div>
+        
+        <div class="workout-table-container">
+          <table class="workout-table">
+            <thead>
+              <tr>
+                <th width="5%">#</th>
+                <th width="45%">Exercise</th>
+                <th width="25%">Weight (kg)</th>
+                <th width="25%">Reps</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+    
+    <div class="save-message" id="save-message">Progress saved!</div>
+    
+    <!-- Bottom Navigation -->
+    <script src="../assets/js/navigation.js"></script>
+    <script>
+      // Insert navigation for adult user, with "workouts" active
+      insertNavigation('adult', 'workouts');
+    </script>
+  </div>
+  
+  <script src="../assets/js/fitness.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Parse the query parameter to get the selected day
+      const urlParams = new URLSearchParams(window.location.search);
+      const selectedDay = urlParams.get('day');
+      
+      console.log("Selected day:", selectedDay); 
+      console.log("Available workouts:", Object.keys(weeklyWorkouts));
+
+      // If no day is selected, show a list of all workout days
+      if (!selectedDay) {
+        document.querySelector('.workout-section').innerHTML = `
+          <div class="workout-header">
+            <a href="../profiles/adult/walter.html" class="back-link">
+              <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <h1 class="workout-title">Weekly Workouts</h1>
+            <div class="workout-meta">Select a day to view workout details</div>
+          </div>
+          
+          <div class="workout-table-container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
+              ${Object.keys(weeklyWorkouts).map(day => `
+                <a href="index.html?day=${day}" style="text-decoration: none;">
+                  <div style="background-color: white; padding: 15px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <h3 style="margin-top: 0; color: #000;">${day}</h3>
+                    <p style="margin-bottom: 5px; color: #555;">${weeklyWorkouts[day].title}</p>
+                    <span style="color: #4CAF50; font-size: 0.8rem;">${weeklyWorkouts[day].duration} min · ${weeklyWorkouts[day].category}</span>
+                  </div>
+                </a>
+              `).join('')}
+            </div>
+          </div>`;
+        return;
+      }
+
+      // Check if the selected day exists in weeklyWorkouts
+      if (!weeklyWorkouts[selectedDay]) {
+        document.querySelector('.workout-section').innerHTML = `
+          <div style="text-align: center; padding: 20px;">
+            <h2>No workout found for "${selectedDay}"</h2>
+            <p>Available days: ${Object.keys(weeklyWorkouts).join(', ')}</p>
+            <button onclick="window.location.href='index.html'" class="start-btn">View All Workouts</button>
+          </div>`;
+        return;
+      }
+
+      // The rest of your existing code for displaying a specific workout remains the same
+      // Get the workout for the selected day
+      const workout = weeklyWorkouts[selectedDay];
+      console.log("Workout data:", workout);
+
+      // Continue with your existing code...
+      // Populate the workout details
+      const workoutTitle = document.getElementById('workout-title');
+      const workoutMeta = document.getElementById('workout-meta');
+      const workoutNotes = document.getElementById('workout-notes');
+      const workoutTable = document.querySelector('.workout-table tbody');
+
+      workoutTitle.textContent = selectedDay;
+      workoutMeta.textContent = `${workout.title} · ${workout.category} · ${workout.duration} min`;
+      workoutNotes.textContent = workout.notes || 'No additional notes for this workout.';
+
+      // Populate the workout table
+      workoutTable.innerHTML = '';
+      
+      // Check which format of data we're dealing with
+      if (workout.sections) {
+        // Handle the complex format from sampleWorkouts
+        workout.sections.forEach(section => {
+          // Add section header
+          const sectionRow = document.createElement('tr');
+          sectionRow.className = 'section-header';
+          sectionRow.innerHTML = `
+            <td colspan="4">${section.name}</td>
+          `;
+          workoutTable.appendChild(sectionRow);
+          
+          // Add exercises in this section
+          section.exercises.forEach((exercise, index) => {
+            const row = document.createElement('tr');
+            row.className = 'exercise-row';
+            row.innerHTML = `
+              <td>${index + 1}</td>
+              <td>${exercise.name}<br><small>${exercise.sets} sets × ${exercise.reps}</small></td>
+              <td><input type="number" placeholder="Weight" class="weight-input" data-exercise="${exercise.name}"></td>
+              <td><input type="number" placeholder="Done" class="reps-input" data-exercise="${exercise.name}"></td>
+            `;
+            workoutTable.appendChild(row);
+          });
+        });
+      } else {
+        // Handle the simpler format with just an exercises array
+        workout.exercises.forEach((exercise, index) => {
+          const row = document.createElement('tr');
+          row.className = 'exercise-row';
+          row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${exercise}</td>
+            <td><input type="number" placeholder="Weight" class="weight-input" data-exercise="${exercise}"></td>
+            <td><input type="number" placeholder="Reps" class="reps-input" data-exercise="${exercise}"></td>
+          `;
+          workoutTable.appendChild(row);
+        });
+      }
+
+      // Load previously saved values
+      document.querySelectorAll('.weight-input').forEach(input => {
+        const exercise = input.dataset.exercise;
+        const savedWeight = localStorage.getItem(`${selectedDay}-${exercise}-weight`);
+        if (savedWeight) input.value = savedWeight;
+      });
+
+      document.querySelectorAll('.reps-input').forEach(input => {
+        const exercise = input.dataset.exercise;
+        const savedReps = localStorage.getItem(`${selectedDay}-${exercise}-reps`);
+        if (savedReps) input.value = savedReps;
+      });
+
+      // Add event listeners to save input with visual feedback
+      const saveMessage = document.getElementById('save-message');
+      
+      document.querySelectorAll('.weight-input, .reps-input').forEach(input => {
+        input.addEventListener('change', function() {
+          const exercise = this.dataset.exercise;
+          const type = this.classList.contains('weight-input') ? 'weight' : 'reps';
+          localStorage.setItem(`${selectedDay}-${exercise}-${type}`, this.value);
+          
+          // Show save message
+          saveMessage.classList.add('show');
+          setTimeout(() => {
+            saveMessage.classList.remove('show');
+          }, 2000);
+        });
+      });
+    });
+  </script>
+  
+  <!-- Bottom Navigation -->
+  <script src="../assets/js/navigation.js"></script>
+  <script>
+    // Insert navigation for adult user, with "workouts" active
+    insertNavigation('adult', 'workouts');
+  </script>
+</body>
+</html>

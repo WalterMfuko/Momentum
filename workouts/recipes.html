@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthy Recipes - Momentum</title>
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: white;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    
+    #app {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    .content-area {
+      flex: 1;
+      padding: 20px;
+      padding-bottom: 80px; /* Space for bottom nav */
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .recipe-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .back-link {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #555;
+      font-size: 0.9rem;
+      margin-right: 15px;
+    }
+    
+    .back-link i {
+      margin-right: 5px;
+    }
+    
+    .recipe-title {
+      font-size: 1.5rem;
+      margin: 0;
+      flex-grow: 1;
+      text-align: center;
+    }
+    
+    .recipe-card {
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .recipe-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .recipe-name {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #4CAF50;
+    }
+    
+    .recipe-details {
+      display: flex;
+      margin-bottom: 10px;
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .recipe-time, .recipe-calories {
+      display: flex;
+      align-items: center;
+      margin-right: 15px;
+    }
+    
+    .recipe-time i, .recipe-calories i {
+      margin-right: 5px;
+    }
+    
+    .recipe-description {
+      margin-bottom: 15px;
+      line-height: 1.5;
+    }
+    
+    .recipe-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+    }
+    
+    .bottom-nav {
+      background-color: white;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <main class="content-area">
+      <div class="recipe-header">
+        <a href="../profiles/adult/walter.html" class="back-link">
+          <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <h1 class="recipe-title">Healthy Recipes</h1>
+      </div>
+      
+      <!-- Recipe Cards -->
+      <div class="recipe-card">
+        <img src="https://source.unsplash.com/random/800x600/?salad" alt="Mediterranean Salad" class="recipe-img">
+        <h2 class="recipe-name">Mediterranean Quinoa Salad</h2>
+        <div class="recipe-details">
+          <div class="recipe-time">
+            <i class="fas fa-clock"></i> 15 mins
+          </div>
+          <div class="recipe-calories">
+            <i class="fas fa-fire"></i> 320 calories
+          </div>
+        </div>
+        <p class="recipe-description">A protein-packed salad with fresh vegetables, feta cheese, and a zesty lemon dressing. Perfect for lunch or as a light dinner.</p>
+        <a href="#" class="recipe-button">View Recipe</a>
+      </div>
+      
+      <div class="recipe-card">
+        <img src="https://source.unsplash.com/random/800x600/?chicken" alt="Grilled Chicken" class="recipe-img">
+        <h2 class="recipe-name">Herb Grilled Chicken</h2>
+        <div class="recipe-details">
+          <div class="recipe-time">
+            <i class="fas fa-clock"></i> 25 mins
+          </div>
+          <div class="recipe-calories">
+            <i class="fas fa-fire"></i> 280 calories
+          </div>
+        </div>
+        <p class="recipe-description">Juicy grilled chicken breasts with a flavorful herb marinade. Serve with a side of steamed vegetables for a complete meal.</p>
+        <a href="#" class="recipe-button">View Recipe</a>
+      </div>
+      
+      <div class="recipe-card">
+        <img src="https://source.unsplash.com/random/800x600/?smoothie" alt="Protein Smoothie" class="recipe-img">
+        <h2 class="recipe-name">Post-Workout Protein Smoothie</h2>
+        <div class="recipe-details">
+          <div class="recipe-time">
+            <i class="fas fa-clock"></i> 5 mins
+          </div>
+          <div class="recipe-calories">
+            <i class="fas fa-fire"></i> 240 calories
+          </div>
+        </div>
+        <p class="recipe-description">A refreshing blend of banana, berries, Greek yogurt, and protein powder. Perfect for muscle recovery after intense workouts.</p>
+        <a href="#" class="recipe-button">View Recipe</a>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Bottom Navigation -->
+  <script src="../assets/js/navigation.js"></script>
+  <script>
+    // Insert navigation for adult user, with "recipes" active
+    insertNavigation('adult', 'recipes');
+  </script>
+</body>
+</html>

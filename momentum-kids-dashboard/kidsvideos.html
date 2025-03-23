@@ -6,14 +6,25 @@
   <title>Kids Videos - Momentum</title>
   <link rel="stylesheet" href="Styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Home Screen Icon for iOS -->
+  <link rel="apple-touch-icon" href="momentum.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="momentum.png">
+  <!-- Regular Favicon -->
+  <link rel="icon" type="image/png" href="momentum.png">
+  <!-- Web App Capable -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Momentum">
+  <!-- Add this line for a better font -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Comic Sans MS', cursive, sans-serif;
+      font-family: 'Nunito', sans-serif;
       background-color: #f9f9f9;
       margin: 0;
       padding: 0;
     }
-
+    
     header {
       background: linear-gradient(135deg, #FF9E80 0%, #FF6E40 100%);
       color: white;
@@ -21,12 +32,12 @@
       text-align: center;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-
+    
     header h1 {
       margin: 0 0 15px 0;
       font-size: 1.8rem;
     }
-
+    
     .filter-controls {
       display: flex;
       flex-direction: column;
@@ -34,439 +45,450 @@
       max-width: 500px;
       margin: 0 auto;
     }
-
-    #video-category, #search-input {
-      padding: 10px;
-      border-radius: 20px;
-      border: none;
-      font-size: 1rem;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-    }
-
-    .category-scroll {
+    
+    .search-box {
       display: flex;
+      background-color: rgba(255,255,255,0.2);
+      border-radius: 25px;
+      padding: 5px 15px;
+    }
+    
+    .search-input {
+      flex-grow: 1;
+      background: none;
+      border: none;
+      color: white;
+      padding: 8px 5px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+    }
+    
+    .search-input::placeholder {
+      color: rgba(255,255,255,0.7);
+    }
+    
+    .search-input:focus {
+      outline: none;
+    }
+    
+    .search-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    
+    .category-filter {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 5px 0;
+      scrollbar-width: none; /* Firefox */
+    }
+    
+    .category-filter::-webkit-scrollbar {
+      display: none; /* Chrome, Safari and Opera */
+    }
+    
+    .category-item {
+      background-color: rgba(255,255,255,0.2);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .category-item.active {
+      background-color: white;
+      color: #FF6E40;
+    }
+    
+    main {
+      padding: 20px;
+    }
+    
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #333;
+      margin: 20px 0 15px 0;
+    }
+    
+    .horizontal-scroll {
+      display: flex;
+      gap: 15px;
       overflow-x: auto;
       padding: 10px 0;
-      margin: 15px 0;
-      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
-
-    .category-tag {
+    
+    .horizontal-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .video-card {
       flex: 0 0 auto;
-      padding: 8px 15px;
+      width: 280px;
       background-color: white;
-      border-radius: 20px;
-      margin-right: 10px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      white-space: nowrap;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .category-tag.active {
-      background-color: #FF6E40;
-      color: white;
-    }
-
-    .video-container {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .video-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .video-item {
-      background-color: white;
-      border-radius: 15px;
+      border-radius: 10px;
       overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
     }
-
-    .video-item:hover {
+    
+    .video-card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
     }
-
+    
     .video-thumbnail {
       position: relative;
-      height: 180px;
+      height: 160px;
+      background-color: #eee;
       overflow: hidden;
-      cursor: pointer;
     }
-
-    .video-thumbnail img {
+    
+    .video-thumbnail img, .video-thumbnail iframe {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease;
     }
-
-    .video-item:hover .video-thumbnail img {
-      transform: scale(1.05);
-    }
-
+    
     .play-button {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 3rem;
-      color: white;
-      opacity: 0.8;
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      width: 50px;
+      height: 50px;
+      background-color: rgba(255,255,255,0.8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FF6E40;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
-
-    .video-item:hover .play-button {
-      opacity: 1;
+    
+    .play-button:hover {
+      background-color: white;
       transform: translate(-50%, -50%) scale(1.1);
     }
-
-    .video-info {
+    
+    .video-details {
+      padding: 10px 15px;
+    }
+    
+    .video-title {
+      font-weight: bold;
+      font-size: 1rem;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    
+    .video-creator {
+      font-size: 0.8rem;
+      color: #666;
+    }
+    
+    .featured-videos {
+      margin-bottom: 20px;
+    }
+    
+    .featured-video {
+      display: block;
+      margin-bottom: 15px;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .featured-thumbnail {
+      position: relative;
+      height: 200px;
+      background-color: #eee;
+    }
+    
+    .featured-details {
       padding: 15px;
     }
-
-    .video-info h3 {
-      margin: 0 0 10px 0;
-      color: #333;
-      font-size: 1.2rem;
-    }
-
-    .video-info p {
-      margin: 0;
-      color: #666;
-      font-size: 0.9rem;
-    }
-
-    .video-modal {
+    
+    .modal {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       background-color: rgba(0,0,0,0.8);
-      display: flex;
+      z-index: 999;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
+      flex-direction: column;
     }
-
+    
+    .modal.open {
+      display: flex;
+    }
+    
     .modal-content {
-      position: relative;
       width: 90%;
       max-width: 800px;
       background-color: white;
-      border-radius: 15px;
+      border-radius: 10px;
       overflow: hidden;
+      position: relative;
     }
-
+    
     .close-modal {
       position: absolute;
-      top: 10px;
+      top: 15px;
       right: 15px;
-      font-size: 2rem;
       color: white;
+      font-size: 2rem;
       cursor: pointer;
-      z-index: 1010;
-      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+      z-index: 1001;
+      text-shadow: 0 0 3px rgba(0,0,0,0.5);
     }
-
+    
     .video-player {
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-    }
-
-    .video-player iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
       width: 100%;
-      height: 100%;
-    }
-
-    .bottom-nav {
-      display: flex;
-      justify-content: space-around;
-      background-color: white;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-      padding: 10px 0;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-    }
-
-    .nav-button {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #666;
-      text-decoration: none;
-      font-size: 0.8rem;
-      padding: 5px 10px;
-    }
-
-    .nav-button.active {
-      color: #FF6E40;
-    }
-
-    .nav-icon {
-      font-size: 1.5rem;
-      margin-bottom: 3px;
+      aspect-ratio: 16/9;
     }
   </style>
 </head>
 <body>
-  <div id="app">
-    <header>
-      <h1>Kid-Friendly Videos</h1>
-      <div class="filter-controls">
-        <input type="text" id="search-input" placeholder="Search videos..." oninput="searchVideos()">
+  <header>
+    <h1>Kids Videos</h1>
+    
+    <div class="filter-controls">
+      <div class="search-box">
+        <input type="text" class="search-input" placeholder="Search videos...">
+        <button class="search-button">
+          <i class="fas fa-search"></i>
+        </button>
       </div>
-      <div class="category-scroll">
-        <div class="category-tag active" onclick="setCategory('all')">All Videos</div>
-        <div class="category-tag" onclick="setCategory('danny-go')">Danny Go</div>
-        <div class="category-tag" onclick="setCategory('cocomelon')">Cocomelon</div>
-        <div class="category-tag" onclick="setCategory('blippi')">Blippi</div>
-        <div class="category-tag" onclick="setCategory('super-simple-songs')">Super Simple Songs</div>
-        <div class="category-tag" onclick="setCategory('pinkfong')">Pinkfong</div>
+      
+      <div class="category-filter">
+        <div class="category-item active">All</div>
+        <div class="category-item">Learning</div>
+        <div class="category-item">Songs</div>
+        <div class="category-item">Stories</div>
+        <div class="category-item">Danny Go</div>
+        <div class="category-item">Peppa Pig</div>
+        <div class="category-item">Cocomelon</div>
+        <div class="category-item">Blippi</div>
       </div>
-    </header>
-
-    <main class="video-container">
-      <div class="video-list" id="video-list">
-        <!-- Video items will be dynamically loaded here -->
-      </div>
-    </main>
-
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-      <a href="#" id="home-link" class="nav-button">
-        <i class="nav-icon fas fa-home"></i>
-        <span>Home</span>
-      </a>
-      <a href="kidsvideos.html" class="nav-button active">
-        <i class="nav-icon fas fa-video"></i>
-        <span>Videos</span>
-      </a>
-      <a href="rewards.html" class="nav-button">
-        <i class="nav-icon fas fa-trophy"></i>
-        <span>Rewards</span>
-      </a>
-    </nav>
-  </div>
-
-  <script>
-    // Array of kid-friendly videos
-    const videos = [
-      // Danny Go videos
-      {
-        id: 'video1',
-        title: 'Danny Go - Colors Episode',
-        description: 'Learn colors with Danny!',
-        videoId: 'GkB4Yk5WZYo', // YouTube video ID
-        category: 'danny-go'
-      },
-      {
-        id: 'video2',
-        title: 'Danny Go - Numbers Song',
-        description: 'Count with Danny from 1 to 10!',
-        videoId: 'DR-cfDsHCGA',
-        category: 'danny-go'
-      },
-      {
-        id: 'video3',
-        title: 'Danny Go - Animals',
-        description: 'Learn about animals with Danny!',
-        videoId: 'hewioY1G_OU',
-        category: 'danny-go'
-      },
+    </div>
+  </header>
+  
+  <main>
+    <div class="featured-videos">
+      <h2 class="section-title">Featured Videos</h2>
       
-      // Cocomelon videos
-      {
-        id: 'video4',
-        title: 'CoComelon - Bath Song',
-        description: 'Fun bath time song for kids!',
-        videoId: 'WRVsOCh907o',
-        category: 'cocomelon'
-      },
-      {
-        id: 'video5',
-        title: 'CoComelon - Yes Yes Vegetables Song',
-        description: 'Learn about eating healthy vegetables!',
-        videoId: 'mfCQcffx6Y8',
-        category: 'cocomelon'
-      },
-      
-      // Blippi videos
-      {
-        id: 'video6',
-        title: 'Blippi - Excavator Song',
-        description: 'Sing along with Blippi about excavators!',
-        videoId: 'YAJynCYVulw',
-        category: 'blippi'
-      },
-      {
-        id: 'video7',
-        title: 'Blippi - Farm Animals',
-        description: 'Learn about farm animals with Blippi!',
-        videoId: 'Dqq4H6JsP5A',
-        category: 'blippi'
-      },
-      
-      // Super Simple Songs
-      {
-        id: 'video8',
-        title: 'Super Simple Songs - The Alphabet Song',
-        description: 'Learn the ABCs with a fun song!',
-        videoId: '_UR-l3QI2nE',
-        category: 'super-simple-songs'
-      },
-      {
-        id: 'video9',
-        title: 'Super Simple Songs - Five Little Ducks',
-        description: 'Count down with the five little ducks!',
-        videoId: 'pZw9veQ76fo',
-        category: 'super-simple-songs'
-      },
-      
-      // Pinkfong
-      {
-        id: 'video10',
-        title: 'Pinkfong - Baby Shark Dance',
-        description: 'Sing and dance along to Baby Shark!',
-        videoId: 'XqZsoesa55w',
-        category: 'pinkfong'
-      }
-    ];
-
-    // Current filter state
-    let currentCategory = 'all';
-    let currentSearch = '';
-
-    // Initialize the video list on page load
-    document.addEventListener('DOMContentLoaded', function() {
-      renderVideos();
-      
-      // Set home button link based on current kid profile
-      const currentKid = localStorage.getItem('currentKid') || '7YO';
-      document.getElementById('home-link').href = `${currentKid}.html`;
-    });
-
-    // Set active category
-    function setCategory(category) {
-      currentCategory = category;
-      
-      // Update active class
-      document.querySelectorAll('.category-tag').forEach(tag => {
-        tag.classList.remove('active');
-      });
-      document.querySelector(`.category-tag[onclick="setCategory('${category}')"]`).classList.add('active');
-      
-      renderVideos();
-    }
-
-    // Search videos by title
-    function searchVideos() {
-      currentSearch = document.getElementById('search-input').value.toLowerCase();
-      renderVideos();
-    }
-
-    // Render videos based on current filter and search
-    function renderVideos() {
-      const videoListElement = document.getElementById('video-list');
-      videoListElement.innerHTML = '';
-      
-      // Apply filters
-      const filteredVideos = videos.filter(video => {
-        const matchesCategory = currentCategory === 'all' || video.category === currentCategory;
-        const matchesSearch = video.title.toLowerCase().includes(currentSearch) || 
-                            video.description.toLowerCase().includes(currentSearch);
-        return matchesCategory && matchesSearch;
-      });
-      
-      // If no videos match, show a message
-      if (filteredVideos.length === 0) {
-        videoListElement.innerHTML = `
-          <div style="grid-column: 1/-1; text-align: center; padding: 30px;">
-            <p>No videos found. Try a different search!</p>
-          </div>
-        `;
-        return;
-      }
-      
-      // Create video items
-      filteredVideos.forEach(video => {
-        const videoItem = document.createElement('div');
-        videoItem.classList.add('video-item');
-        videoItem.dataset.id = video.id;
-        
-        // Generate YouTube thumbnail URL
-        const thumbUrl = `https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg`;
-        
-        videoItem.innerHTML = `
-          <div class="video-thumbnail" onclick="playVideo('${video.videoId}')">
-            <img src="${thumbUrl}" alt="${video.title}">
-            <div class="play-button">
-              <i class="fas fa-play-circle"></i>
-            </div>
-          </div>
-          <div class="video-info">
-            <h3>${video.title}</h3>
-            <p>${video.description}</p>
-          </div>
-        `;
-        
-        videoListElement.appendChild(videoItem);
-      });
-    }
-
-    // Play video in a modal
-    function playVideo(videoId) {
-      // Create modal
-      const modal = document.createElement('div');
-      modal.classList.add('video-modal');
-      
-      modal.innerHTML = `
-        <div class="modal-content">
-          <span class="close-modal" onclick="closeVideoModal()">&times;</span>
-          <div class="video-player">
-            <iframe 
-              width="100%" 
-              height="100%" 
-              src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
-              frameborder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-              allowfullscreen>
-            </iframe>
+      <div class="featured-video" onclick="openVideoModal('https://www.youtube.com/embed/21mDekTZwsw')">
+        <div class="featured-thumbnail">
+          <img src="https://i.ytimg.com/vi/21mDekTZwsw/maxresdefault.jpg" alt="Danny Go - Kids Exercise">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
           </div>
         </div>
-      `;
+        <div class="featured-details">
+          <div class="video-title">Danny Go - Kids Exercise Adventure</div>
+          <div class="video-creator">Danny Go</div>
+        </div>
+      </div>
+    </div>
+    
+    <h2 class="section-title">Danny Go Kids Workouts</h2>
+    <div class="horizontal-scroll">
+      <div class="video-card" onclick="openVideoModal('https://www.youtube.com/embed/dhCM0C6GnrY')">
+        <div class="video-thumbnail">
+          <img src="https://i.ytimg.com/vi/dhCM0C6GnrY/maxresdefault.jpg" alt="Danny Go - Superhero Workout">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-details">
+          <div class="video-title">Superhero Workout</div>
+          <div class="video-creator">Danny Go</div>
+        </div>
+      </div>
       
-      document.body.appendChild(modal);
-      document.body.style.overflow = 'hidden'; // Prevent scrolling while modal is open
+      <div class="video-card" onclick="openVideoModal('https://www.youtube.com/embed/L_A_HjHZxfI')">
+        <div class="video-thumbnail">
+          <img src="https://i.ytimg.com/vi/L_A_HjHZxfI/maxresdefault.jpg" alt="Danny Go - Animal Workout">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-details">
+          <div class="video-title">Animal Exercise Adventure</div>
+          <div class="video-creator">Danny Go</div>
+        </div>
+      </div>
       
-      // Add click outside to close
-      modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-          closeVideoModal();
-        }
-      });
+      <div class="video-card" onclick="openVideoModal('https://www.youtube.com/embed/3_oIssULEk0')">
+        <div class="video-thumbnail">
+          <img src="https://i.ytimg.com/vi/3_oIssULEk0/maxresdefault.jpg" alt="Danny Go - Dinosaur Workout">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-details">
+          <div class="video-title">Dinosaur Workout</div>
+          <div class="video-creator">Danny Go</div>
+        </div>
+      </div>
+      
+      <div class="video-card" onclick="openVideoModal('https://www.youtube.com/embed/BQ9q4U2P3ig')">
+        <div class="video-thumbnail">
+          <img src="https://i.ytimg.com/vi/BQ9q4U2P3ig/maxresdefault.jpg" alt="Danny Go - Pirate Treasure Hunt">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-details">
+          <div class="video-title">Pirate Treasure Hunt Workout</div>
+          <div class="video-creator">Danny Go</div>
+        </div>
+      </div>
+    </div>
+    
+    <h2 class="section-title">Educational Videos</h2>
+    <div class="horizontal-scroll">
+      <div class="video-card" onclick="openVideoModal('https://www.youtube.com/embed/KIeBiLHRr2I')">
+        <div class="video-thumbnail">
+          <img src="https://i.ytimg.com/vi/KIeBiLHRr2I/maxresdefault.jpg" alt="ABC Song">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-details">
+          <div class="video-title">ABC Song with Phonics</div>
+          <div class="video-creator">Kids Learning</div>
+        </div>
+      </div>
+      
+      <div class="video-card" onclick="openVideoModal('https://www.youtube.com/embed/tVlcKp3bWH8')">
+        <div class="video-thumbnail">
+          <img src="https://i.ytimg.com/vi/tVlcKp3bWH8/maxresdefault.jpg" alt="Numbers 1-20">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-details">
+          <div class="video-title">Numbers 1-20 for Children</div>
+          <div class="video-creator">Learning Time</div>
+        </div>
+      </div>
+      
+      <div class="video-card" onclick="openVideoModal('https://www.youtube.com/embed/BGa3AqeqRy0')">
+        <div class="video-thumbnail">
+          <img src="https://i.ytimg.com/vi/BGa3AqeqRy0/maxresdefault.jpg" alt="Counting in Spanish">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-details">
+          <div class="video-title">Count to 10 in Spanish</div>
+          <div class="video-creator">Spanish for Kids</div>
+        </div>
+      </div>
+      
+      <div class="video-card" onclick="openVideoModal('https://www.youtube.com/embed/EemjeA2Djjw')">
+        <div class="video-thumbnail">
+          <img src="https://i.ytimg.com/vi/EemjeA2Djjw/maxresdefault.jpg" alt="Animal Sounds">
+          <div class="play-button">
+            <i class="fas fa-play"></i>
+          </div>
+        </div>
+        <div class="video-details">
+          <div class="video-title">Animal Sounds Song</div>
+          <div class="video-creator">Kids Learning Fun</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Video Modal -->
+  <div class="modal" id="video-modal">
+    <div class="close-modal" onclick="closeVideoModal()">
+      <i class="fas fa-times"></i>
+    </div>
+    <div class="modal-content">
+      <iframe id="video-frame" class="video-player" src="" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    </div>
+  </div>
+  
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <a href="kids-index.html" class="nav-button">
+      <i class="nav-icon fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="kidsvideos.html" class="nav-button active">
+      <i class="nav-icon fas fa-video"></i>
+      <span>Videos</span>
+    </a>
+    <a href="rewards.html" class="nav-button">
+      <i class="nav-icon fas fa-trophy"></i>
+      <span>Rewards</span>
+    </a>
+    <a href="kids-index.html" class="nav-button">
+      <i class="nav-icon fas fa-users"></i>
+      <span>Profiles</span>
+    </a>
+  </nav>
+  
+  <script>
+    function openVideoModal(videoSrc) {
+      document.getElementById('video-frame').src = videoSrc;
+      document.getElementById('video-modal').classList.add('open');
     }
-
-    // Close video modal
+    
     function closeVideoModal() {
-      const modal = document.querySelector('.video-modal');
-      if (modal) {
-        document.body.removeChild(modal);
-        document.body.style.overflow = ''; // Restore scrolling
-      }
+      document.getElementById('video-frame').src = '';
+      document.getElementById('video-modal').classList.remove('open');
     }
+    
+    // Category filtering
+    document.querySelectorAll('.category-item').forEach(item => {
+      item.addEventListener('click', function() {
+        // Remove active class from all items
+        document.querySelectorAll('.category-item').forEach(el => {
+          el.classList.remove('active');
+        });
+        
+        // Add active class to clicked item
+        this.classList.add('active');
+        
+        // Here you would filter videos based on category
+        console.log('Filtering by: ' + this.textContent);
+      });
+    });
+    
+    // Search functionality
+    document.querySelector('.search-button').addEventListener('click', function() {
+      const searchTerm = document.querySelector('.search-input').value.trim();
+      if (searchTerm) {
+        // Here you would search videos based on the term
+        console.log('Searching for: ' + searchTerm);
+      }
+    });
+    
+    // Allow enter key to trigger search
+    document.querySelector('.search-input').addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') {
+        document.querySelector('.search-button').click();
+      }
+    });
   </script>
 </body>
 </html>

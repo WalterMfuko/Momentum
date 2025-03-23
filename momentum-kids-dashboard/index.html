@@ -3,98 +3,556 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Videos - Momentum</title>
-  <link rel="stylesheet" href="styles/styles.css">
-  <link rel="stylesheet" href="styles/video-styles.css">
-  <script src="scripts/videos.js" defer></script>
+  <title>Momentum Kids - Choose Your Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #FF4081;
+      --blue: #29B6F6;
+      --yellow: #FFEB3B;
+      --purple: #AB47BC;
+      --green: #66BB6A;
+      --orange: #FF9800;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body, html {
+      height: 100%;
+      width: 100%;
+      font-family: 'Nunito', sans-serif;
+      background-color: white;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    /* Header with Logo */
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    
+    .kids-logo {
+      max-width: 250px;
+      margin-bottom: 20px;
+      animation: bounce 2s infinite alternate ease-in-out;
+    }
+    
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-15px); }
+    }
+    
+    .header-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 15px;
+      background: linear-gradient(90deg, var(--blue), var(--pink), var(--yellow), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 300% 100%;
+      animation: gradient-shift 5s infinite alternate ease-in-out;
+    }
+    
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    
+    .header-subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 20px;
+    }
+    
+    /* Back Button */
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: white;
+      border: 2px solid var(--pink);
+      color: var(--pink);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    
+    .back-button:hover {
+      background-color: var(--pink);
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    /* Profile Grid */
+    .profiles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 30px;
+      width: 100%;
+      margin-bottom: 50px;
+    }
+    
+    /* Profile Cards */
+    .profile-card {
+      text-decoration: none;
+      background-color: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+      cursor: pointer;
+      z-index: 1;
+    }
+    
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+      z-index: -1;
+    }
+    
+    .profile-card.malachi {
+      background: linear-gradient(135deg, #E3F2FD 0%, #90CAF9 100%);
+    }
+    
+    .profile-card.nalani {
+      background: linear-gradient(135deg, #F8BBD0 0%, #F48FB1 100%);
+    }
+    
+    .profile-card.omari {
+      background: linear-gradient(135deg, #FFF9C4 0%, #FFF176 100%);
+    }
+    
+    .profile-card:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+    
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border: 5px solid white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .profile-card.malachi .profile-avatar {
+      background-color: #E3F2FD;
+    }
+    
+    .profile-card.nalani .profile-avatar {
+      background-color: #F8BBD0;
+    }
+    
+    .profile-card.omari .profile-avatar {
+      background-color: #FFF9C4;
+    }
+    
+    .profile-icon {
+      font-size: 3.5rem;
+    }
+    
+    .profile-card.malachi .profile-icon {
+      color: var(--blue);
+    }
+    
+    .profile-card.nalani .profile-icon {
+      color: var(--pink);
+    }
+    
+    .profile-card.omari .profile-icon {
+      color: var(--yellow);
+    }
+    
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    
+    .profile-card.malachi .profile-name {
+      color: #1565C0;
+    }
+    
+    .profile-card.nalani .profile-name {
+      color: #C2185B;
+    }
+    
+    .profile-card.omari .profile-name {
+      color: #F57F17;
+    }
+    
+    .profile-info {
+      color: rgba(0,0,0,0.7);
+      font-size: 1.1rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .profile-button {
+      background-color: white;
+      color: #333;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .profile-card.malachi .profile-button {
+      background-color: #1565C0;
+      color: white;
+    }
+    
+    .profile-card.nalani .profile-button {
+      background-color: #C2185B;
+      color: white;
+    }
+    
+    .profile-card.omari .profile-button {
+      background-color: #F57F17;
+      color: white;
+    }
+    
+    .profile-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    
+    /* Floating Elements */
+    .floating-element {
+      position: absolute;
+      z-index: 0;
+      opacity: 0.6;
+      pointer-events: none;
+      animation: float 6s infinite alternate ease-in-out;
+    }
+    
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      100% { transform: translate(20px, -20px) rotate(10deg); }
+    }
+    
+    .element-1 {
+      top: 10%;
+      left: 5%;
+      font-size: 2.5rem;
+      color: var(--blue);
+      animation-delay: 0s;
+    }
+    
+    .element-2 {
+      top: 20%;
+      right: 8%;
+      font-size: 3rem;
+      color: var(--pink);
+      animation-delay: 1s;
+    }
+    
+    .element-3 {
+      bottom: 15%;
+      left: 10%;
+      font-size: 2.8rem;
+      color: var(--yellow);
+      animation-delay: 2s;
+    }
+    
+    .element-4 {
+      bottom: 25%;
+      right: 12%;
+      font-size: 2.2rem;
+      color: var(--green);
+      animation-delay: 3s;
+    }
+    
+    .element-5 {
+      top: 50%;
+      left: 15%;
+      font-size: 2.5rem;
+      color: var(--purple);
+      animation-delay: 1.5s;
+    }
+    
+    .element-6 {
+      top: 40%;
+      right: 15%;
+      font-size: 3rem;
+      color: var(--orange);
+      animation-delay: 2.5s;
+    }
+    
+    /* Ribbon Effect */
+    .ribbon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 150px;
+      overflow: hidden;
+      z-index: 2;
+    }
+    
+    .ribbon::before,
+    .ribbon::after {
+      position: absolute;
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: #FF4081;
+      top: 0;
+      right: 0;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    
+    .ribbon::before {
+      transform: skewY(45deg);
+      transform-origin: 100% 0;
+    }
+    
+    .ribbon::after {
+      transform: skewY(45deg);
+      transform-origin: 100% 0;
+    }
+    
+    .ribbon-text {
+      position: absolute;
+      display: block;
+      padding: 5px 0;
+      width: 200px;
+      background-color: #C2185B;
+      color: white;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+      z-index: 3;
+      transform: rotate(45deg);
+      right: -25%;
+      top: 30px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+    
+    .profile-card.malachi .ribbon::before,
+    .profile-card.malachi .ribbon::after {
+      background-color: #2196F3;
+    }
+    
+    .profile-card.malachi .ribbon-text {
+      background-color: #1565C0;
+    }
+    
+    .profile-card.nalani .ribbon::before,
+    .profile-card.nalani .ribbon::after {
+      background-color: #F06292;
+    }
+    
+    .profile-card.nalani .ribbon-text {
+      background-color: #C2185B;
+    }
+    
+    .profile-card.omari .ribbon::before,
+    .profile-card.omari .ribbon::after {
+      background-color: #FFF176;
+    }
+    
+    .profile-card.omari .ribbon-text {
+      background-color: #F57F17;
+      color: white;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .profiles-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-title {
+        font-size: 2rem;
+      }
+      
+      .floating-element {
+        display: none;
+      }
+      
+      .kids-logo {
+        max-width: 200px;
+      }
+      
+      .profile-card {
+        padding: 25px 15px;
+      }
+      
+      .profile-avatar {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .profile-name {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div id="app">
-    <header class="header">
-      <h1>Kid-Friendly Videos</h1>
-      <nav>
-        <a href="7YO.html">7 Year Old Dashboard</a>
-        <a href="rewards.html">Rewards</a>
-        <a href="kidsvideos.html" class="active">Videos</a>
-      </nav>
-    </header>
-
-    <main class="video-container">
-      <div class="filter-controls">
-        <label for="sort">Sort by:</label>
-        <select id="sort" onchange="sortVideos()">
-          <option value="title">Title</option>
-          <option value="date">Date Added</option>
-        </select>
-
-        <label for="filter">Filter by show:</label>
-        <select id="filter" onchange="filterVideos()">
-          <option value="all">All</option>
-          <option value="danny-go">Danny Go</option>
-          <option value="other-shows">Other Shows</option>
-        </select>
-      </div>
-
-      <div class="video-list" id="videoList">
-        <!-- Video items will be dynamically loaded here -->
-      </div>
-    </main>
-
-    <footer class="footer">
-      <p>&copy; 2023 Momentum Kids Dashboard</p>
-    </footer>
+  <div class="container">
+    <!-- Floating Elements -->
+    <div class="floating-element element-1"><i class="fas fa-star"></i></div>
+    <div class="floating-element element-2"><i class="fas fa-heart"></i></div>
+    <div class="floating-element element-3"><i class="fas fa-basketball"></i></div>
+    <div class="floating-element element-4"><i class="fas fa-bicycle"></i></div>
+    <div class="floating-element element-5"><i class="fas fa-gamepad"></i></div>
+    <div class="floating-element element-6"><i class="fas fa-sun"></i></div>
+    
+    <!-- Header -->
+    <div class="header">
+      <a href="../../Landing/selection.html" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <img src="../../assets/images/momentum-kids.png" alt="Momentum Kids" class="kids-logo">
+      <h1 class="header-title">Choose Your Profile!</h1>
+      <p class="header-subtitle">Who's ready to play and learn today?</p>
+    </div>
+    
+    <!-- Profiles -->
+    <div class="profiles-grid">
+      <!-- Malachi Profile -->
+      <a href="malachi.html" class="profile-card malachi">
+        <div class="ribbon">
+          <span class="ribbon-text">7 years</span>
+        </div>
+        <div class="profile-avatar">
+          <i class="fas fa-child profile-icon"></i>
+        </div>
+        <h2 class="profile-name">Malachi</h2>
+        <p class="profile-info">Basketball fan & science explorer</p>
+        <button class="profile-button">Play Now</button>
+      </a>
+      
+      <!-- Nalani Profile -->
+      <a href="nalani.html" class="profile-card nalani">
+        <div class="ribbon">
+          <span class="ribbon-text">5 years</span>
+        </div>
+        <div class="profile-avatar">
+          <i class="fas fa-child profile-icon"></i>
+        </div>
+        <h2 class="profile-name">Nalani</h2>
+        <p class="profile-info">Dance lover & creative artist</p>
+        <button class="profile-button">Play Now</button>
+      </a>
+      
+      <!-- Omari Profile -->
+      <a href="omari.html" class="profile-card omari">
+        <div class="ribbon">
+          <span class="ribbon-text">9 months</span>
+        </div>
+        <div class="profile-avatar">
+          <i class="fas fa-baby profile-icon"></i>
+        </div>
+        <h2 class="profile-name">Omari</h2>
+        <p class="profile-info">Curious explorer & future athlete</p>
+        <button class="profile-button">Play Now</button>
+      </a>
+    </div>
   </div>
-
+  
   <script>
-    // Pre-load YouTube videos
-    const videos = [
-      {
-        title: "Danny Go - Fun Learning",
-        url: "https://www.youtube.com/watch?v=danny-go-fun-learning",
-        thumbnail: "assets/thumbnails/danny-go.jpg",
-        show: "danny-go",
-        date: "2023-01-01"
-      },
-      {
-        title: "Other Show - Adventure Time",
-        url: "https://www.youtube.com/watch?v=other-show-adventure-time",
-        thumbnail: "assets/thumbnails/other-shows.jpg",
-        show: "other-shows",
-        date: "2023-02-01"
-      }
-      // Add more video objects as needed
-    ];
-
-    function loadVideos() {
-      const videoList = document.getElementById('videoList');
-      videoList.innerHTML = '';
-
-      videos.forEach(video => {
-        const videoItem = document.createElement('div');
-        videoItem.className = 'video-item';
-        videoItem.innerHTML = `
-          <a href="${video.url}" target="_blank">
-            <img src="${video.thumbnail}" alt="${video.title}">
-            <h3>${video.title}</h3>
-          </a>
-        `;
-        videoList.appendChild(videoItem);
+    // Add some interactive elements and animations
+    document.addEventListener('DOMContentLoaded', function() {
+      // Make profile cards more interactive
+      const profileCards = document.querySelectorAll('.profile-card');
+      
+      profileCards.forEach(card => {
+        // Add hover sound effect (optional)
+        card.addEventListener('mouseenter', function() {
+          // You could add a sound effect here if desired
+          
+          // Add a slight bounce effect
+          this.style.transform = 'translateY(-20px) scale(1.03)';
+          
+          // Make floating elements move faster on hover
+          document.querySelectorAll('.floating-element').forEach(el => {
+            el.style.animationDuration = '3s';
+          });
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = '';
+          
+          // Reset floating elements animation speed
+          document.querySelectorAll('.floating-element').forEach(el => {
+            el.style.animationDuration = '6s';
+          });
+        });
+        
+        // Add click animation
+        card.addEventListener('mousedown', function() {
+          this.style.transform = 'translateY(-15px) scale(0.98)';
+        });
+        
+        card.addEventListener('mouseup', function() {
+          this.style.transform = 'translateY(-20px) scale(1.03)';
+        });
       });
-    }
-
-    function sortVideos() {
-      const sortValue = document.getElementById('sort').value;
-      // Implement sorting logic based on sortValue
-      loadVideos(); // Reload videos after sorting
-    }
-
-    function filterVideos() {
-      const filterValue = document.getElementById('filter').value;
-      // Implement filtering logic based on filterValue
-      loadVideos(); // Reload videos after filtering
-    }
-
-    document.addEventListener('DOMContentLoaded', loadVideos);
+      
+      // Random positioning for floating elements on load
+      document.querySelectorAll('.floating-element').forEach(el => {
+        el.style.transform = `translate(${Math.random() * 20}px, ${Math.random() * 20}px) rotate(${Math.random() * 10}deg)`;
+      });
+    });
   </script>
 </body>
 </html>

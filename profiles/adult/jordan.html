@@ -6,6 +6,7 @@
   <title>Jordan's Profile - Momentum</title>
   <link rel="stylesheet" href="Styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
   <style>
     /* Light theme with gray containers */
     body {
@@ -258,6 +259,126 @@
       text-align: center;
       margin-bottom: 5px;
     }
+
+    /* Goal Tracker - Modified for single button */
+    .goal-tracker {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .goal-tracker h3 {
+      color: #000000;
+      margin-top: 0;
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background-color: #4CAF50;
+      width: 65%;
+      transition: width 0.3s ease;
+    }
+    
+    .completion-time {
+      font-size: 0.8rem;
+      color: #777;
+      margin-bottom: 15px;
+    }
+    
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    
+    .confirm-content {
+      max-width: 400px;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .action-btn {
+      background-color: #555;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+    
+    .action-btn.primary {
+      background-color: #4CAF50;
+    }
+    
+    .action-btn.danger {
+      background-color: #f44336;
+    }
+    
+    #progress-value {
+      margin-left: 10px;
+    }
   </style>
 </head>
 <body>
@@ -280,19 +401,18 @@
         </div>
         
         <!-- Goal Tracker -->
-        <div class="goal-tracker">
-          <h2>Goal Tracker</h2>
-          <p>Current goal: Lose 10 pounds</p>
+        <section class="goal-tracker">
+          <h3>Your Goal</h3>
+          <div id="current-goal">Weight Loss - 10 lbs</div>
           <div class="progress-bar">
-            <div class="progress"></div>
+            <div class="progress-fill"></div>
           </div>
-          <p>Estimated completion: 3 weeks remaining</p>
-          
-          <div class="goal-options">
-            <button class="goal-btn">Adjust Goal</button>
-            <button class="goal-btn">Set New Goal</button>
+          <div class="completion-time">Estimated completion: 8 weeks</div>
+          <div class="action-buttons">
+            <button id="adjust-goal-btn" class="action-btn">Adjust Goal</button>
+            <!-- Removed "Set New Goal" button as requested -->
           </div>
-        </div>
+        </section>
 
         <!-- Gym Membership Card -->
         <div class="dashboard-card" style="margin-top: 20px;">
@@ -339,7 +459,7 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-      <a href="index.html" class="nav-button">
+      <a href="../../index.html" class="nav-button">
         <i class="nav-icon fas fa-home"></i>
         <span>Home</span>
       </a>
@@ -361,6 +481,7 @@
       </a>
     </nav>
   </div>
+  <script src="../../assets/js/fitness.js"></script>
   <script>
     // Setup the membership card
     document.addEventListener('DOMContentLoaded', function() {
@@ -422,5 +543,187 @@
       });
     }
   </script>
+  <!-- Add this right before the closing </body>
+  
+  <!-- Bottom Navigation -->
+  <script src="../../assets/js/navigation.js"></script>
+  <script>
+    // Insert navigation for adult user, with "home" active, for user "jordan"
+    insertNavigation('adult', 'home', 'jordan');
+  </script>
+
+  <!-- Goal Adjustment Modal -->
+  <div id="goal-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Adjust Your Goal</h2>
+      
+      <div class="form-group">
+        <label for="goal-description">Goal Description:</label>
+        <input type="text" id="goal-description" placeholder="e.g., Weight Loss - 10 lbs">
+      </div>
+      
+      <div class="form-group">
+        <label for="goal-duration">Estimated Completion:</label>
+        <select id="goal-duration">
+          <option value="2 weeks">2 weeks</option>
+          <option value="4 weeks">4 weeks</option>
+          <option value="6 weeks">6 weeks</option>
+          <option value="8 weeks">8 weeks</option>
+          <option value="12 weeks">12 weeks</option>
+          <option value="16 weeks">16 weeks</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="goal-progress">Current Progress:</label>
+        <input type="range" id="goal-progress" min="0" max="100" value="65">
+        <span id="progress-value">65%</span>
+      </div>
+      
+      <div class="modal-buttons">
+        <button id="save-goal-btn" class="action-btn primary">Save Changes</button>
+        <button id="reset-goal-btn" class="action-btn danger">Reset Goal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Dialog -->
+  <div id="confirm-dialog" class="modal">
+    <div class="modal-content confirm-content">
+      <h3>Are you sure?</h3>
+      <p>This will reset your goal and all progress. This action cannot be undone.</p>
+      <div class="modal-buttons">
+        <button id="confirm-yes" class="action-btn danger">Yes, Reset</button>
+        <button id="confirm-no" class="action-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // Goal tracker functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    // Elements
+    const adjustGoalBtn = document.getElementById('adjust-goal-btn');
+    const goalModal = document.getElementById('goal-modal');
+    const closeModal = document.querySelector('.close-modal');
+    const saveGoalBtn = document.getElementById('save-goal-btn');
+    const resetGoalBtn = document.getElementById('reset-goal-btn');
+    const confirmDialog = document.getElementById('confirm-dialog');
+    const confirmYes = document.getElementById('confirm-yes');
+    const confirmNo = document.getElementById('confirm-no');
+    
+    // Input elements
+    const goalInput = document.getElementById('goal-description');
+    const durationSelect = document.getElementById('goal-duration');
+    const progressInput = document.getElementById('goal-progress');
+    const progressValue = document.getElementById('progress-value');
+    
+    // Display elements
+    const currentGoalDisplay = document.getElementById('current-goal');
+    const progressFill = document.querySelector('.progress-fill');
+    const completionTime = document.querySelector('.completion-time');
+    
+    // Load goal data from localStorage
+    function loadGoalData() {
+      const goalData = JSON.parse(localStorage.getItem('jordan-goal') || '{"description":"Weight Loss - 10 lbs","duration":"8 weeks","progress":65}');
+      
+      // Update the display
+      currentGoalDisplay.textContent = goalData.description;
+      progressFill.style.width = goalData.progress + '%';
+      completionTime.textContent = 'Estimated completion: ' + goalData.duration;
+      
+      // Update modal values
+      goalInput.value = goalData.description;
+      durationSelect.value = goalData.duration;
+      progressInput.value = goalData.progress;
+      progressValue.textContent = goalData.progress + '%';
+    }
+    
+    // Save goal data
+    function saveGoalData() {
+      const goalData = {
+        description: goalInput.value,
+        duration: durationSelect.value,
+        progress: parseInt(progressInput.value)
+      };
+      
+      localStorage.setItem('jordan-goal', JSON.stringify(goalData));
+      
+      // Update the display
+      currentGoalDisplay.textContent = goalData.description;
+      progressFill.style.width = goalData.progress + '%';
+      completionTime.textContent = 'Estimated completion: ' + goalData.duration;
+      
+      // Close the modal
+      goalModal.style.display = 'none';
+    }
+    
+    // Reset goal function
+    function resetGoal() {
+      const defaultGoal = {
+        description: "New Goal",
+        duration: "4 weeks",
+        progress: 0
+      };
+      
+      localStorage.setItem('jordan-goal', JSON.stringify(defaultGoal));
+      
+      // Update the display
+      currentGoalDisplay.textContent = defaultGoal.description;
+      progressFill.style.width = defaultGoal.progress + '%';
+      completionTime.textContent = 'Estimated completion: ' + defaultGoal.duration;
+      
+      // Update modal values
+      goalInput.value = defaultGoal.description;
+      durationSelect.value = defaultGoal.duration;
+      progressInput.value = defaultGoal.progress;
+      progressValue.textContent = defaultGoal.progress + '%';
+      
+      // Close both modals
+      confirmDialog.style.display = 'none';
+      goalModal.style.display = 'none';
+    }
+    
+    // Event Listeners
+    adjustGoalBtn.addEventListener('click', function() {
+      loadGoalData(); // Load the latest data
+      goalModal.style.display = 'flex';
+    });
+    
+    closeModal.addEventListener('click', function() {
+      goalModal.style.display = 'none';
+    });
+    
+    saveGoalBtn.addEventListener('click', saveGoalData);
+    
+    resetGoalBtn.addEventListener('click', function() {
+      confirmDialog.style.display = 'flex';
+    });
+    
+    confirmYes.addEventListener('click', resetGoal);
+    
+    confirmNo.addEventListener('click', function() {
+      confirmDialog.style.display = 'none';
+    });
+    
+    progressInput.addEventListener('input', function() {
+      progressValue.textContent = this.value + '%';
+    });
+    
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+      if (event.target === goalModal) {
+        goalModal.style.display = 'none';
+      }
+      if (event.target === confirmDialog) {
+        confirmDialog.style.display = 'none';
+      }
+    });
+    
+    // Initial load
+    loadGoalData();
+  });
+</script>
 </body>
 </html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - Momentum</title>
-  <link rel="stylesheet" href="Styles.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     /* Dashboard specific styles */
@@ -393,20 +393,20 @@
 
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-      <a href="dashboard.html" class="nav-button active">
+      <a href="../profiles/adult/walter.html" class="nav-button">
         <i class="nav-icon fas fa-home"></i>
         <span>Home</span>
       </a>
-      <a href="dashboard.html" class="nav-button">
+      <a href="dashboard.html" class="nav-button active">
         <i class="nav-icon fas fa-chart-line"></i>
         <span>Dashboard</span>
       </a>
-      <a href="workouts.html" class="nav-button">
+      <a href="index.html" class="nav-button">
         <i class="nav-icon fas fa-dumbbell"></i>
         <span>Workouts</span>
       </a>
       <a href="recipes.html" class="nav-button">
-        <i class="nav-icon fas fa-utensils"></i>
+        <i class="nav-icon fas fa-tasks"></i>
         <span>Recipes</span>
       </a>
       <a href="videos.html" class="nav-button">
@@ -458,6 +458,7 @@
 
   <!-- Add FileSaver.js for file operations -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="../assets/js/fitness.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -1018,6 +1019,13 @@
         showToast(`Removed ${foodToDelete.name}`);
       }
     }
+  </script>
+
+  <!-- Bottom Navigation -->
+  <script src="../assets/js/navigation.js"></script>
+  <script>
+    // Insert navigation for adult user, with "dashboard" active
+    insertNavigation('adult', 'dashboard');
   </script>
 </body>
 </html>

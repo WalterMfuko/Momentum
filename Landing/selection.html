@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Momentum - Choose Your Experience</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --adult-color: #42A5F5;
+      --adult-gradient: linear-gradient(135deg, #42A5F5 0%, #2979FF 100%);
+      --kids-color: #FF4081;
+      --kids-gradient: linear-gradient(135deg, #FF4081 0%, #F50057 100%);
+      --light-bg: #f9f9f9;
+      --dark-text: #263238;
+      --light-text: #ffffff;
+      --shadow: 0 10px 25px rgba(0,0,0,0.1);
+      --hover-shadow: 0 15px 35px rgba(0,0,0,0.2);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body, html {
+      height: 100%;
+      width: 100%;
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--dark-text);
+      overflow-x: hidden;
+    }
+    
+    .page-container {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    
+    /* Header Section */
+    .header {
+      text-align: center;
+      padding: 40px 20px 20px;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .main-logo {
+      max-width: 220px;
+      margin-bottom: 15px;
+      animation: floatLogo 3s ease-in-out infinite;
+    }
+    
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .tagline {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: var(--dark-text);
+      opacity: 0;
+      animation: fadeSlideUp 0.8s forwards 0.5s;
+    }
+    
+    .subtitle {
+      font-size: 1.1rem;
+      color: #546E7A;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      opacity: 0;
+      animation: fadeSlideUp 0.8s forwards 0.7s;
+    }
+    
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Main Content */
+    .content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px 40px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Cards Container */
+    .cards-container {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      width: 100%;
+      max-width: 1000px;
+      position: relative;
+      opacity: 0;
+      animation: fadeIn 0.8s forwards 1s;
+    }
+    
+    @media (min-width: 868px) {
+      .cards-container {
+        flex-direction: row;
+        gap: 50px;
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    /* Option Cards */
+    .option-card {
+      flex: 1;
+      background-color: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      cursor: pointer;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .option-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: var(--hover-shadow);
+    }
+    
+    .option-card:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      transition: var(--transition);
+    }
+    
+    .adult-card:after {
+      background: var(--adult-gradient);
+    }
+    
+    .kids-card:after {
+      background: var(--kids-gradient);
+    }
+    
+    .option-card:hover:after {
+      height: 10px;
+    }
+    
+    .card-header {
+      height: 160px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .adult-card .card-header {
+      background: var(--adult-gradient);
+    }
+    
+    .kids-card .card-header {
+      background: var(--kids-gradient);
+    }
+    
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.2;
+      transition: var(--transition);
+    }
+    
+    .option-card:hover .card-image {
+      opacity: 0.3;
+      transform: scale(1.05);
+    }
+    
+    .card-logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 180px;
+      z-index: 2;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+      transition: var(--transition);
+    }
+    
+    .option-card:hover .card-logo {
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+    
+    .card-content {
+      flex: 1;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    
+    .card-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    
+    .card-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      border-radius: 3px;
+    }
+    
+    .adult-card .card-title {
+      color: var(--adult-color);
+    }
+    
+    .adult-card .card-title:after {
+      background: var(--adult-color);
+    }
+    
+    .kids-card .card-title {
+      color: var(--kids-color);
+    }
+    
+    .kids-card .card-title:after {
+      background: var(--kids-color);
+    }
+    
+    .card-description {
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #546E7A;
+      margin-bottom: 25px;
+    }
+    
+    .features-list {
+      list-style: none;
+      margin-bottom: 25px;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #455A64;
+    }
+    
+    .feature-icon {
+      margin-right: 10px;
+      font-size: 1rem;
+    }
+    
+    .adult-card .feature-icon {
+      color: var(--adult-color);
+    }
+    
+    .kids-card .feature-icon {
+      color: var(--kids-color);
+    }
+    
+    .card-button {
+      align-self: flex-start;
+      background-color: transparent;
+      border: 2px solid;
+      border-radius: 30px;
+      padding: 10px 25px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .adult-card .card-button {
+      color: var(--adult-color);
+      border-color: var(--adult-color);
+    }
+    
+    .adult-card .card-button:hover {
+      background: var(--adult-gradient);
+      color: white;
+      border-color: transparent;
+    }
+    
+    .kids-card .card-button {
+      color: var(--kids-color);
+      border-color: var(--kids-color);
+    }
+    
+    .kids-card .card-button:hover {
+      background: var(--kids-gradient);
+      color: white;
+      border-color: transparent;
+    }
+    
+    /* Background Elements */
+    .bg-shape {
+      position: absolute;
+      opacity: 0.05;
+      z-index: 0;
+    }
+    
+    .bg-shape-1 {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: var(--adult-color);
+      top: -100px;
+      left: -100px;
+    }
+    
+    .bg-shape-2 {
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: var(--kids-color);
+      bottom: -200px;
+      right: -150px;
+    }
+    
+    .bg-shape-3 {
+      width: 200px;
+      height: 200px;
+      background: var(--adult-color);
+      transform: rotate(45deg);
+      bottom: 10%;
+      left: 10%;
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 868px) {
+      .option-card {
+        height: auto;
+        min-height: 350px;
+      }
+      
+      .card-title {
+        font-size: 1.5rem;
+      }
+      
+      .tagline {
+        font-size: 1.5rem;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .card-header {
+        height: 120px;
+      }
+      
+      .card-logo {
+        max-width: 140px;
+      }
+      
+      .card-content {
+        padding: 20px;
+      }
+      
+      .header {
+        padding: 30px 15px 15px;
+      }
+      
+      .main-logo {
+        max-width: 180px;
+      }
+    }
+
+    .header-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <!-- Background Shapes -->
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+    <div class="bg-shape bg-shape-3"></div>
+    
+    <!-- Header -->
+    <header class="header">
+      <img src="../assets/images/main_logo.png" alt="Momentum" class="main-logo">
+      <h1 class="tagline">Choose Your Journey</h1>
+      <p class="subtitle">Personalized health and wellness experiences for the whole family</p>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="content">
+      <div class="cards-container">
+        <!-- Adult Fitness Card -->
+        <div class="option-card adult-card" onclick="window.location.href='../profiles/adult/index.html'">
+          <div class="card-header">
+            <div class="header-text">MOMENTUM FITNESS</div>
+          </div>
+          
+          <div class="card-content">
+            <div>
+              <h2 class="card-title"></h2>
+              <p class="card-description">Personalized workouts, nutrition tracking, and health insights for adults.</p>
+              
+              <ul class="features-list">
+                <li class="feature-item">
+                  <i class="fas fa-dumbbell feature-icon"></i>
+                  <span>Customized workout plans</span>
+                </li>
+                <li class="feature-item">
+                  <i class="fas fa-heartbeat feature-icon"></i>
+                  <span>Health and wellness tracking</span>
+                </li>
+                <li class="feature-item">
+                  <i class="fas fa-utensils feature-icon"></i>
+                  <span>Nutrition guidance and recipes</span>
+                </li>
+              </ul>
+            </div>
+            
+            <button class="card-button">Get Started</button>
+          </div>
+        </div>
+        
+        <!-- Kids Card -->
+        <div class="option-card kids-card" onclick="window.location.href='../profiles/kids/index.html'">
+          <div class="card-header">
+            <div class="header-text">MOMENTUM KIDS</div>
+          </div>
+          
+          <div class="card-content">
+            <div>
+              <h2 class="card-title"></h2>
+              <p class="card-description">Fun activities, games, and healthy habit building designed for children.</p>
+              
+              <ul class="features-list">
+                <li class="feature-item">
+                  <i class="fas fa-child feature-icon"></i>
+                  <span>Age-appropriate activities</span>
+                </li>
+                <li class="feature-item">
+                  <i class="fas fa-star feature-icon"></i>
+                  <span>Rewards and achievements</span>
+                </li>
+                <li class="feature-item">
+                  <i class="fas fa-gamepad feature-icon"></i>
+                  <span>Fun games with healthy habits</span>
+                </li>
+              </ul>
+            </div>
+            
+            <button class="card-button">Let's Play</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Add placeholder images if you don't have fitness-bg.jpg and kids-bg.jpg -->
+  <script>
+    // This will ensure we show placeholder images if the specified ones don't exist
+    document.addEventListener('DOMContentLoaded', function() {
+      const images = document.querySelectorAll('.card-image');
+      images.forEach(img => {
+        img.onerror = function() {
+          if (img.parentElement.parentElement.classList.contains('adult-card')) {
+            this.src = 'https://source.unsplash.com/random/600x400/?fitness';
+          } else {
+            this.src = 'https://source.unsplash.com/random/600x400/?kids,playing';
+          }
+        };
+      });
+    });
+  </script>
+</body>
+</html>
