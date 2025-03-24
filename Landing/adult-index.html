@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="../../assets/js/navigation.js" defer></script>
+  <script src="../assets/js/goal-tracker.js" defer></script>
   <style>
     :root {
       --primary: #2979FF;
@@ -469,7 +470,7 @@
     <div class="profiles-container">
       <div class="profiles-grid">
         <!-- Walter Profile -->
-        <a href="walter.html" class="profile-card premium">
+        <a href="profiles\adult\walter\home.html" class="profile-card premium">
           <div class="profile-header">
             <div class="profile-avatar">
               <img src="../../assets/images/profiles/walter.jpg" alt="Walter" onerror="this.src='https://randomuser.me/api/portraits/men/32.jpg'">
@@ -522,7 +523,7 @@
         </a>
         
         <!-- Jordan Profile -->
-        <a href="jordan.html" class="profile-card">
+        <a href="profiles\adult\jordan\home.html" class="profile-card">
           <div class="profile-header">
             <div class="profile-avatar">
               <img src="../../assets/images/profiles/jordan.jpg" alt="Jordan" onerror="this.src='https://randomuser.me/api/portraits/women/65.jpg'">
@@ -585,6 +586,10 @@
         </div>
       </div>
     </div>
+    <section id="jordan-goal">
+        <h3>Jordan's Goal</h3>
+        <p id="jordan-current-goal">Loading...</p>
+    </section>
   </div>
 </body>
 </html>

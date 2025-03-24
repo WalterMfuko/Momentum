@@ -13,13 +13,12 @@ const navigationConfig = {
     { id: 'videos', icon: 'fa-video', label: 'Videos', path: 'workouts/videos.html' }
   ],
   
-  // Kids navigation
-  kids: [
-    { id: 'home', icon: 'fa-home', label: 'Home', basePath: 'profiles/kids/' },
-    { id: 'progress', icon: 'fa-chart-line', label: 'Progress', path: 'workouts/dashboard.html' },
-    { id: 'activities', icon: 'fa-heart', label: 'Activities', path: 'workouts/index.html' },
-    { id: 'rewards', icon: 'fa-gift', label: 'Rewards', path: 'workouts/recipes.html' },
-    { id: 'profiles', icon: 'fa-users', label: 'Profiles', path: 'momentum-kids-dashboard/index.html' }
+  // Malachi navigation
+  Malachi: [
+    { id: 'home', icon: 'fa-home', label: 'Home', basePath: 'momentum-kids-dashboard\malachi\home.html' },
+    { id: 'progress', icon: 'fa-chart-line', label: 'Progress', path: 'momentum-kids-dashboard\malachi\dashboard.html' },
+    { id: 'activities', icon: 'fa-heart', label: 'Activities', path: 'momentum-kids-dashboard\malachi\activities.html' },
+    { id: 'rewards', icon: 'fa-gift', label: 'Rewards', path: 'momentum-kids-dashboard\malachi\rewards.html' },
   ]
 };
 

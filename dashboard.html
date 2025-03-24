@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const user = urlParams.get('user') || 'default';
+
+      // Load user-specific data
+      document.getElementById('dashboard-title').textContent = `${user}'s Dashboard`;
+
+      // Example: Load user-specific goals
+      const userGoal = localStorage.getItem(`${user}Goal`) || 'No goal set.';
+      document.getElementById('user-goal').textContent = userGoal;
+
+      // Update navigation links to preserve the user parameter
+      document.querySelectorAll('.nav-button').forEach(link => {
+        const href = new URL(link.getAttribute('href'), window.location.origin);
+        href.searchParams.set('user', user);
+        link.setAttribute('href', href.toString());
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1 id="dashboard-title">Dashboard</h1>
+  <p id="user-goal">Loading goal...</p>
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-button">
+      <i class="nav-icon fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="dashboard.html" class="nav-button">
+      <i class="nav-icon fas fa-chart-line"></i>
+      <span>Dashboard</span>
+    </a>
+    <a href="workouts.html" class="nav-button">
+      <i class="nav-icon fas fa-dumbbell"></i>
+      <span>Workouts</span>
+    </a>
+    <a href="recipes.html" class="nav-button">
+      <i class="nav-icon fas fa-utensils"></i>
+      <span>Recipes</span>
+    </a>
+    <a href="videos.html" class="nav-button">
+      <i class="nav-icon fas fa-video"></i>
+      <span>Videos</span>
+    </a>
+  </nav>
+</body>
+</html>

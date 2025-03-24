@@ -21,6 +21,7 @@
       --warning: #FF9100;
       --text-dark: #263238;
       --text-light: #FFFFFF;
+      --background: #263238; /* New darker background color */
     }
     
     * {
@@ -31,8 +32,8 @@
     
     body {
       font-family: 'Montserrat', sans-serif;
-      background-color: var(--grey-light);
-      color: var(--text-dark);
+      background-color: var(--background); /* Changed from var(--grey-light) */
+      color: var(--text-light); /* Changed from var(--text-dark) for better readability */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -88,14 +89,14 @@
     }
     
     .profile-title {
-      color: var(--primary-dark);
+      color: white; /* Changed from var(--primary-dark) */
       margin-bottom: 15px;
       font-size: 1.8rem;
       font-weight: 600;
     }
     
     .profile-subtitle {
-      color: var(--grey-dark);
+      color: var(--grey-medium); /* Changed from var(--grey-dark) */
       font-size: 1rem;
       margin-bottom: 30px;
       max-width: 500px;
@@ -310,7 +311,7 @@
     
     <div class="profile-grid">
       <!-- Walter Profile Card -->
-      <a href="walter.html" class="profile-card">
+      <a href="/profiles/adult/walter/home.html" class="profile-card">
         <div class="profile-header">
           <span class="premium-badge">Premium</span>
           <div class="profile-avatar">
@@ -339,7 +340,7 @@
       </a>
       
       <!-- Jordan Profile Card -->
-      <a href="jordan.html" class="profile-card">
+      <a href="/profiles/adult/jordan/home.html" class="profile-card">
         <div class="profile-header">
           <div class="profile-avatar">
             <i class="fas fa-user profile-icon"></i>
@@ -365,9 +366,5 @@
           </div>
         </div>
       </a>
-      
-      
-  
-  <script src="../../assets/js/navigation.js"></script>
 </body>
 </html>

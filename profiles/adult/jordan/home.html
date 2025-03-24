@@ -1,0 +1,1678 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jordan's Profile - Momentum</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Import logging modules -->
+  <script src="../../../logs/protein_log.js"></script>
+  <script src="../../../logs/membership_cards.js"></script>
+  <style>
+    /* Reset and base styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: white;
+      font-family: 'Arial', sans-serif;
+      color: #333;
+      line-height: 1.6;
+      padding-bottom: 70px; /* Space for fixed navigation */
+    }
+    
+    #app {
+      max-width: 100%;
+      margin: 0 auto;
+    }
+    
+    .content-area {
+      padding: 15px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    /* Section styling */
+    .app-section {
+      margin-bottom: 20px;
+    }
+
+    /* Hero section */
+    .hero-section {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .welcome-message {
+      color: #000000;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .motivation-quote {
+      color: #555555;
+      font-style: italic;
+    }
+
+    .next-workout {
+      background-color: #e0e0e0;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+
+    .next-workout h3 {
+      color: #000000;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .start-button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    
+    /* Goal tracker */
+    .goal-tracker {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .goal-tracker h3 {
+      color: #000000;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    
+    #current-goal {
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    
+    .progress-bar {
+      height: 10px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      margin: 15px 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background-color: #4CAF50;
+      transition: width 0.3s ease;
+    }
+    
+    .completion-time {
+      font-size: 0.8rem;
+      color: #777;
+      margin-bottom: 15px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .action-btn {
+      background-color: #555;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+    
+    /* Membership card */
+    .dashboard-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .dashboard-card h3 {
+      margin-bottom: 15px;
+    }
+    
+    .card-container {
+      perspective: 1000px;
+      height: 200px;
+      position: relative;
+    }
+
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .card-nav {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255,255,255,0.8);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      pointer-events: auto;
+      border: none;
+      color: #333;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .card-nav:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .cards-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .membership-card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+
+    .membership-card.active {
+      opacity: 1;
+      left: 0;
+    }
+
+    .membership-card.previous {
+      opacity: 0;
+      left: -100%;
+    }
+
+    .membership-card.next {
+      opacity: 0;
+      left: 100%;
+    }
+
+    .membership-card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-side {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .card-front {
+      z-index: 1;
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      z-index: 0;
+    }
+
+    .card-logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .card-logo i {
+      margin-right: 10px;
+      font-size: 1.5rem;
+    }
+
+    .card-details {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .member-name {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .member-id, .member-since {
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .card-instructions {
+      font-size: 0.8rem;
+      opacity: 0.8;
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .barcode-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 15px;
+    }
+
+    #barcode-placeholder {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    #barcode-image {
+      max-width: 100%;
+      max-height: 80px;
+    }
+
+    .barcode-instructions {
+      font-size: 0.8rem;
+      color: #555;
+      text-align: center;
+    }
+
+    .upload-barcode-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .card-flip-back {
+      font-size: 0.7rem;
+      color: #777;
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    
+    .confirm-content {
+      max-width: 400px;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #777;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .action-btn.primary {
+      background-color: #4CAF50;
+    }
+    
+    .action-btn.danger {
+      background-color: #f44336;
+    }
+    
+    #progress-value {
+      margin-left: 10px;
+    }
+    
+    /* Bottom navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    
+    .nav-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #888;
+      font-size: 0.8rem;
+    }
+    
+    .nav-button.active {
+      color: #4CAF50;
+    }
+    
+    .nav-icon {
+      font-size: 1.5rem;
+      margin-bottom: 3px;
+    }
+
+    /* New styles for challenge and protein tracker */
+    .challenge-box {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 15px;
+      border-left: 5px solid #4CAF50;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    
+    .challenge-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    
+    .challenge-description {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4CAF50;
+      margin: 15px 0;
+    }
+    
+    .challenge-hint {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 15px;
+      font-style: italic;
+    }
+    
+    .challenge-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .challenge-btn {
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.9rem;
+      border: none;
+      transition: all 0.2s ease;
+    }
+    
+    .complete-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    .skip-btn {
+      background-color: #f1f1f1;
+      color: #555;
+    }
+    
+    .skip-btn:hover {
+      background-color: #e0e0e0;
+    }
+    
+    /* Protein Tracker */
+    .protein-tracker {
+      background-color: #f2f2f2;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .protein-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .protein-title {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .reset-protein {
+      background-color: transparent;
+      border: none;
+      color: #555;
+      cursor: pointer;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+    
+    .reset-protein:hover {
+      background-color: #f1f1f1;
+    }
+    
+    .protein-goal {
+      font-size: 0.9rem;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .edit-goal {
+      color: #3949AB;
+      cursor: pointer;
+    }
+    
+    .protein-progress-bar {
+      height: 12px;
+      background-color: #e0e0e0;
+      border-radius: 6px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    
+    .protein-progress-fill {
+      height: 100%;
+      background-color: #3949AB;
+      border-radius: 6px;
+      transition: width 0.3s ease;
+    }
+    
+    .protein-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #666;
+      margin-bottom: 15px;
+    }
+    
+    .protein-action {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .protein-input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .add-protein-btn {
+      background-color: #3949AB;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .protein-source {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+
+    .protein-toggle {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .protein-toggle-btn {
+      background: none;
+      border: none;
+      color: #3949AB;
+      font-size: 0.85rem;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    .protein-toggle-btn:hover {
+      text-decoration: underline;
+    }
+
+    .protein-log {
+      margin-top: 15px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .protein-log.active {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .log-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .log-table th {
+      background-color: #f0f0f0;
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .log-table td {
+      padding: 8px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .card-indicator {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      gap: 5px;
+    }
+
+    .indicator-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #ddd;
+    }
+
+    .indicator-dot.active {
+      background-color: #4CAF50;
+    }
+
+    .add-card-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f0f0f0;
+      color: #555;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .add-card-button:hover {
+      background-color: #e0e0e0;
+    }
+
+    /* Add these styles to properly center the modals */
+    .protein-goal-modal, .add-card-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    /* Card preview styling improvements */
+    .card-preview {
+      margin-top: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background-color: #f8f8f8;
+    }
+  
+    .preview-card {
+      height: 120px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+    }
+  
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+  
+    .preview-logo {
+      font-weight: bold;
+    }
+  
+    .preview-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  
+    .preview-name {
+      font-weight: bold;
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+  
+    .preview-details {
+      font-size: 0.8rem;
+      opacity: 0.9;
+    }
+
+    .upload-control {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+    }
+    
+    .upload-button {
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+      transition: background-color 0.2s;
+    }
+    
+    .upload-button:hover {
+      background-color: #e0e0e0;
+    }
+    
+    #barcode-filename {
+      font-size: 0.85rem;
+      color: #666;
+    }
+    
+    /* Update card preview for barcode display */
+    .preview-back {
+      display: none;
+      background-color: white;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .preview-barcode-img {
+      max-width: 100%;
+      max-height: 70px;
+      margin-bottom: 10px;
+    }
+    
+    .preview-back-text {
+      font-size: 0.8rem;
+      color: #333;
+    }
+    
+    /* Add flip indicator to preview */
+    .preview-flip-indicator {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.8);
+      text-align: center;
+      margin-top: 5px;
+    }
+    
+    /* Make membership card flip more visually obvious */
+    .membership-card {
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+    }
+    
+    .membership-card.flipped {
+      transform: rotateY(180deg);
+    }
+    
+    .card-side {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+    
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Add a tap indicator on the card */
+    .card-tap-indicator {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.7);
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Content Area -->
+    <main class="content-area">
+      <section class="app-section active-section">
+        <!-- Hero Section -->
+        <div class="hero-section">
+          <h2 class="welcome-message">Good morning, Jordan! Ready for today's challenge?</h2>
+          <p class="motivation-quote"></p>
+          
+          <!-- New Fitness Challenge -->
+          <div class="challenge-box">
+            <div class="challenge-title">Today's Fitness Challenge</div>
+            <div class="challenge-description" id="challenge-text">Complete 25 push-ups</div>
+            <div class="challenge-hint">Take breaks if needed, just complete the full set!</div>
+            <div class="challenge-buttons">
+              <button class="challenge-btn complete-btn" id="complete-challenge-btn">
+                <i class="fas fa-check"></i> Complete
+              </button>
+              <button class="challenge-btn skip-btn" id="new-challenge-btn">
+                <i class="fas fa-random"></i> New Challenge
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- New Protein Tracker -->
+        <section class="protein-tracker">
+          <div class="protein-header">
+            <h3 class="protein-title">Protein Tracker
+              <!-- Add visible reset button -->
+              <button class="reset-protein" id="reset-protein">
+                <i class="fas fa-redo-alt"></i> Reset
+              </button>
+            </h3>
+            <span class="protein-goal">
+              Daily Goal: <span id="protein-goal">120g</span>
+              <!-- Add edit goal icon -->
+              <i class="fas fa-edit edit-goal" id="edit-protein-goal"></i>
+            </span>
+          </div>
+          <div class="protein-progress-bar">
+            <div class="protein-progress-fill" id="protein-fill" style="width: 45%;"></div>
+          </div>
+          <div class="protein-stats">
+            <span><span id="protein-current">54</span>g of <span id="protein-target">120</span>g</span>
+            <span><span id="protein-percent">45</span>% of daily goal</span>
+          </div>
+          <div class="protein-action">
+            <input type="number" class="protein-input" id="protein-input" placeholder="Enter grams" min="1" max="100">
+            <input type="text" class="protein-source" id="protein-source" placeholder="Source (optional)">
+            <button class="add-protein-btn" id="add-protein-btn">Add</button>
+          </div>
+          <div class="protein-toggle">
+            <button class="protein-toggle-btn" id="protein-log-toggle">
+              Show Today's Log <i class="fas fa-chevron-down"></i>
+            </button>
+          </div>
+          <div class="protein-log" id="protein-log">
+            <table class="log-table" id="protein-log-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Amount</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Log entries will be populated here -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+        
+        <!-- Goal Tracker -->
+        <section class="goal-tracker">
+          <h3>Your Goal</h3>
+          <div id="current-goal">Weight Loss - 10 lbs</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 65%;"></div>
+          </div>
+          <div class="completion-time">Estimated completion: 8 weeks</div>
+          <div class="action-buttons">
+            <button id="adjust-goal-btn" class="action-btn">Adjust Goal</button>
+          </div>
+        </section>
+
+        <!-- Replace the existing membership card with a carousel -->
+        <div class="dashboard-card">
+          <h3>Gym Membership</h3>
+          
+          <div class="card-container">
+            <div class="carousel-controls">
+              <button class="card-nav" id="prev-card">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="card-nav" id="next-card">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+            
+            <div class="cards-wrapper" id="cards-wrapper">
+              <!-- Cards will be dynamically generated here -->
+            </div>
+          </div>
+          
+          <div class="card-indicator" id="card-indicator">
+            <!-- Indicator dots will be created dynamically -->
+          </div>
+          
+          <button class="add-card-button" id="add-card-button">
+            <i class="fas fa-plus"></i> Add New Membership Card
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+      <a href="home.html" class="nav-button active">
+        <i class="nav-icon fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="dashboard.html" class="nav-button">
+        <i class="nav-icon fas fa-chart-line"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="recipes.html" class="nav-button">
+        <i class="nav-icon fas fa-utensils"></i>
+        <span>Recipes</span>
+      </a>
+      <a href="videos.html" class="nav-button">
+        <i class="nav-icon fas fa-video"></i>
+        <span>Videos</span>
+      </a>
+      <a href="workouts.html" class="nav-button">
+        <i class="nav-icon fas fa-dumbbell"></i>
+        <span>Workouts</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Goal Adjustment Modal -->
+  <div id="goal-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Adjust Your Goal</h2>
+      
+      <div class="form-group">
+        <label for="goal-description">Goal Description:</label>
+        <input type="text" id="goal-description" placeholder="e.g., Weight Loss - 10 lbs">
+      </div>
+      
+      <div class="form-group">
+        <label for="goal-duration">Estimated Completion:</label>
+        <select id="goal-duration">
+          <option value="2 weeks">2 weeks</option>
+          <option value="4 weeks">4 weeks</option>
+          <option value="6 weeks">6 weeks</option>
+          <option value="8 weeks">8 weeks</option>
+          <option value="12 weeks">12 weeks</option>
+          <option value="16 weeks">16 weeks</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="goal-progress">Current Progress:</label>
+        <input type="range" id="goal-progress" min="0" max="100" value="65">
+        <span id="progress-value">65%</span>
+      </div>
+      
+      <div class="modal-buttons">
+        <button id="save-goal-btn" class="action-btn primary">Save Changes</button>
+        <button id="reset-goal-btn" class="action-btn danger">Reset Goal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Dialog -->
+  <div id="confirm-dialog" class="modal">
+    <div class="modal-content confirm-content">
+      <h3>Are you sure?</h3>
+      <p>This will reset your goal and all progress. This action cannot be undone.</p>
+      <div class="modal-buttons">
+        <button id="confirm-yes" class="action-btn danger">Yes, Reset</button>
+        <button id="confirm-no" class="action-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Protein Goal Modal -->
+  <div id="protein-goal-modal" class="protein-goal-modal">
+    <div class="modal-content">
+      <span class="close-modal" id="close-protein-modal">&times;</span>
+      <h2>Set Protein Goal</h2>
+      
+      <div class="form-group">
+        <label for="protein-goal-input">Daily Protein Goal (g):</label>
+        <input type="number" id="protein-goal-input" placeholder="Enter protein goal in grams" min="1" max="300" value="120">
+      </div>
+      
+      <div class="modal-buttons">
+        <button id="save-protein-goal" class="action-btn primary">Save</button>
+        <button id="cancel-protein-goal" class="action-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Card Modal -->
+  <div id="add-card-modal" class="add-card-modal">
+    <div class="modal-content">
+      <span class="close-modal" id="close-card-modal">&times;</span>
+      <h2>Add New Membership Card</h2>
+      
+      <div class="form-group">
+        <label for="card-name">Gym Name:</label>
+        <input type="text" id="card-name" placeholder="e.g., Fitness Club">
+      </div>
+      
+      <div class="form-group">
+        <label for="card-member-id">Member ID:</label>
+        <input type="text" id="card-member-id" placeholder="Your membership ID">
+      </div>
+      
+      <div class="form-group">
+        <label for="card-since-date">Member Since:</label>
+        <input type="text" id="card-since-date" placeholder="e.g., Jan 2023">
+      </div>
+      
+      <div class="form-group">
+        <label for="card-color">Card Color:</label>
+        <select id="card-color">
+          <option value="green">Green</option>
+          <option value="blue">Blue</option>
+          <option value="purple">Purple</option>
+          <option value="red">Red</option>
+        </select>
+      </div>
+      
+      <!-- Add this to the Add Card Modal form, right after the color selection -->
+      <div class="form-group">
+        <label for="card-barcode-upload">Membership Barcode (optional):</label>
+        <div class="upload-control">
+          <input type="file" id="card-barcode-upload" accept="image/*" style="display: none;">
+          <button type="button" id="barcode-upload-btn" class="upload-button">
+            <i class="fas fa-upload"></i> Upload Barcode Image
+          </button>
+          <span id="barcode-filename">No file selected</span>
+        </div>
+      </div>
+      
+      <!-- Update the card preview section in the Add Card Modal -->
+      <div class="card-preview">
+        <h3>Preview</h3>
+        <div class="preview-card" id="card-preview">
+          <div class="preview-front">
+            <div class="preview-header">
+              <div class="preview-logo"><i class="fas fa-dumbbell"></i> FITNESS CLUB</div>
+            </div>
+            <div class="preview-content">
+              <div class="preview-name">Jordan</div>
+              <div class="preview-details">
+                ID: FC-1234567<br>
+                Member since: Jan 2023
+              </div>
+            </div>
+            <div class="preview-flip-indicator">
+              <i class="fas fa-sync"></i> Tap card to view barcode
+            </div>
+          </div>
+        </div>
+        <!-- Add preview back button -->
+        <div class="preview-controls">
+          <button id="preview-flip-btn" class="action-btn" style="margin-top: 10px; font-size: 0.8rem;">
+            <i class="fas fa-sync"></i> Show Barcode Preview
+          </button>
+        </div>
+      </div>
+      
+      <div class="modal-buttons">
+        <button id="save-new-card" class="action-btn primary">Add Card</button>
+        <button id="cancel-new-card" class="action-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add these at the top of your script
+    let proteinLogger;
+    let cardManager;
+
+    // Updated DOM content loaded event handler - add this to replace your existing one
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize the loggers
+      proteinLogger = new ProteinLogger('jordan');
+      cardManager = new MembershipCardManager('jordan');
+      
+      // Initialize all components
+      setupMembershipCards();
+      setupGoalTracker();
+      initializeFitnessChallenge();
+      initializeProteinTracker();
+      
+      // Set random motivational quote
+      const quotes = [
+        "The only bad workout is the one that didn't happen.",
+        "Strength doesn't come from what you can do. It comes from overcoming the things you once thought you couldn't.",
+        "Your body can stand almost anything. It's your mind that you have to convince.",
+        "No matter how slow you go, you're still lapping everyone on the couch.",
+        "The difference between try and triumph is just a little umph!"
+      ];
+      document.querySelector('.motivation-quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+    });
+
+    // Enhanced protein tracker implementation
+    function initializeProteinTracker() {
+      const proteinGoalElem = document.getElementById('protein-goal');
+      const proteinFill = document.getElementById('protein-fill');
+      const proteinCurrent = document.getElementById('protein-current');
+      const proteinTarget = document.getElementById('protein-target');
+      const proteinPercent = document.getElementById('protein-percent');
+      const proteinInput = document.getElementById('protein-input');
+      const proteinSource = document.getElementById('protein-source');
+      const addProteinBtn = document.getElementById('add-protein-btn');
+      const resetProteinBtn = document.getElementById('reset-protein');
+      const logToggleBtn = document.getElementById('protein-log-toggle');
+      const proteinLog = document.getElementById('protein-log');
+      const proteinLogTable = document.getElementById('protein-log-table');
+      const editGoalBtn = document.getElementById('edit-protein-goal');
+      
+      // Protein goal modal elements
+      const proteinGoalModal = document.getElementById('protein-goal-modal');
+      const closeProteinModal = document.getElementById('close-protein-modal');
+      const proteinGoalInput = document.getElementById('protein-goal-input');
+      const saveProteinGoalBtn = document.getElementById('save-protein-goal');
+      const cancelProteinGoalBtn = document.getElementById('cancel-protein-goal');
+      
+      // Load protein data from protein logger
+      function loadProteinData() {
+        // Use today's total from the log
+        const currentAmount = proteinLogger.getTodayTotal();
+        
+        // Get goal from settings
+        const proteinGoal = parseInt(localStorage.getItem('protein_goal_jordan') || '120');
+        
+        // Update UI elements
+        proteinGoalElem.textContent = proteinGoal + 'g';
+        proteinTarget.textContent = proteinGoal;
+        proteinCurrent.textContent = currentAmount;
+        
+        // Calculate percentage and update progress bar
+        const percentage = Math.min(100, Math.round((currentAmount / proteinGoal) * 100));
+        proteinPercent.textContent = percentage;
+        proteinFill.style.width = percentage + '%';
+        
+        return { goal: proteinGoal, current: currentAmount };
+      }
+      
+      // Update the protein log table
+      function updateProteinLog() {
+        const logEntries = proteinLogger.getTodayLogs();
+        const tbody = proteinLogTable.querySelector('tbody');
+        tbody.innerHTML = '';
+        
+        if (logEntries.length === 0) {
+          const row = document.createElement('tr');
+          row.innerHTML = '<td colspan="3" style="text-align: center;">No entries yet today</td>';
+          tbody.appendChild(row);
+          return;
+        }
+        
+        logEntries.forEach(entry => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${entry.time}</td>
+            <td>${entry.amount}g</td>
+            <td>${entry.source || '-'}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      }
+      
+      // Add protein button click handler
+      addProteinBtn.addEventListener('click', function() {
+        const amount = parseInt(proteinInput.value);
+        const source = proteinSource.value.trim();
+        
+        if (!isNaN(amount) && amount > 0) {
+          // Log the protein entry
+          proteinLogger.logProtein(amount, source);
+          
+          // Update the UI
+          loadProteinData();
+          updateProteinLog();
+          
+          // Clear inputs
+          proteinInput.value = '';
+          proteinSource.value = '';
+        }
+      });
+      
+      // Reset protein tracker
+      resetProteinBtn.addEventListener('click', function() {
+        if (confirm('Reset protein tracker for today?')) {
+          proteinLogger.resetToday();
+          loadProteinData();
+          updateProteinLog();
+        }
+      });
+      
+      // Toggle protein log visibility
+      logToggleBtn.addEventListener('click', function() {
+        proteinLog.classList.toggle('active');
+        
+        if (proteinLog.classList.contains('active')) {
+          updateProteinLog();
+          this.innerHTML = 'Hide Today\'s Log <i class="fas fa-chevron-up"></i>';
+        } else {
+          this.innerHTML = 'Show Today\'s Log <i class="fas fa-chevron-down"></i>';
+        }
+      });
+      
+      // Edit protein goal
+      editGoalBtn.addEventListener('click', function() {
+        const currentGoal = parseInt(localStorage.getItem('protein_goal_jordan') || '120');
+        proteinGoalInput.value = currentGoal;
+        proteinGoalModal.style.display = 'flex';
+      });
+      
+      // Close protein goal modal
+      closeProteinModal.addEventListener('click', function() {
+        proteinGoalModal.style.display = 'none';
+      });
+      
+      cancelProteinGoalBtn.addEventListener('click', function() {
+        proteinGoalModal.style.display = 'none';
+      });
+      
+      // Save protein goal
+      saveProteinGoalBtn.addEventListener('click', function() {
+        const newGoal = parseInt(proteinGoalInput.value);
+        if (!isNaN(newGoal) && newGoal > 0) {
+          localStorage.setItem('protein_goal_jordan', newGoal);
+          loadProteinData();
+          proteinGoalModal.style.display = 'none';
+        }
+      });
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', function(event) {
+        if (event.target === proteinGoalModal) {
+          proteinGoalModal.style.display = 'none';
+        }
+      });
+      
+      // Initialize
+      loadProteinData();
+      updateProteinLog();
+    }
+
+    // Card carousel implementation
+    function setupMembershipCards() {
+      const cardsWrapper = document.getElementById('cards-wrapper');
+      const cardIndicator = document.getElementById('card-indicator');
+      const prevBtn = document.getElementById('prev-card');
+      const nextBtn = document.getElementById('next-card');
+      const addCardBtn = document.getElementById('add-card-button');
+      
+      // Get the current user
+      const currentUser = localStorage.getItem('currentUser') || 'Jordan';
+      
+      // Check if there are any cards, if not, create a default one
+      let cards = cardManager.getAllCards();
+      if (cards.length === 0) {
+        const defaultCard = {
+          name: 'FITNESS CLUB',
+          memberId: 'FC-1234567',
+          memberSince: 'Jan 2023',
+          color: 'green',
+          icon: 'dumbbell'
+        };
+        
+        const newCardId = cardManager.addCard(defaultCard);
+        cardManager.setActiveCard(newCardId);
+        cards = cardManager.getAllCards();
+      }
+      
+      // Create card elements
+      function renderCards() {
+        cardsWrapper.innerHTML = '';
+        cardIndicator.innerHTML = '';
+        
+        const activeCardId = cardManager.getActiveCardId();
+        
+        cards.forEach((card, index) => {
+          const isActive = card.id === activeCardId;
+          
+          // Create card element
+          const cardElement = createCardElement(card, isActive);
+          cardsWrapper.appendChild(cardElement);
+          
+          // Create indicator dot
+          const dot = document.createElement('div');
+          dot.className = `indicator-dot${isActive ? ' active' : ''}`;
+          cardIndicator.appendChild(dot);
+        });
+        
+        // Update navigation buttons
+        prevBtn.disabled = cards.length <= 1;
+        nextBtn.disabled = cards.length <= 1;
+      }
+      
+      // Card creation and navigation functions...
+      // (Include the rest of the card management functions from the solution provided earlier)
+
+      // Add this function within the setupMembershipCards function
+      // Create a single card element
+      function createCardElement(card, isActive) {
+        const cardElement = document.createElement('div');
+        cardElement.className = `membership-card${isActive ? ' active' : ''}`;
+        cardElement.setAttribute('data-id', card.id);
+        
+        // Card color gradients based on selection
+        let gradient;
+        switch (card.color) {
+          case 'blue':
+            gradient = 'linear-gradient(135deg, #2196F3 0%, #0D47A1 100%)';
+            break;
+          case 'purple':
+            gradient = 'linear-gradient(135deg, #9C27B0 0%, #6A1B9A 100%)';
+            break;
+          case 'red':
+            gradient = 'linear-gradient(135deg, #F44336 0%, #B71C1C 100%)';
+            break;
+          default: // green
+            gradient = 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)';
+        }
+        
+        cardElement.innerHTML = `
+          <div class="card-side card-front" style="background: ${gradient}">
+            <div class="card-logo">
+              <i class="fas fa-${card.icon || 'dumbbell'}"></i>
+              <span>${card.name}</span>
+            </div>
+            <div class="card-details">
+              <div class="member-name"><span>${currentUser}</span></div>
+              <div class="member-id">ID: <span>${card.memberId}</span></div>
+              <div class="member-since">Member since: <span>${card.memberSince}</span></div>
+              <div class="card-instructions">Tap card to show barcode</div>
+            </div>
+          </div>
+          
+          <div class="card-side card-back">
+            <div class="barcode-container">
+              <div id="barcode-placeholder-${card.id}">
+                <img class="barcode-image" src="${card.barcode || `https://bwipjs-api.metafloor.com/?bcid=code128&text=${card.memberId.replace(/\D/g, '')}&scale=3&includetext=true`}" alt="Membership Barcode">
+              </div>
+              <div class="barcode-instructions">
+                <p>Show this barcode at the gym entrance</p>
+                <button class="upload-barcode-btn" data-card-id="${card.id}">
+                  <i class="fas fa-upload"></i> Upload Barcode
+                </button>
+                <input type="file" class="barcode-input" data-card-id="${card.id}" accept="image/*" style="display: none;">
+              </div>
+            </div>
+            <div class="card-flip-back">Tap to flip back</div>
+          </div>
+        `;
+        
+        return cardElement;
+      }
+
+      // Add these functions after the renderCards function in setupMembershipCards
+
+      // Add event listeners for card flip
+      function setupCardInteractions() {
+        // Card flip on click
+        document.querySelectorAll('.membership-card').forEach(card => {
+          card.addEventListener('click', function() {
+            this.classList.toggle('flipped');
+          });
+        });
+        
+        // Barcode upload
+        document.querySelectorAll('.upload-barcode-btn').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent card flip
+            const cardId = this.getAttribute('data-card-id');
+            document.querySelector(`.barcode-input[data-card-id="${cardId}"]`).click();
+          });
+        });
+        
+        document.querySelectorAll('.barcode-input').forEach(input => {
+          input.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+              const cardId = this.getAttribute('data-card-id');
+              const reader = new FileReader();
+              
+              reader.onload = function(e) {
+                const imgData = e.target.result;
+                cardManager.updateCard(cardId, { barcode: imgData });
+                document.querySelector(`#barcode-placeholder-${cardId} img`).src = imgData;
+              };
+              
+              reader.readAsDataURL(file);
+            }
+          });
+        });
+      }
+
+      // Navigate to previous card
+      prevBtn.addEventListener('click', function() {
+        if (cards.length <= 1) return;
+        
+        const prevCard = cardManager.getPreviousCard();
+        if (prevCard) {
+          cardManager.setActiveCard(prevCard.id);
+          renderCards();
+          setupCardInteractions();
+        }
+      });
+
+      // Navigate to next card
+      nextBtn.addEventListener('click', function() {
+        if (cards.length <= 1) return;
+        
+        const nextCard = cardManager.getNextCard();
+        if (nextCard) {
+          cardManager.setActiveCard(nextCard.id);
+          renderCards();
+          setupCardInteractions();
+        }
+      });
+
+      // Setup add card modal
+      const addCardModal = document.getElementById('add-card-modal');
+      const closeCardModal = document.getElementById('close-card-modal');
+      const saveNewCardBtn = document.getElementById('save-new-card');
+      const cancelNewCardBtn = document.getElementById('cancel-new-card');
+      const cardNameInput = document.getElementById('card-name');
+      const cardMemberIdInput = document.getElementById('card-member-id');
+      const cardSinceDateInput = document.getElementById('card-since-date');
+      const cardColorSelect = document.getElementById('card-color');
+      const cardPreview = document.getElementById('card-preview');
+
+      // Update preview as user changes inputs
+      function updateCardPreview() {
+        const gymName = cardNameInput.value || 'FITNESS CLUB';
+        const memberId = cardMemberIdInput.value || 'FC-1234567';
+        const memberSince = cardSinceDateInput.value || 'Jan 2023';
+        const color = cardColorSelect.value || 'green';
+        
+        // Set background gradient based on color
+        let gradient;
+        switch (color) {
+          case 'blue':
+            gradient = 'linear-gradient(135deg, #2196F3 0%, #0D47A1 100%)';
+            break;
+          case 'purple':
+            gradient = 'linear-gradient(135deg, #9C27B0 0%, #6A1B9A 100%)';
+            break;
+          case 'red':
+            gradient = 'linear-gradient(135deg, #F44336 0%, #B71C1C 100%)';
+            break;
+          default: // green
+            gradient = 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)';
+        }
+        
+        cardPreview.style.background = gradient;
+        
+        cardPreview.querySelector('.preview-logo').innerHTML = `<i class="fas fa-dumbbell"></i> ${gymName}`;
+        cardPreview.querySelector('.preview-details').innerHTML = `ID: ${memberId}<br>Member since: ${memberSince}`;
+      }
+
+      cardNameInput.addEventListener('input', updateCardPreview);
+      cardMemberIdInput.addEventListener('input', updateCardPreview);
+      cardSinceDateInput.addEventListener('input', updateCardPreview);
+      cardColorSelect.addEventListener('change', updateCardPreview);
+
+      // Show add card modal
+      addCardBtn.addEventListener('click', function() {
+        // Reset form and preview
+        cardNameInput.value = 'FITNESS CLUB';
+        cardMemberIdInput.value = 'FC-' + Math.floor(1000000 + Math.random() * 9000000);
+        cardSinceDateInput.value = 'Jan 2023';
+        cardColorSelect.value = 'green';
+        updateCardPreview();
+        
+        addCardModal.style.display = 'flex';
+      });
+
+      // Close add card modal
+      closeCardModal.addEventListener('click', function() {
+        addCardModal.style.display = 'none';
+      });
+
+      cancelNewCardBtn.addEventListener('click', function() {
+        addCardModal.style.display = 'none';
+      });
+
+      // Save new card
+      saveNewCardBtn.addEventListener('click', function() {
+        const newCard = {
+          name: cardNameInput.value || 'FITNESS CLUB',
+          memberId: cardMemberIdInput.value || 'FC-' + Math.floor(1000000 + Math.random() * 9000000),
+          memberSince: cardSinceDateInput.value || 'Jan 2023',
+          color: cardColorSelect.value || 'green',
+          icon: 'dumbbell',
+          barcode: uploadedBarcodeData || null // Include the uploaded barcode
+        };
+        
+        const newCardId = cardManager.addCard(newCard);
+        cardManager.setActiveCard(newCardId);
+        
+        // Refresh the cards display
+        cards = cardManager.getAllCards();
+        renderCards();
+        setupCardInteractions();
+        
+        // Reset the barcode upload fields
+        uploadedBarcodeData = null;
+        barcodeFilename.textContent = 'No file selected';
+        
+        // Close the modal
+        addCardModal.style.display = 'none';
+      });
+
+      // Close modal when clicking outside of it
+      window.addEventListener('click', function(event) {
+        if (event.target === addCardModal) {
+          addCardModal.style.display = 'none';
+        }
+      });
+
+      // Initial render
+      renderCards();
+      setupCardInteractions();
+      
+      // Add barcode upload functionality to the Add Card modal
+      const barcodeUploadBtn = document.getElementById('barcode-upload-btn');
+      const barcodeFileInput = document.getElementById('card-barcode-upload');
+      const barcodeFilename = document.getElementById('barcode-filename');
+      const previewFlipBtn = document.getElementById('preview-flip-btn');
+      let uploadedBarcodeData = null;
+
+      // Handle barcode file selection
+      barcodeFileInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          barcodeFilename.textContent = file.name;
+          
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            uploadedBarcodeData = e.target.result;
+            
+            // Update the preview flip button to indicate barcode is ready
+            previewFlipBtn.innerHTML = '<i class="fas fa-sync"></i> Show Uploaded Barcode';
+            previewFlipBtn.style.backgroundColor = '#4CAF50';
+            previewFlipBtn.style.color = 'white';
+          };
+          reader.readAsDataURL(file);
+        } else {
+          barcodeFilename.textContent = 'No file selected';
+          uploadedBarcodeData = null;
+          previewFlipBtn.innerHTML = '<i class="fas fa-sync"></i> Show Barcode Preview';
+          previewFlipBtn.style.backgroundColor = '';
+          previewFlipBtn.style.color = '';
+        }
+      });
+
+      // Button to open file selection dialog
+      barcodeUploadBtn.addEventListener('click', function() {
+        barcodeFileInput.click();
+      });
+
+      // Preview flip button to show barcode
+      previewFlipBtn.addEventListener('click', function() {
+        const cardPreview = document.getElementById('card-preview');
+        const isShowingFront = !cardPreview.classList.contains('show-back');
+        
+        if (isShowingFront) {
+          // Switch to back (barcode) view
+          cardPreview.classList.add('show-back');
+          this.innerHTML = '<i class="fas fa-sync"></i> Show Card Front';
+          
+          // Create back view if it doesn't exist
+          if (!cardPreview.querySelector('.preview-back')) {
+            const backDiv = document.createElement('div');
+            backDiv.className = 'preview-back';
+            
+            const barcodeImg = document.createElement('img');
+            barcodeImg.className = 'preview-barcode-img';
+            
+            // If user uploaded a barcode, use it; otherwise use a placeholder
+            if (uploadedBarcodeData) {
+              barcodeImg.src = uploadedBarcodeData;
+            } else {
+              // Generate a random barcode ID
+              const memberId = cardMemberIdInput.value || 'FC-1234567';
+              barcodeImg.src = `https://bwipjs-api.metafloor.com/?bcid=code128&text=${memberId.replace(/\D/g, '')}&scale=3&includetext=true`;
+            }
+            
+            const backText = document.createElement('div');
+            backText.className = 'preview-back-text';
+            backText.textContent = 'Show this barcode at the gym entrance';
+            
+            backDiv.appendChild(barcodeImg);
+            backDiv.appendChild(backText);
+            cardPreview.appendChild(backDiv);
+          } else {
+            // Update existing back view
+            const barcodeImg = cardPreview.querySelector('.preview-barcode-img');
+            if (uploadedBarcodeData) {
+              barcodeImg.src = uploadedBarcodeData;
+            }
+            cardPreview.querySelector('.preview-back').style.display = 'block';
+          }
+          
+          // Hide front temporarily
+          cardPreview.querySelector('.preview-front').style.display = 'none';
+        } else {
+          // Switch back to front view
+          cardPreview.classList.remove('show-back');
+          this.innerHTML = '<i class="fas fa-sync"></i> Show Barcode Preview';
+          
+          // Show front, hide back
+          cardPreview.querySelector('.preview-front').style.display = 'block';
+          cardPreview.querySelector('.preview-back').style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

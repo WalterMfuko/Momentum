@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Grilled Chicken Salad",
+    "description": "A healthy and delicious salad with grilled chicken.",
+    "image": "chicken-salad.jpg"
+  },
+  {
+    "title": "Protein Smoothie",
+    "description": "A quick and nutritious protein-packed smoothie.",
+    "image": "protein-smoothie.jpg"
+  }
+]
