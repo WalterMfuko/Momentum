@@ -2,4 +2,4 @@ name = "worker-name"
 compatibility_date = "2025-03-24"
 
 # Specify the entry point to your Worker script
-main = "src/index.ts" # Updated to match the correct entry point
+main = "src/index.ts" # Ensure this file exists or update to the correct path
