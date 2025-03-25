@@ -1,942 +1,700 @@
-          <!DOCTYPE html>
-          <html lang="en">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Workout Videos - Momentum</title>
-            <link rel="stylesheet" href="../../assets/css/styles.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-            <style>
-              /* General layout */
-              body {
-                font-family: 'Montserrat', sans-serif;
-                background-color: #f9f9f9;
-                color: #333;
-                margin: 0;
-                padding: 0;
-              }
-              
-              #app {
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-              }
-              
-              .content-area {
-                flex: 1;
-                padding: 20px;
-                padding-bottom: 80px;
-              }
-              
-              /* Section titles */
-              .section-title {
-                font-size: 1.4rem;
-                margin-bottom: 15px;
-                display: flex;
-                align-items: center;
-                color: #333;
-              }
-              
-              .badge-latest {
-                background-color: #e74c3c;
-                color: white;
-                font-size: 0.7rem;
-                padding: 3px 8px;
-                border-radius: 4px;
-                margin-left: 10px;
-                text-transform: uppercase;
-                font-weight: bold;
-              }
-              
-              /* Video hero section */
-              .video-hero {
-                margin-bottom: 30px;
-                background-color: white;
-                border-radius: 12px;
-                box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-                padding: 15px;
-              }
-              
-              .video-container {
-                position: relative;
-                padding-bottom: 56.25%; /* 16:9 aspect ratio */
-                height: 0;
-                overflow: hidden;
-                border-radius: 8px;
-              }
-              
-              .video-container iframe {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border: none;
-              }
-              
-              .video-info {
-                margin-top: 12px;
-              }
-              
-              .video-title {
-                font-size: 1.1rem;
-                margin-bottom: 5px;
-                font-weight: 600;
-              }
-              
-              .video-meta {
-                display: flex;
-                flex-wrap: wrap;
-                font-size: 0.85rem;
-                color: #777;
-              }
-              
-              .video-meta span {
-                margin-right: 15px;
-                margin-bottom: 5px;
-                display: flex;
-                align-items: center;
-              }
-              
-              .video-meta i {
-                margin-right: 5px;
-              }
-              
-              /* Category filters */
-              .category-filters {
-                display: flex;
-                gap: 8px;
-                overflow-x: auto;
-                padding: 5px 0;
-                margin-bottom: 20px;
-                scrollbar-width: none; /* Firefox */
-                -ms-overflow-style: none; /* IE and Edge */
-              }
-              
-              .category-filters::-webkit-scrollbar {
-                display: none; /* Chrome, Safari, Opera */
-              }
-              
-              .filter-chip {
-                background-color: #f0f0f0;
-                border: none;
-                padding: 8px 16px;
-                border-radius: 20px;
-                color: #555;
-                font-size: 0.85rem;
-                white-space: nowrap;
-                cursor: pointer;
-                transition: all 0.2s;
-                font-weight: 500;
-              }
-              
-              .filter-chip:hover {
-                background-color: #e0e0e0;
-              }
-              
-              .filter-chip.active {
-                background-color: #4CAF50;
-                color: white;
-              }
-              
-              /* Horizontal scrolling video section */
-              .scroll-container {
-                overflow-x: auto;
-                white-space: nowrap;
-                margin-bottom: 30px;
-                padding-bottom: 10px;
-                scrollbar-width: thin;
-                -webkit-overflow-scrolling: touch;
-              }
-              
-              .scroll-container::-webkit-scrollbar {
-                height: 4px;
-              }
-              
-              .scroll-container::-webkit-scrollbar-thumb {
-                background-color: rgba(0,0,0,0.2);
-                border-radius: 4px;
-              }
-              
-              .video-cards {
-                display: inline-flex;
-                gap: 15px;
-                padding: 5px 0;
-              }
-              
-              /* Video cards */
-              .video-card {
-                width: 200px;
-                flex-shrink: 0;
-                text-decoration: none;
-                color: inherit;
-                background-color: white;
-                border-radius: 10px;
-                overflow: hidden;
-                box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-                transition: transform 0.2s, box-shadow 0.2s;
-              }
-              
-              .video-card:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-              }
-              
-              .video-card .thumbnail {
-                width: 100%;
-                height: 113px; /* 16:9 aspect ratio */
-                position: relative;
-                background-color: #f0f0f0;
-                overflow: hidden;
-              }
-              
-              .video-card .thumbnail img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                transition: transform 0.3s;
-              }
-              
-              .video-card:hover .thumbnail img {
-                transform: scale(1.05);
-              }
-              
-              .video-card .play-icon {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                color: white;
-                font-size: 32px;
-                opacity: 0.8;
-                transition: all 0.3s ease;
-                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-              }
-              
-              .video-card:hover .play-icon {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.1);
-              }
-              
-              .video-card .card-content {
-                padding: 10px;
-              }
-              
-              .video-card .card-title {
-                font-size: 0.9rem;
-                margin: 0 0 5px 0;
-                white-space: normal;
-                line-height: 1.3;
-                color: #333;
-                font-weight: 500;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                height: 2.6em;
-              }
-              
-              .video-card .card-meta {
-                font-size: 0.75rem;
-                color: #777;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-              }
-              
-              /* Grid layout for videos */
-              .grid-videos {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 16px;
-                margin-bottom: 80px;
-              }
-              
-              @media (min-width: 768px) {
-                .grid-videos {
-                  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-                }
-              }
-              
-              /* Modal for playing videos */
-              .modal {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: rgba(0,0,0,0.9);
-                z-index: 1001;
-                justify-content: center;
-                align-items: center;
-                backdrop-filter: blur(3px);
-              }
-              
-              .modal-content {
-                width: 90%;
-                max-width: 800px;
-                position: relative;
-                animation: modalFadeIn 0.3s ease;
-              }
-              
-              @keyframes modalFadeIn {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-              }
-              
-              .close-modal {
-                position: absolute;
-                top: -40px;
-                right: 0;
-                color: white;
-                font-size: 30px;
-                cursor: pointer;
-                transition: transform 0.2s;
-                z-index: 1002;
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-              }
-              
-              .close-modal:hover {
-                transform: scale(1.1);
-              }
-              
-              .modal-video-container {
-                position: relative;
-                padding-bottom: 56.25%; /* 16:9 ratio */
-                height: 0;
-                overflow: hidden;
-                border-radius: 8px;
-                box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-              }
-              
-              .modal-video-container iframe {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border: none;
-              }
-              
-              /* Bottom navigation */
-              .bottom-nav {
-                position: fixed;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background-color: white;
-                display: flex;
-                justify-content: space-around;
-                padding: 10px 0;
-                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-                z-index: 1000;
-              }
-              
-              .nav-button {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                color: #777;
-                text-decoration: none;
-                font-size: 0.8rem;
-              }
-              
-              .nav-icon {
-                font-size: 1.2rem;
-                margin-bottom: 3px;
-              }
-              
-              .nav-button.active {
-                color: #4CAF50;
-              }
-              
-              /* Video duration badge */
-              .duration-badge {
-                position: absolute;
-                bottom: 5px;
-                right: 5px;
-                background-color: rgba(0,0,0,0.7);
-                color: white;
-                padding: 2px 6px;
-                border-radius: 3px;
-                font-size: 0.75rem;
-                font-weight: 500;
-              }
-              
-              /* Difficulty indicator */
-              .difficulty {
-                display: inline-block;
-                padding: 2px 6px;
-                border-radius: 3px;
-                font-size: 0.7rem;
-                font-weight: 500;
-                margin-right: 5px;
-              }
-              
-              .difficulty.beginner {
-                background-color: #4CAF50;
-                color: white;
-              }
-              
-              .difficulty.intermediate {
-                background-color: #FF9800;
-                color: white;
-              }
-              
-              .difficulty.advanced {
-                background-color: #F44336;
-                color: white;
-              }
-              
-              /* Empty state */
-              .empty-state {
-                text-align: center;
-                padding: 40px 20px;
-                color: #777;
-              }
-              
-              .empty-state i {
-                font-size: 3rem;
-                margin-bottom: 15px;
-                opacity: 0.3;
-              }
-              
-              .empty-message {
-                font-size: 1.1rem;
-                margin-bottom: 10px;
-              }
-              
-              .empty-description {
-                font-size: 0.9rem;
-                max-width: 300px;
-                margin: 0 auto;
-              }
-            </style>
-          </head>
-          <body>
-            <div id="app">
-              <!-- Content Area -->
-              <main class="content-area">
-                <!-- Video Categories -->
-                <div class="category-filters">
-                  <button class="filter-chip active" data-category="all">All Videos</button>
-                  <button class="filter-chip" data-category="hiit">HIIT</button>
-                  <button class="filter-chip" data-category="strength">Strength</button>
-                  <button class="filter-chip" data-category="yoga">Yoga</button>
-                  <button class="filter-chip" data-category="cardio">Cardio</button>
-                  <button class="filter-chip" data-category="recovery">Recovery</button>
-                </div>
-                
-                <!-- Latest Video Section -->
-                <div class="video-hero">
-                  <h2 class="section-title">Latest Video <span class="badge-latest">New!</span></h2>
-                  <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/fbCjPEYDfNw" allowfullscreen></iframe>
-                  </div>
-                  <div class="video-info">
-                    <h3 class="video-title">30 Minute HIIT Cardio Workout - No Equipment</h3>
-                    <div class="video-meta">
-                      <span><i class="fas fa-clock"></i> 32:44</span>
-                      <span><i class="fas fa-fire"></i> 392 calories</span>
-                      <span><i class="fas fa-tag"></i> HIIT</span>
-                      <span><i class="fas fa-signal"></i> Intermediate</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <!-- Workouts For You -->
-                <h2 class="section-title">Recommended For You</h2>
-                <div class="scroll-container">
-                  <div class="video-cards">
-                    <a href="#" class="video-card" data-video="U0u1-X8yZ48">
-                      <div class="thumbnail">
-                        <img src="https://img.youtube.com/vi/U0u1-X8yZ48/mqdefault.jpg" alt="30 Min Dumbbell HIIT Workout">
-                        <div class="play-icon">
-                          <i class="fas fa-play-circle"></i>
-                        </div>
-                        <div class="duration-badge">18:21</div>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="card-title">30 Min Dumbbell HIIT Workout</h3>
-                        <div class="card-meta">
-                          <span class="difficulty intermediate">Intermediate</span>
-                          <span>HIIT</span>
-                        </div>
-                      </div>
-                    </a>
-                    
-                    <a href="#" class="video-card" data-video="HWyFy8ftdNs">
-                      <div class="thumbnail">
-                        <img src="https://img.youtube.com/vi/HWyFy8ftdNs/mqdefault.jpg" alt="15 Min Full Body HIIT">
-                        <div class="play-icon">
-                          <i class="fas fa-play-circle"></i>
-                        </div>
-                        <div class="duration-badge">15:30</div>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="card-title">15 Min Full Body HIIT - No Repeats</h3>
-                        <div class="card-meta">
-                          <span class="difficulty beginner">Beginner</span>
-                          <span>HIIT</span>
-                        </div>
-                      </div>
-                    </a>
-                    
-                    <a href="#" class="video-card" data-video="XnyxRmfp8Ec">
-                      <div class="thumbnail">
-                        <img src="https://img.youtube.com/vi/XnyxRmfp8Ec/mqdefault.jpg" alt="20 Min HIIT Cardio">
-                        <div class="play-icon">
-                          <i class="fas fa-play-circle"></i>
-                        </div>
-                        <div class="duration-badge">20:14</div>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="card-title">20 Min HIIT Cardio - No Equipment</h3>
-                        <div class="card-meta">
-                          <span class="difficulty intermediate">Intermediate</span>
-                          <span>HIIT</span>
-                        </div>
-                      </div>
-                    </a>
-                    
-                    <a href="#" class="video-card" data-video="zq13rZhWtpc">
-                      <div class="thumbnail">
-                        <img src="https://img.youtube.com/vi/zq13rZhWtpc/mqdefault.jpg" alt="25 Min HIIT Workout">
-                        <div class="play-icon">
-                          <i class="fas fa-play-circle"></i>
-                        </div>
-                        <div class="duration-badge">25:30</div>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="card-title">25 Min HIIT Workout - Full Body</h3>
-                        <div class="card-meta">
-                          <span class="difficulty advanced">Advanced</span>
-                          <span>HIIT</span>
-                        </div>
-                      </div>
-                    </a>
-                    
-                    <a href="#" class="video-card" data-video="alYJomBsNPc">
-                      <div class="thumbnail">
-                        <img src="https://img.youtube.com/vi/alYJomBsNPc/mqdefault.jpg" alt="HIIT Workout for Fat Loss">
-                        <div class="play-icon">
-                          <i class="fas fa-play-circle"></i>
-                        </div>
-                        <div class="duration-badge">22:08</div>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="card-title">HIIT Workout for Fat Loss</h3>
-                        <div class="card-meta">
-                          <span class="difficulty intermediate">Intermediate</span>
-                          <span>HIIT</span>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                
-                <!-- Strength Training Section -->
-                <h2 class="section-title">Strength Training</h2>
-                <div class="scroll-container">
-                  <div class="video-cards">
-                    <a href="#" class="video-card" data-video="IODxDxX7oi4" data-category="strength">
-                      <div class="thumbnail">
-                        <img src="https://img.youtube.com/vi/IODxDxX7oi4/mqdefault.jpg" alt="Bench Press Tutorial">
-                        <div class="play-icon">
-                          <i class="fas fa-play-circle"></i>
-                        </div>
-                        <div class="duration-badge">8:24</div>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="card-title">Bench Press Tutorial</h3>
-                        <div class="card-meta">
-                          <span class="difficulty beginner">Beginner</span>
-                          <span>Strength</span>
-                        </div>
-                      </div>
-                    </a>
-                    
-                    <a href="#" class="video-card" data-video="GLy2rYHwUqY" data-category="strength">
-                      <div class="thumbnail">
-                        <img src="https://img.youtube.com/vi/GLy2rYHwUqY/mqdefault.jpg" alt="Complete Dumbbell Workout">
-                        <div class="play-icon">
-                          <i class="fas fa-play-circle"></i>
-                        </div>
-                        <div class="duration-badge">30:15</div>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="card-title">Complete Dumbbell Workout</h3>
-                        <div class="card-meta">
-                          <span class="difficulty intermediate">Intermediate</span>
-                          <span>Strength</span>
-                        </div>
-                      </div>
-                    </a>
-                    
-                    <a href="#" class="video-card" data-video="6JgGPWoYXqk" data-category="strength">
-                      <div class="thumbnail">
-                        <img src="https://img.youtube.com/vi/6JgGPWoYXqk/mqdefault.jpg" alt="Deadlift Form Guide">
-                        <div class="play-icon">
-                          <i class="fas fa-play-circle"></i>
-                        </div>
-                        <div class="duration-badge">12:38</div>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="card-title">Deadlift Form Guide</h3>
-                        <div class="card-meta">
-                          <span class="difficulty beginner">Beginner</span>
-                          <span>Strength</span>
-                        </div>
-                      </div>
-                    </a>
-                    
-                    <a href="#" class="video-card" data-video="eGo4IYlbE5g" data-category="strength">
-                      <div class="thumbnail">
-                        <img src="https://img.youtube.com/vi/eGo4IYlbE5g/mqdefault.jpg" alt="Squat Tutorial">
-                        <div class="play-icon">
-                          <i class="fas fa-play-circle"></i>
-                        </div>
-                        <div class="duration-badge">9:45</div>
-                      </div>
-                      <div class="card-content">
-                        <h3 class="card-title">Squat Form Tutorial</h3>
-                        <div class="card-meta">
-                          <span class="difficulty beginner">Beginner</span>
-                          <span>Strength</span>
-                        </div>
-                      </div>
-                    </a>
-                  </div>
-                </div>
-                
-                <!-- All Videos Grid -->
-                <h2 class="section-title">All Videos</h2>
-                <div class="grid-videos" id="all-videos-grid">
-                  <!-- Videos will be dynamically loaded here -->
-                </div>
-              </main>
-          
-              <!-- Video Modal -->
-              <div id="video-modal" class="modal">
-                <div class="modal-content">
-                  <span class="close-modal">&times;</span>
-                  <div class="modal-video-container">
-                    <iframe id="modal-iframe" src="" frameborder="0" allowfullscreen></iframe>
-                  </div>
-                </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Videos - Momentum</title>
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* General layout */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f0f0f0; /* Background for the "device" area */
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+    
+    #app {
+      width: 100%;
+      max-width: 500px; /* Mobile app width */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f9f9f9; /* App background */
+      position: relative;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Subtle shadow for device effect */
+    }
+    
+    .content-area {
+      flex: 1;
+      padding: 15px;
+      padding-bottom: 80px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch; /* For iOS devices */
+    }
+    
+    .content-area::-webkit-scrollbar {
+      width: 0px; /* Width of the scrollbar */
+      background: transparent; /* Hide the background */
+    }
+    
+    /* Section titles */
+    .section-title {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      color: #333;
+    }
+    
+    .badge-latest {
+      background-color: #e74c3c;
+      color: white;
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-left: 10px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    
+    /* Video hero section */
+    .video-hero {
+      margin-bottom: 30px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      padding: 15px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 aspect ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+    
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    .video-info {
+      margin-top: 12px;
+    }
+    
+    .video-title {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+    
+    .video-meta {
+      display: flex;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+      color: #777;
+    }
+    
+    .video-meta span {
+      margin-right: 15px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .video-meta i {
+      margin-right: 5px;
+    }
+    
+    /* Category filters */
+    .category-filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 5px 0;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+      width: 100%;
+    }
+    
+    .category-filters::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    
+    .filter-chip {
+      background-color: #f0f0f0;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      color: #555;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    
+    .filter-chip:hover {
+      background-color: #e0e0e0;
+    }
+    
+    .filter-chip.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    /* Horizontal scrolling video section */
+    .scroll-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
+    }
+    
+    .scroll-container::-webkit-scrollbar {
+      height: 4px;
+    }
+    
+    .scroll-container::-webkit-scrollbar-thumb {
+      background-color: rgba(0,0,0,0.2);
+      border-radius: 4px;
+    }
+    
+    .video-cards {
+      display: inline-flex;
+      gap: 15px;
+      padding: 5px 0;
+    }
+    
+    /* Video cards */
+    .video-card {
+      width: 200px;
+      flex-shrink: 0;
+      text-decoration: none;
+      color: inherit;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .video-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .video-card .thumbnail {
+      width: 100%;
+      height: 113px; /* 16:9 aspect ratio */
+      position: relative;
+      background-color: #f0f0f0;
+      overflow: hidden;
+    }
+    
+    .video-card .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    
+    .video-card:hover .thumbnail img {
+      transform: scale(1.05);
+    }
+    
+    .video-card .play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 32px;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .video-card:hover .play-icon {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+    
+    .video-card .card-content {
+      padding: 10px;
+    }
+    
+    .video-card .card-title {
+      font-size: 0.9rem;
+      margin: 0 0 5px 0;
+      white-space: normal;
+      line-height: 1.3;
+      color: #333;
+      font-weight: 500;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 2.6em;
+    }
+    
+    .video-card .card-meta {
+      font-size: 0.75rem;
+      color: #777;
+    }
+    
+    /* Grid layout for videos */
+    .grid-videos {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 80px;
+      width: 100%;
+    }
+    
+    @media (min-width: 768px) {
+      .grid-videos {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      }
+    }
+    
+    /* Modal for playing videos */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      width: 90%;
+      max-width: 500px; /* Match app container width */
+      position: relative;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+    }
+    
+    .modal-video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
+      overflow: hidden;
+    }
+    
+    .modal-video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    /* Bottom navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 500px; /* Match app container width */
+      background-color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    
+    .nav-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #777;
+      font-size: 0.7rem;
+      padding: 5px;
+    }
+    
+    .nav-button.active {
+      color: #4CAF50;
+    }
+    
+    .nav-icon {
+      font-size: 1.2rem;
+      margin-bottom: 3px;
+    }
+    
+    /* Duration badge */
+    .duration-badge {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      background-color: rgba(0,0,0,0.7);
+      color: white;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.75rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Content Area -->
+    <main class="content-area">
+      <!-- Video Categories -->
+      <div class="category-filters">
+        <button class="filter-chip active" data-category="all">All Videos</button>
+        <a href="/profiles/adult/jordan/hiit.html" class="filter-chip" data-category="hiit">HIIT</a>
+        <button class="filter-chip" data-category="strength">Strength</button>
+        <button class="filter-chip" data-category="yoga">Yoga</button>
+        <button class="filter-chip" data-category="cardio">Cardio</button>
+      </div>
+      
+      <!-- Latest Video Section -->
+      <div class="video-hero">
+        <h2 class="section-title">Latest Video <span class="badge-latest">New!</span></h2>
+        <div class="video-container">
+          <iframe src="https://www.youtube.com/embed/fbCjPEYDfNw" allowfullscreen></iframe>
+        </div>
+        <div class="video-info">
+          <h3 class="video-title">30 Minute HIIT Cardio Workout - No Equipment</h3>
+          <div class="video-meta">
+            <span><i class="fas fa-clock"></i> 32:44</span>
+            <span><i class="fas fa-fire"></i> 392 calories</span>
+            <span><i class="fas fa-tag"></i> HIIT</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Workouts For You -->
+      <h2 class="section-title">Workouts For You</h2>
+      <div class="scroll-container">
+        <div class="video-cards">
+          <a href="#" class="video-card" data-video="U0u1-X8yZ48">
+            <div class="thumbnail">
+              <img src="https://img.youtube.com/vi/U0u1-X8yZ48/mqdefault.jpg" alt="30 Min Dumbbell HIIT Workout">
+              <div class="play-icon">
+                <i class="fas fa-play-circle"></i>
               </div>
+              <div class="duration-badge">18:21</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">30 Min Dumbbell HIIT Workout</h3>
+              <div class="card-meta">18:21 • HIIT</div>
+            </div>
+          </a>
+          <a href="#" class="video-card" data-video="HWyFy8ftdNs">
+            <div class="thumbnail">
+              <img src="https://img.youtube.com/vi/HWyFy8ftdNs/mqdefault.jpg" alt="15 Min Full Body HIIT">
+              <div class="play-icon">
+                <i class="fas fa-play-circle"></i>
+              </div>
+              <div class="duration-badge">15:30</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">15 Min Full Body HIIT - No Repeats</h3>
+              <div class="card-meta">15:30 • HIIT</div>
+            </div>
+          </a>
+          <a href="#" class="video-card" data-video="XnyxRmfp8Ec">
+            <div class="thumbnail">
+              <img src="https://img.youtube.com/vi/XnyxRmfp8Ec/mqdefault.jpg" alt="20 Min HIIT Cardio">
+              <div class="play-icon">
+                <i class="fas fa-play-circle"></i>
+              </div>
+              <div class="duration-badge">20:14</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">20 Min HIIT Cardio - No Equipment</h3>
+              <div class="card-meta">20:14 • HIIT</div>
+            </div>
+          </a>
+          <a href="#" class="video-card" data-video="zq13rZhWtpc">
+            <div class="thumbnail">
+              <img src="https://img.youtube.com/vi/zq13rZhWtpc/mqdefault.jpg" alt="25 Min HIIT Workout">
+              <div class="play-icon">
+                <i class="fas fa-play-circle"></i>
+              </div>
+              <div class="duration-badge">25:30</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">25 Min HIIT Workout - Full Body</h3>
+              <div class="card-meta">25:30 • HIIT</div>
+            </div>
+          </a>
+          <a href="#" class="video-card" data-video="alYJomBsNPc">
+            <div class="thumbnail">
+              <img src="https://img.youtube.com/vi/alYJomBsNPc/mqdefault.jpg" alt="HIIT Workout for Fat Loss">
+              <div class="play-icon">
+                <i class="fas fa-play-circle"></i>
+              </div>
+              <div class="duration-badge">22:08</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">HIIT Workout for Fat Loss</h3>
+              <div class="card-meta">22:08 • HIIT</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Newly Added Workouts -->
+      <h2 class="section-title">Newly Added Workouts</h2>
+      <div class="scroll-container">
+        <div class="video-cards">
+          <a href="#" class="video-card" data-video="o42lg27IBtg">
+            <div class="thumbnail">
+              <img src="https://img.youtube.com/vi/o42lg27IBtg/mqdefault.jpg" alt="40 Min HIIT Workout">
+              <div class="play-icon">
+                <i class="fas fa-play-circle"></i>
+              </div>
+              <div class="duration-badge">40:15</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">40 Min HIIT Workout Challenge</h3>
+              <div class="card-meta">40:15 • HIIT</div>
+            </div>
+          </a>
+          <a href="#" class="video-card" data-video="01uYbllyIt8">
+            <div class="thumbnail">
+              <img src="https://img.youtube.com/vi/01uYbllyIt8/mqdefault.jpg" alt="HIIT Abs Workout">
+              <div class="play-icon">
+                <i class="fas fa-play-circle"></i>
+              </div>
+              <div class="duration-badge">10:22</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">10 Min HIIT Abs Workout</h3>
+              <div class="card-meta">10:22 • HIIT</div>
+            </div>
+          </a>
+          <a href="#" class="video-card" data-video="CBWQGb4LyAM">
+            <div class="thumbnail">
+              <img src="https://img.youtube.com/vi/CBWQGb4LyAM/mqdefault.jpg" alt="HIIT Cardio and Abs">
+              <div class="play-icon">
+                <i class="fas fa-play-circle"></i>
+              </div>
+              <div class="duration-badge">30:45</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">HIIT Cardio and Abs Workout</h3>
+              <div class="card-meta">30:45 • HIIT</div>
+            </div>
+          </a>
+          <a href="#" class="video-card" data-video="IODxDxX7oi4">
+            <div class="thumbnail">
+              <img src="https://img.youtube.com/vi/IODxDxX7oi4/mqdefault.jpg" alt="Bench Press Tutorial">
+              <div class="play-icon">
+                <i class="fas fa-play-circle"></i>
+              </div>
+              <div class="duration-badge">8:24</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Bench Press Tutorial</h3>
+              <div class="card-meta">8:24 • Strength</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- HIIT Workouts -->
+      <h2 class="section-title">HIIT Workouts</h2>
+      <div class="hiit-videos-container grid-videos"></div>
+    </main>
+
+    <!-- Video Modal -->
+    <div id="video-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <div class="modal-video-container">
+          <iframe id="modal-iframe" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div>
+
+   <!-- Bottom Navigation -->
+   <nav class="bottom-nav">
+    <a href="/profiles/adult/jordan/home.html" class="nav-button">
+      <i class="nav-icon fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="/profiles/adult/jordan/workouts.html" class="nav-button">
+      <i class="nav-icon fas fa-dumbbell"></i>
+      <span>Workouts</span>
+    </a>
+    <a href="/profiles/adult/jordan/recipes.html" class="nav-button">
+      <i class="nav-icon fas fa-utensils"></i>
+      <span>Recipes</span>
+    </a>
+    <a href="/profiles/adult/jordan/videos.html" class="nav-button active">
+      <i class="nav-icon fas fa-video"></i>
+      <span>Videos</span>
+    </a>
+  </nav>
+</div>
+
+  <script src="../../assets/js/videodata.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Filter functionality
+      const filterChips = document.querySelectorAll('.filter-chip');
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', function() {
+          // Remove active class from all chips
+          filterChips.forEach(c => c.classList.remove('active'));
+          // Add active class to clicked chip
+          this.classList.add('active');
           
-                            <!-- Bottom Navigation -->
-                            <nav class="bottom-nav">
-                              <a href="/profiles/adult/jordan/home.html" class="nav-button">
-                                <i class="nav-icon fas fa-home"></i>
-                                <span>Home</span>
-                              </a>
-                              <a href="/profiles/adult/jordan/dashboard.html" class="nav-button">
-                                <i class="nav-icon fas fa-chart-line"></i>
-                                <span>Dashboard</span>
-                              </a>
-                              <a href="/profiles/adult/jordan/workouts.html" class="nav-button">
-                                <i class="nav-icon fas fa-dumbbell"></i>
-                                <span>Workouts</span>
-                              </a>
-                              <a href="/profiles/adult/jordan/recipes.html" class="nav-button">
-                                <i class="nav-icon fas fa-utensils"></i>
-                                <span>Recipes</span>
-                              </a>
-                              <a href="/profiles/adult/jordan/videos.html" class="nav-button active">
-                                <i class="nav-icon fas fa-video"></i>
-                                <span>Videos</span>
-                              </a>
-                            </nav>
-                          </div>
-              
-          
-            <script>
-              document.addEventListener('DOMContentLoaded', function() {
-                // Video database
-                const videoDatabase = [
-                  {
-                    id: 'fbCjPEYDfNw',
-                    title: '30 Minute HIIT Cardio Workout - No Equipment',
-                    duration: '32:44',
-                    calories: '392',
-                    category: 'hiit',
-                    difficulty: 'intermediate',
-                    thumbnail: 'https://img.youtube.com/vi/fbCjPEYDfNw/mqdefault.jpg',
-                    featured: true
-                  },
-                  {
-                    id: 'U0u1-X8yZ48',
-                    title: '30 Min Dumbbell HIIT Workout',
-                    duration: '18:21',
-                    calories: '280',
-                    category: 'hiit',
-                    difficulty: 'intermediate',
-                    thumbnail: 'https://img.youtube.com/vi/U0u1-X8yZ48/mqdefault.jpg',
-                    recommended: true
-                  },
-                  {
-                    id: 'HWyFy8ftdNs',
-                    title: '15 Min Full Body HIIT - No Repeats',
-                    duration: '15:30',
-                    calories: '210',
-                    category: 'hiit',
-                    difficulty: 'beginner',
-                    thumbnail: 'https://img.youtube.com/vi/HWyFy8ftdNs/mqdefault.jpg',
-                    recommended: true
-                  },
-                  {
-                    id: 'XnyxRmfp8Ec',
-                    title: '20 Min HIIT Cardio - No Equipment',
-                    duration: '20:14',
-                    calories: '240',
-                    category: 'hiit',
-                    difficulty: 'intermediate',
-                    thumbnail: 'https://img.youtube.com/vi/XnyxRmfp8Ec/mqdefault.jpg',
-                    recommended: true
-                  },
-                  {
-                    id: 'zq13rZhWtpc',
-                    title: '25 Min HIIT Workout - Full Body',
-                    duration: '25:30',
-                    calories: '310',
-                    category: 'hiit',
-                    difficulty: 'advanced',
-                    thumbnail: 'https://img.youtube.com/vi/zq13rZhWtpc/mqdefault.jpg',
-                    recommended: true
-                  },
-                  {
-                    id: 'alYJomBsNPc',
-                    title: 'HIIT Workout for Fat Loss',
-                    duration: '22:08',
-                    calories: '270',
-                    category: 'hiit',
-                    difficulty: 'intermediate',
-                    thumbnail: 'https://img.youtube.com/vi/alYJomBsNPc/mqdefault.jpg',
-                    recommended: true
-                  },
-                  {
-                    id: 'IODxDxX7oi4',
-                    title: 'Bench Press Tutorial',
-                    duration: '8:24',
-                    calories: '100',
-                    category: 'strength',
-                    difficulty: 'beginner',
-                    thumbnail: 'https://img.youtube.com/vi/IODxDxX7oi4/mqdefault.jpg'
-                  },
-                  {
-                    id: 'o42lg27IBtg',
-                    title: '40 Min HIIT Workout Challenge',
-                    duration: '40:15',
-                    calories: '410',
-                    category: 'hiit',
-                    difficulty: 'advanced',
-                    thumbnail: 'https://img.youtube.com/vi/o42lg27IBtg/mqdefault.jpg'
-                  },
-                  {
-                    id: '01uYbllyIt8',
-                    title: '10 Min HIIT Abs Workout',
-                    duration: '10:22',
-                    calories: '150',
-                    category: 'hiit',
-                    difficulty: 'intermediate',
-                    thumbnail: 'https://img.youtube.com/vi/01uYbllyIt8/mqdefault.jpg'
-                  },
-                  {
-                    id: 'CBWQGb4LyAM',
-                    title: 'HIIT Cardio and Abs Workout',
-                    duration: '30:45',
-                    calories: '320',
-                    category: 'hiit',
-                    difficulty: 'intermediate',
-                    thumbnail: 'https://img.youtube.com/vi/CBWQGb4LyAM/mqdefault.jpg'
-                  },
-                  {
-                    id: 'GLy2rYHwUqY',
-                    title: 'Complete Dumbbell Workout',
-                    duration: '30:15',
-                    calories: '280',
-                    category: 'strength',
-                    difficulty: 'intermediate',
-                    thumbnail: 'https://img.youtube.com/vi/GLy2rYHwUqY/mqdefault.jpg'
-                  },
-                  {
-                    id: '6JgGPWoYXqk',
-                    title: 'Deadlift Form Guide',
-                    duration: '12:38',
-                    calories: '120',
-                    category: 'strength',
-                    difficulty: 'beginner',
-                    thumbnail: 'https://img.youtube.com/vi/6JgGPWoYXqk/mqdefault.jpg'
-                  },
-                  {
-                    id: 'eGo4IYlbE5g',
-                    title: 'Squat Form Tutorial',
-                    duration: '9:45',
-                    calories: '110',
-                    category: 'strength',
-                    difficulty: 'beginner',
-                    thumbnail: 'https://img.youtube.com/vi/eGo4IYlbE5g/mqdefault.jpg'
-                  },
-                  {
-                    id: 'hxjKylDSmhU',
-                    title: 'Yoga for Beginners',
-                    duration: '20:30',
-                    calories: '150',
-                    category: 'yoga',
-                    difficulty: 'beginner',
-                    thumbnail: 'https://img.youtube.com/vi/hxjKylDSmhU/mqdefault.jpg'
-                  },
-                  {
-                    id: 'oBu-pQG6sTY',
-                    title: 'Morning Yoga Flow',
-                    duration: '25:15',
-                    calories: '180',
-                    category: 'yoga',
-                    difficulty: 'intermediate',
-                    thumbnail: 'https://img.youtube.com/vi/oBu-pQG6sTY/mqdefault.jpg'
-                  },
-                  {
-                    id: 'j7rKKpwdXNE',
-                    title: '10 Min Post-Workout Stretch',
-                    duration: '10:12',
-                    calories: '50',
-                    category: 'recovery',
-                    difficulty: 'beginner',
-                    thumbnail: 'https://img.youtube.com/vi/j7rKKpwdXNE/mqdefault.jpg'
-                  }
-                ];
-                
-                // Load all videos in the grid
-                function loadAllVideos(category = 'all') {
-                  const gridContainer = document.getElementById('all-videos-grid');
-                  gridContainer.innerHTML = '';
-                  
-                  let filteredVideos = videoDatabase;
-                  if (category !== 'all') {
-                    filteredVideos = videoDatabase.filter(video => video.category === category);
-                  }
-                  
-                  if (filteredVideos.length === 0) {
-                    // Show empty state if no videos match the category
-                    const emptyState = document.createElement('div');
-                    emptyState.className = 'empty-state';
-                    emptyState.innerHTML = `
-                      <i class="fas fa-video"></i>
-                      <div class="empty-message">No videos found</div>
-                      <div class="empty-description">We don't have any ${category} videos yet. Check back soon!</div>
-                    `;
-                    gridContainer.appendChild(emptyState);
-                    return;
-                  }
-                  
-                  filteredVideos.forEach(video => {
-                    const videoCard = createVideoCard(video);
-                    gridContainer.appendChild(videoCard);
-                  });
-                }
-                
-                // Create a video card element
-                function createVideoCard(video) {
-                  const cardElement = document.createElement('a');
-                  cardElement.href = '#';
-                  cardElement.className = 'video-card';
-                  cardElement.setAttribute('data-video', video.id);
-                  cardElement.setAttribute('data-category', video.category);
-                  
-                  // Get the difficulty class
-                  let difficultyClass = '';
-                  switch(video.difficulty) {
-                    case 'beginner':
-                      difficultyClass = 'beginner';
-                      break;
-                    case 'intermediate':
-                      difficultyClass = 'intermediate';
-                      break;
-                    case 'advanced':
-                      difficultyClass = 'advanced';
-                      break;
-                  }
-                  
-                  cardElement.innerHTML = `
-                    <div class="thumbnail">
-                      <img src="${video.thumbnail}" alt="${video.title}">
-                      <div class="play-icon">
-                        <i class="fas fa-play-circle"></i>
-                      </div>
-                      <div class="duration-badge">${video.duration}</div>
-                    </div>
-                    <div class="card-content">
-                      <h3 class="card-title">${video.title}</h3>
-                      <div class="card-meta">
-                        <span class="difficulty ${difficultyClass}">${video.difficulty.charAt(0).toUpperCase() + video.difficulty.slice(1)}</span>
-                        <span>${video.category.charAt(0).toUpperCase() + video.category.slice(1)}</span>
-                      </div>
-                    </div>
-                  `;
-                  
-                  return cardElement;
-                }
-                
-                // Filter videos when category is clicked
-                const filterChips = document.querySelectorAll('.filter-chip');
-                filterChips.forEach(chip => {
-                  chip.addEventListener('click', function() {
-                    // Remove active class from all chips
-                    filterChips.forEach(c => c.classList.remove('active'));
-                    // Add active class to clicked chip
-                    this.classList.add('active');
-                    
-                    // Get selected category
-                    const category = this.getAttribute('data-category');
-                    loadAllVideos(category);
-                  });
-                });
-                
-                // Video click functionality
-                document.addEventListener('click', function(e) {
-                  const videoCard = e.target.closest('.video-card');
-                  if (videoCard) {
-                    e.preventDefault();
-                    const videoId = videoCard.getAttribute('data-video');
-                    
-                    const modal = document.getElementById('video-modal');
-                    const modalIframe = document.getElementById('modal-iframe');
-                    
-                    modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-                    modal.style.display = 'flex';
-                  }
-                });
-                
-                // Close modal when clicking X
-                const closeBtn = document.querySelector('.close-modal');
-                closeBtn.addEventListener('click', function() {
-                  const modal = document.getElementById('video-modal');
-                  const modalIframe = document.getElementById('modal-iframe');
-                  
-                  modal.style.display = 'none';
-                  modalIframe.src = '';
-                });
-                
-                // Close modal when clicking outside
-                const modal = document.getElementById('video-modal');
-                window.addEventListener('click', function(e) {
-                  if (e.target === modal) {
-                    modal.style.display = 'none';
-                    document.getElementById('modal-iframe').src = '';
-                  }
-                });
-                
-                // Initialize videos grid on page load
-                loadAllVideos();
-              });
-            </script>
-          </body>
-          </html>
+          // Get selected category
+          const category = this.getAttribute('data-category');
+          filterVideos(category);
+        });
+      });
+      
+      // Video click functionality
+      const modal = document.getElementById('video-modal');
+      const modalIframe = document.getElementById('modal-iframe');
+      const closeBtn = document.querySelector('.close-modal');
+      
+      // Attach event listeners to video cards
+      function attachVideoEvents() {
+        const videoCards = document.querySelectorAll('.video-card');
+        videoCards.forEach(card => {
+          card.addEventListener('click', function(e) {
+            e.preventDefault();
+            const videoId = this.getAttribute('data-video');
+            modalIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            modal.style.display = 'flex';
+          });
+        });
+      }
+      
+      // Initial event attachment
+      attachVideoEvents();
+      
+      // Close modal
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+        modalIframe.src = '';
+      });
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          modalIframe.src = '';
+        }
+      });
+      
+      // Filter videos function
+      function filterVideos(category) {
+        console.log('Filtering by:', category);
+        // In a real app, this would filter the videos based on category
+      }
+
+      // Load videos from videodata.js
+      try {
+        // Check if videoData is available
+        if (typeof videoData === 'undefined') {
+          console.error("videoData is undefined. Make sure videodata.js is loaded correctly.");
+          document.querySelector('.hiit-videos-container').innerHTML = '<p>Error loading videos: videoData not found</p>';
+          return;
+        }
+        
+        // Check if the function exists
+        if (typeof videoData.getVideosByCategory !== 'function') {
+          console.error("videoData.getVideosByCategory is not a function");
+          document.querySelector('.hiit-videos-container').innerHTML = '<p>Error loading videos: videoData.getVideosByCategory not found</p>';
+          return;
+        }
+        
+        const hiitVideos = videoData.getVideosByCategory('hiit');
+        
+        if (!hiitVideos || hiitVideos.length === 0) {
+          console.log("No HIIT videos found");
+          document.querySelector('.hiit-videos-container').innerHTML = '<p>No HIIT videos found</p>';
+          return;
+        }
+        
+        console.log(`Found ${hiitVideos.length} HIIT videos`);
+        let hiitHTML = '';
+        
+        // Then loop through them to create your HTML
+        hiitVideos.forEach(video => {
+          // Create HTML card for each video
+          hiitHTML += `
+            <a href="#" class="video-card" data-video="${video.id}">
+              <div class="thumbnail">
+                <img src="https://img.youtube.com/vi/${video.id}/mqdefault.jpg" alt="${video.title}">
+                <div class="play-icon">
+                  <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="duration-badge">${video.duration}</div>
+              </div>
+              <div class="card-content">
+                <h3 class="card-title">${video.title}</h3>
+                <div class="card-meta">${video.duration} • HIIT</div>
+              </div>
+            </a>
+          `;
+        });
+        
+        // Add to DOM
+        document.querySelector('.hiit-videos-container').innerHTML = hiitHTML;
+        
+        // Attach events to new video cards
+        attachVideoEvents();
+        
+      } catch (error) {
+        console.error("Error loading video data:", error);
+        document.querySelector('.hiit-videos-container').innerHTML = `<p>Error loading videos: ${error.message}</p>`;
+      }
+    });
+
+    function searchVideos(query) {
+      if (typeof videoData.getAllVideos === 'function') {
+        const allVideos = videoData.getAllVideos();
+        return allVideos.filter(video => 
+          video.title.toLowerCase().includes(query.toLowerCase()) ||
+          video.description.toLowerCase().includes(query.toLowerCase())
+        );
+      }
+      return [];
+    }
+  </script>
+</body>
+</html>

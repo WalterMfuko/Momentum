@@ -1,24 +1,728 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Jordan's Recipes</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthy Recipes - Momentum</title>
   <link rel="stylesheet" href="../../assets/css/styles.css">
-  <script src="/assets/js/recipes.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* General layout */
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f0f0f0; /* Background for the "device" area */
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+    }
+    
+    #app {
+      width: 100%;
+      max-width: 500px; /* Mobile app width */
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #f9f9f9; /* App background */
+      position: relative;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1); /* Subtle shadow for device effect */
+    }
+    
+    .content-area {
+      flex: 1;
+      padding: 15px;
+      padding-bottom: 80px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch; /* For iOS devices */
+    }
+    
+    .content-area::-webkit-scrollbar {
+      width: 0px; /* Width of the scrollbar */
+      background: transparent; /* Hide the background */
+    }
+    
+    /* Section titles */
+    .section-title {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      color: #333;
+    }
+    
+    .badge-new {
+      background-color: #4CAF50;
+      color: white;
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-left: 10px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    
+    /* Recipe hero section */
+    .recipe-hero {
+      margin-bottom: 25px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      overflow: hidden;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .recipe-hero-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .recipe-hero-content {
+      padding: 15px;
+    }
+    
+    .recipe-title {
+      font-size: 1.3rem;
+      margin: 0 0 8px 0;
+      font-weight: 600;
+    }
+    
+    .recipe-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 12px;
+      font-size: 0.85rem;
+    }
+    
+    .recipe-meta-item {
+      display: flex;
+      align-items: center;
+      color: #666;
+    }
+    
+    .recipe-meta-item i {
+      margin-right: 5px;
+      color: #4CAF50;
+    }
+    
+    .recipe-description {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+    
+    .view-recipe-btn {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: background-color 0.2s;
+    }
+    
+    .view-recipe-btn:hover {
+      background-color: #3d8b40;
+    }
+    
+    /* Category filters */
+    .category-filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 5px 0;
+      margin-bottom: 15px;
+      padding-bottom: 5px;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+      width: 100%;
+    }
+    
+    .category-filters::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera */
+    }
+    
+    .filter-chip {
+      background-color: #f0f0f0;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      color: #555;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    
+    .filter-chip:hover {
+      background-color: #e0e0e0;
+    }
+    
+    .filter-chip.active {
+      background-color: #4CAF50;
+      color: white;
+    }
+    
+    /* Horizontal scrolling recipe section */
+    .scroll-container {
+      overflow-x: auto;
+      white-space: nowrap;
+      margin-bottom: 25px;
+      padding-bottom: 10px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      width: 100%;
+    }
+    
+    .scroll-container::-webkit-scrollbar {
+      height: 4px;
+    }
+    
+    .scroll-container::-webkit-scrollbar-thumb {
+      background-color: rgba(0,0,0,0.2);
+      border-radius: 4px;
+    }
+    
+    .recipe-cards {
+      display: inline-flex;
+      gap: 15px;
+      padding: 5px 0;
+    }
+    
+    /* Recipe cards */
+    .recipe-card {
+      width: 160px;
+      flex-shrink: 0;
+      text-decoration: none;
+      color: inherit;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .recipe-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .recipe-card .thumbnail {
+      width: 100%;
+      height: 120px;
+      position: relative;
+      background-color: #f0f0f0;
+      overflow: hidden;
+    }
+    
+    .recipe-card .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    
+    .recipe-card:hover .thumbnail img {
+      transform: scale(1.05);
+    }
+    
+    .recipe-card .card-content {
+      padding: 10px;
+    }
+    
+    .recipe-card .card-title {
+      font-size: 0.9rem;
+      margin: 0 0 5px 0;
+      white-space: normal;
+      line-height: 1.3;
+      color: #333;
+      font-weight: 500;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 2.6em;
+    }
+    
+    .recipe-card .card-meta {
+      font-size: 0.75rem;
+      color: #777;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .recipe-time {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-right: 8px;
+    }
+    
+    .recipe-calories {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+    
+    /* Nutrition badge */
+    .nutrition-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: rgba(255,255,255,0.9);
+      color: #333;
+      padding: 3px 6px;
+      border-radius: 3px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    
+    .nutrition-badge.high-protein {
+      color: #3949AB;
+    }
+    
+    .nutrition-badge.low-carb {
+      color: #43A047;
+    }
+    
+    .nutrition-badge.low-calorie {
+      color: #FB8C00;
+    }
+    
+    /* Recipe modal */
+    .recipe-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .recipe-modal-content {
+      width: 90%;
+      max-width: 500px;
+      max-height: 80vh;
+      background-color: white;
+      border-radius: 12px;
+      overflow-y: auto;
+      position: relative;
+      animation: modalFadeIn 0.3s ease;
+    }
+    
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      background-color: rgba(0,0,0,0.5);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 2;
+    }
+    
+    .recipe-modal-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    
+    .recipe-modal-body {
+      padding: 20px;
+    }
+    
+    .recipe-modal-title {
+      font-size: 1.4rem;
+      margin: 0 0 15px 0;
+    }
+    
+    .recipe-details {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .recipe-detail {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    
+    .detail-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .detail-label {
+      font-size: 0.75rem;
+      color: #666;
+    }
+    
+    .recipe-section-title {
+      font-size: 1.1rem;
+      margin: 20px 0 10px 0;
+      font-weight: 600;
+    }
+    
+    .ingredients-list {
+      padding-left: 20px;
+      margin: 0 0 20px 0;
+    }
+    
+    .ingredients-list li {
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+    }
+    
+    .instructions {
+      list-style-type: decimal;
+      padding-left: 20px;
+      margin: 0;
+    }
+    
+    .instructions li {
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    
+    /* Bottom navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 500px; /* Match app container width */
+      background-color: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    
+    .nav-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: #777;
+      font-size: 0.7rem;
+      padding: 5px;
+    }
+    
+    .nav-button.active {
+      color: #4CAF50;
+    }
+    
+    .nav-icon {
+      font-size: 1.2rem;
+      margin-bottom: 3px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Recipes</h1>
-  <div id="recipe-container"></div>
+  <div id="app">
+    <!-- Content Area -->
+    <main class="content-area">
+      <!-- Recipe Categories -->
+      <div class="category-filters">
+        <button class="filter-chip active" data-category="all">All Recipes</button>
+        <button class="filter-chip" data-category="breakfast">Breakfast</button>
+        <button class="filter-chip" data-category="lunch">Lunch</button>
+        <button class="filter-chip" data-category="dinner">Dinner</button>
+        <button class="filter-chip" data-category="snack">Snacks</button>
+        <button class="filter-chip" data-category="protein">High Protein</button>
+      </div>
+      
+      <!-- Featured Recipe -->
+      <div class="recipe-hero">
+        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061" alt="Grilled Chicken Salad" class="recipe-hero-image">
+        <div class="recipe-hero-content">
+          <h3 class="recipe-title">Grilled Chicken Salad with Avocado</h3>
+          <div class="recipe-meta">
+            <div class="recipe-meta-item">
+              <i class="fas fa-clock"></i> 20 mins
+            </div>
+            <div class="recipe-meta-item">
+              <i class="fas fa-fire"></i> 320 cal
+            </div>
+            <div class="recipe-meta-item">
+              <i class="fas fa-dumbbell"></i> 28g protein
+            </div>
+          </div>
+          <p class="recipe-description">A delicious and protein-packed salad with grilled chicken, avocado, mixed greens, and a light lemon dressing. Perfect for a post-workout meal.</p>
+          <button class="view-recipe-btn" data-recipe="grilled-chicken-salad">
+            View Recipe <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- High Protein Recipes -->
+      <h2 class="section-title">High Protein <span class="badge-new">Popular</span></h2>
+      <div class="scroll-container">
+        <div class="recipe-cards">
+          <a href="#" class="recipe-card" data-recipe="protein-pancakes">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445" alt="Protein Pancakes">
+              <div class="nutrition-badge high-protein">28g Protein</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Protein Pancakes with Berries</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 15m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 310 cal</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="recipe-card" data-recipe="turkey-wrap">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1509722747041-616f39b57569" alt="Turkey Wrap">
+              <div class="nutrition-badge high-protein">24g Protein</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Turkey & Avocado Wrap</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 10m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 290 cal</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="recipe-card" data-recipe="salmon-bowl">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Salmon Poke Bowl">
+              <div class="nutrition-badge high-protein">32g Protein</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Salmon Poke Bowl</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 20m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 410 cal</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="recipe-card" data-recipe="greek-yogurt">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1488477181946-6428a0291777" alt="Greek Yogurt Bowl">
+              <div class="nutrition-badge high-protein">22g Protein</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Greek Yogurt with Nuts & Honey</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 5m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 240 cal</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Quick & Easy Recipes -->
+      <h2 class="section-title">Quick & Easy</h2>
+      <div class="scroll-container">
+        <div class="recipe-cards">
+          <a href="#" class="recipe-card" data-recipe="avocado-toast">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8" alt="Avocado Toast">
+              <div class="nutrition-badge low-calorie">220 cal</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Avocado Toast with Egg</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 8m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 220 cal</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="recipe-card" data-recipe="smoothie-bowl">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1511690656952-34342bb7c2f2" alt="Smoothie Bowl">
+              <div class="nutrition-badge low-calorie">180 cal</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Berry Smoothie Bowl</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 5m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 180 cal</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="recipe-card" data-recipe="egg-muffins">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543" alt="Egg Muffins">
+              <div class="nutrition-badge low-carb">5g Carbs</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Veggie Egg Muffins</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 25m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 120 cal</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="recipe-card" data-recipe="chicken-wrap">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1550507992-eb63ffee0847" alt="Chicken Lettuce Wraps">
+              <div class="nutrition-badge low-carb">8g Carbs</div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Chicken Lettuce Wraps</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 15m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 210 cal</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Meal Prep Ideas -->
+      <h2 class="section-title">Meal Prep Ideas</h2>
+      <div class="scroll-container">
+        <div class="recipe-cards">
+          <a href="#" class="recipe-card" data-recipe="chicken-rice-bowl">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19" alt="Chicken Rice Bowl">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Teriyaki Chicken Rice Bowl</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 30m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 380 cal</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="recipe-card" data-recipe="quinoa-salad">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af" alt="Quinoa Salad">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Mediterranean Quinoa Salad</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 20m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 310 cal</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="recipe-card" data-recipe="turkey-meatballs">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1529042410759-befb1204b468" alt="Turkey Meatballs">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Turkey Meatballs with Zucchini Noodles</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 35m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 340 cal</span>
+              </div>
+            </div>
+          </a>
+          
+          <a href="#" class="recipe-card" data-recipe="mason-jar-salad">
+            <div class="thumbnail">
+              <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd" alt="Mason Jar Salads">
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Mason Jar Cobb Salads</h3>
+              <div class="card-meta">
+                <span class="recipe-time"><i class="fas fa-clock"></i> 15m</span>
+                <span class="recipe-calories"><i class="fas fa-fire"></i> 290 cal</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Recipe Modal -->
+    <div id="recipe-modal" class="recipe-modal">
+      <div class="recipe-modal-content">
+        <span class="close-modal">&times;</span>
+        <img id="modal-image" src="" alt="" class="recipe-modal-image">
+        <div class="recipe-modal-body">
+          <h2 id="modal-title" class="recipe-modal-title"></h2>
+          
+          <div class="recipe-details">
+            <div class="recipe-detail">
+              <div id="modal-time" class="detail-value">20 min</div>
+              <div class="detail-label">Prep Time</div>
+            </div>
+            <div class="recipe-detail">
+              <div id="modal-calories" class="detail-value">320</div>
+              <div class="detail-label">Calories</div>
+            </div>
+            <div class="recipe-detail">
+              <div id="modal-protein" class="detail-value">28g</div>
+              <div class="detail-label">Protein</div>
+            </div>
+            <div class="recipe-detail">
+              <div id="modal-carbs" class="detail-value">12g</div>
+              <div class="detail-label">Carbs</div>
+            </div>
+          </div>
+          
+          <h3 class="recipe-section-title">Ingredients</h3>
+          <ul id="modal-ingredients" class="ingredients-list">
+            <!-- Ingredients will be inserted here -->
+          </ul>
+          
+          <h3 class="recipe-section-title">Instructions</h3>
+          <ol id="modal-instructions" class="instructions">
+            <!-- Instructions will be inserted here -->
+          </ol>
+        </div>
+      </div>
+    </div>
+
     <!-- Bottom Navigation -->
     <nav class="bottom-nav">
-      <a href="/profiles/adult/jordan/home.html" class="nav-button">
-        <i class="nav-icon fas fa-chart-line"></i>
-        <span>Dashboard</span>
-      </a>
       <a href="/profiles/adult/jordan/home.html" class="nav-button">
         <i class="nav-icon fas fa-home"></i>
         <span>Home</span>
       </a>
-      <a href="/profiles/adult/jordan/recipes.html" class="nav-button">
+      <a href="/profiles/adult/jordan/workouts.html" class="nav-button">
+        <i class="nav-icon fas fa-dumbbell"></i>
+        <span>Workouts</span>
+      </a>
+      <a href="/profiles/adult/jordan/recipes.html" class="nav-button active">
         <i class="nav-icon fas fa-utensils"></i>
         <span>Recipes</span>
       </a>
@@ -26,10 +730,159 @@
         <i class="nav-icon fas fa-video"></i>
         <span>Videos</span>
       </a>
-      <a href="/profiles/adult/jordan/workouts.html" class="nav-button">
-        <i class="nav-icon fas fa-dumbbell"></i>
-        <span>Workouts</span>
-      </a>
     </nav>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Recipe database
+      const recipes = {
+        "grilled-chicken-salad": {
+          title: "Grilled Chicken Salad with Avocado",
+          image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061",
+          time: "20 min",
+          calories: "320",
+          protein: "28g",
+          carbs: "12g",
+          ingredients: [
+            "2 boneless, skinless chicken breasts",
+            "4 cups mixed greens",
+            "1 avocado, sliced",
+            "1 cucumber, diced",
+            "1/2 red onion, thinly sliced",
+            "1 cup cherry tomatoes, halved",
+            "2 tbsp olive oil",
+            "1 tbsp lemon juice",
+            "Salt and pepper to taste"
+          ],
+          instructions: [
+            "Season chicken breasts with salt and pepper. Grill for 6-7 minutes per side until cooked through.",
+            "While chicken is cooking, prepare the salad by combining mixed greens, cucumber, red onion, and cherry tomatoes in a large bowl.",
+            "In a small bowl, whisk together olive oil, lemon juice, salt, and pepper to make the dressing.",
+            "Slice the grilled chicken and arrange on top of the salad.",
+            "Add sliced avocado and drizzle with the dressing.",
+            "Serve immediately."
+          ]
+        },
+        "protein-pancakes": {
+          title: "Protein Pancakes with Berries",
+          image: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445",
+          time: "15 min",
+          calories: "310",
+          protein: "28g",
+          carbs: "30g",
+          ingredients: [
+            "1 scoop (30g) protein powder",
+            "1 banana",
+            "2 eggs",
+            "1/4 cup oats",
+            "1/2 tsp baking powder",
+            "1/2 tsp vanilla extract",
+            "1/4 cup mixed berries",
+            "1 tbsp honey or maple syrup (optional)"
+          ],
+          instructions: [
+            "In a blender, combine protein powder, banana, eggs, oats, baking powder, and vanilla extract. Blend until smooth.",
+            "Heat a non-stick pan over medium heat and lightly coat with cooking spray.",
+            "Pour about 1/4 cup of batter for each pancake. Cook until bubbles form on the surface, then flip and cook for another minute.",
+            "Serve pancakes topped with mixed berries and a drizzle of honey or maple syrup if desired."
+          ]
+        },
+        // Add other recipes similarly...
+      };
+      
+      // Filter functionality
+      const filterChips = document.querySelectorAll('.filter-chip');
+      filterChips.forEach(chip => {
+        chip.addEventListener('click', function() {
+          // Remove active class from all chips
+          filterChips.forEach(c => c.classList.remove('active'));
+          // Add active class to clicked chip
+          this.classList.add('active');
+          
+          // Get selected category
+          const category = this.getAttribute('data-category');
+          // In a real app, this would filter recipes by category
+          console.log('Filtering recipes by:', category);
+        });
+      });
+      
+      // Recipe click functionality
+      const recipeCards = document.querySelectorAll('.recipe-card');
+      const recipeHeroBtn = document.querySelector('.view-recipe-btn');
+      const modal = document.getElementById('recipe-modal');
+      const modalImage = document.getElementById('modal-image');
+      const modalTitle = document.getElementById('modal-title');
+      const modalTime = document.getElementById('modal-time');
+      const modalCalories = document.getElementById('modal-calories');
+      const modalProtein = document.getElementById('modal-protein');
+      const modalCarbs = document.getElementById('modal-carbs');
+      const modalIngredients = document.getElementById('modal-ingredients');
+      const modalInstructions = document.getElementById('modal-instructions');
+      const closeBtn = document.querySelector('.close-modal');
+      
+      // Open recipe modal function
+      function openRecipeModal(recipeId) {
+        const recipe = recipes[recipeId];
+        
+        if (recipe) {
+          // Update modal content
+          modalImage.src = recipe.image;
+          modalImage.alt = recipe.title;
+          modalTitle.textContent = recipe.title;
+          modalTime.textContent = recipe.time;
+          modalCalories.textContent = recipe.calories;
+          modalProtein.textContent = recipe.protein;
+          modalCarbs.textContent = recipe.carbs;
+          
+          // Clear and update ingredients
+          modalIngredients.innerHTML = '';
+          recipe.ingredients.forEach(ingredient => {
+            const li = document.createElement('li');
+            li.textContent = ingredient;
+            modalIngredients.appendChild(li);
+          });
+          
+          // Clear and update instructions
+          modalInstructions.innerHTML = '';
+          recipe.instructions.forEach(instruction => {
+            const li = document.createElement('li');
+            li.textContent = instruction;
+            modalInstructions.appendChild(li);
+          });
+          
+          // Show modal
+          modal.style.display = 'flex';
+        }
+      }
+      
+      // Add click listeners to recipe cards
+      recipeCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+          e.preventDefault();
+          const recipeId = this.getAttribute('data-recipe');
+          openRecipeModal(recipeId);
+        });
+      });
+      
+      // Add click listener to hero recipe button
+      recipeHeroBtn.addEventListener('click', function() {
+        const recipeId = this.getAttribute('data-recipe');
+        openRecipeModal(recipeId);
+      });
+      
+      // Close modal
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
