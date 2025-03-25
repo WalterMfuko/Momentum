@@ -1,4 +1,4 @@
-name = "worker-name"
+name = "momentum"
 compatibility_date = "2025-03-24"
 
 # Specify the entry point to your Worker script
